@@ -3,3 +3,108 @@
     padding: 0px 0px 0px 0px;
     font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "Liberation Sans", sans-serif;;
 }
+/* ---------- TOP BAR (Account / Home) ---------- */
+.account-header {
+    background-color: #f5f5f5;   /* light grey background */
+    text-align: center;
+    padding: 40px 0 20px 0;
+}
+
+.account-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 5px;
+}
+
+.account-header p a {
+    color: #000;
+    text-decoration: none;
+    font-weight: 400;
+    transition: 0.3s;
+}
+
+.account-header p a:hover {
+    color: #87da48; /* Virtual Paws green hover */
+}
+
+/* ---------- CREATE ACCOUNT SECTION ---------- */
+.login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px 100px 20px;
+    background-color: #ffffff;
+}
+
+.login-box {
+    background-color: #ffffff;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    max-width: 450px;
+    width: 100%;
+    text-align: center;
+    padding: 40px 30px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
+
+.login-box h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #1a1a1a;
+}
+
+/* ---------- FORM ---------- */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.login-form input {
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    outline: none;
+    font-size: 15px;
+}
+
+.login-form input:focus {
+    border-color: #87da48;
+}
+
+/* ---------- BUTTON ---------- */
+.login-btn {
+    background-color:#87da48;  /* orange button */
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background-color: #555;
+}
+
+/* ---------- BOTTOM LINK ---------- */
+.no-account {
+    font-size: 14px;
+    margin-top: 25px;
+    color: #555;
+}
+
+.no-account a {
+    color: #000;
+    text-decoration: underline;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.no-account a:hover {
+    color: #87da48;
+}
