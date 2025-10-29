@@ -1,4 +1,3 @@
-console.log("hi");
 
 const catProducts = [
   {
@@ -70,7 +69,4 @@ catProducts.forEach((catProducts) =>
     `;
   }
 );
-
-console.log(catProductsHTML);
-
 document.querySelector('.js-products-grid').innerHTML = catProductsHTML;
