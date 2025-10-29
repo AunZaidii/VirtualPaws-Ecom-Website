@@ -1,5 +1,5 @@
 
-//LATEST PRODUCTS
+//SPECIAL PRODUCTS
 
 const catAccessories = [
   {
