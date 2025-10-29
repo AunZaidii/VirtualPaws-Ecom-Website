@@ -1,7 +1,7 @@
 
 //BEST PRODUCTS
 
-const catAccessories = [
+const bestProducts = [
   {
     image: '/Homepage/product images/leather-chew-toy.jpg',
     imageAlt: 'Leather Chew toy image',
@@ -62,22 +62,22 @@ const catAccessories = [
 
 // DOM LOGIC
  
-let catAccessoriesHTML = '';
-catAccessories.forEach((catAccessories) =>
+let bestProductsHTML = '';
+bestProducts.forEach((bestProducts) =>
   {
-     catAccessoriesHTML += `
-      <a href="${catAccessories.link}" class="product-link">
+     bestProductsHTML += `
+      <a href="${bestProducts.link}" class="product-link">
   <div class="product-div">
       <div class="product-image-div">
-          <img class="product-image" src="${catAccessories.image}" alt="${catAccessories.imageAlt}">
-          <img class="product-image-hover" src="${catAccessories.hoverimage}" alt="${catAccessories.hoverimageAlt}">
+          <img class="product-image" src="${bestProducts.image}" alt="${bestProducts.imageAlt}">
+          <img class="product-image-hover" src="${bestProducts.hoverimage}" alt="${bestProducts.hoverimageAlt}">
       </div>
       <div class="product-text-div">
-          <p class="product-text-title">${catAccessories.name}</p>
-          <p class="product-text-rating">${catAccessories.rating}</p>
+          <p class="product-text-title">${bestProducts.name}</p>
+          <p class="product-text-rating">${bestProducts.rating}</p>
           <p class="product-text-price">
             <span style="color: rgb(135, 218, 72); font-weight: bold;">
-              $${(catAccessories.price / 100).toFixed(2)}
+              $${(bestProducts.price / 100).toFixed(2)}
             </span>
           </p>
       </div>
@@ -87,4 +87,4 @@ catAccessories.forEach((catAccessories) =>
     `;
   }
 );
-document.querySelector('.js-products-grid').innerHTML = catAccessoriesHTML;
+document.querySelector('.js-products-grid').innerHTML = bestProductsHTML;
