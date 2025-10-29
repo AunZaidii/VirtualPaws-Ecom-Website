@@ -450,9 +450,13 @@ cursor: pointer;
 .best-product-image-div{
 
 }
+.best-product-text-title{
+color: black;
+}
 .best-product-flexbox:hover .best-product-text-title{
 color: #87da48;
 }
+
 .best-product-flexbox:hover .best-product-addtocart{
 text-decoration: underline;
 }
