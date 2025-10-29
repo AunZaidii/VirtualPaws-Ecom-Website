@@ -55,11 +55,49 @@ const dogFood = [
 ]
 
 
+function renderProducts(products) {
+  const container = document.querySelector('.js-products-grid');
+  container.innerHTML = '';
 
+  if (products.length === 0) {
+    container.innerHTML = '<p style="font-size:18px;text-align:center;width:100%;">No products found in this price range.</p>';
+    return;
+  }
 
+  products.forEach((product) => {
+    const html = `
+      <a href="${product.link}" class="product-link">
+        <div class="product-div">
+          <div class="product-image-div">
+            <img class="product-image" src="${product.image}" alt="${product.imageAlt}">
+            <img class="product-image-hover" src="${product.hoverimage}" alt="${product.hoverimageAlt}">
+          </div>
+          <div class="product-text-div">
+            <p class="product-text-title">${product.name}</p>
+            <p class="product-text-rating">${product.rating}</p>
+            <p class="product-text-price">
+              <span style="color: rgb(135, 218, 72); font-weight: bold;">
+                $${(product.price / 100).toFixed(2)}
+              </span>
+            </p>
+          </div>
+        </div>
+      </a>
+    `;
+    container.innerHTML += html;
+  });
+}
 
+renderProducts(dogFood);
 
+document.getElementById('apply-filter').addEventListener('click', () => {
+  const min = parseFloat(document.getElementById('price-min').value) * 100 || 0;
+  const max = parseFloat(document.getElementById('price-max').value) * 100 || Infinity;
 
+  const filtered = dogFood.filter((product) => product.price >= min && product.price <= max);
+
+  renderProducts(filtered);
+});
 
 
 // DOM LOGIC 

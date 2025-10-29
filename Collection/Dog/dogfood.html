@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="/Homepage/homepage.css">
-  <link rel="stylesheet" href="catfood.css">
+  <link rel="stylesheet" href="dogfood.css">
   <title>Dog Food</title>
 </head>
 
@@ -49,10 +49,26 @@
 <body>
 
 <section class="latest-product-section">
-
-<div class="products js-products-grid">
-  <!-- dynamically added products using DOM -->
-</div>
+  <div class="section-heading">
+    <h2>Dog Foods</h2>
+    <hr>
+  </div>
+<div class="filter-sidebar">
+    <h3>Filter:</h3>
+    <h3>Price</h3>
+    <p>The highest price is $110.00</p>
+    <div class="price-range">
+      <label>From:</label>
+      <input type="number" min="0" id="price-min" placeholder="0">
+      <label>To:</label>
+      <input type="number" min="0" max="110" id="price-max" placeholder="110">
+    </div>
+    <button class="apply-filter" id="apply-filter">Apply</button>
+  </div>
+  
+  <div class="products js-products-grid">
+    <!-- dynamically added products using DOM -->
+  </div>
 
 </section>
 
