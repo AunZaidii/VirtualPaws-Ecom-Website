@@ -78,4 +78,5 @@ dogFood.forEach((dogFood) =>
     `;
   }
 );
+
 document.querySelector('.js-products-grid').innerHTML = dogFoodHTML;
