@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/Homepage/homepage.css">
   <link rel="stylesheet" href="contact.css">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <title>Contact Us</title>
 </head>
 
@@ -42,7 +46,53 @@
 </header>
 
 <body>
-  
+     <!-- Contact title section -->
+  <div class="title-section">
+    <h2>Contact</h2>
+    <p>Home / Contact</p>
+  </div>
+
+  <!-- Main content area -->
+  <main class="container">
+    <!-- Left side: Contact Form -->
+    <section class="contact-form">
+      <h3>Do You Have Any Questions?</h3>
+      <form>
+        <div class="row">
+          <input type="text" placeholder="Name" required>
+          <input type="email" placeholder="Email *" required>
+        </div>
+        <input type="text" placeholder="Phone number">
+        <textarea placeholder="Comment"></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </section>
+
+    <!-- Right side: Contact Info -->
+    <section class="contact-info">
+      <h3>Get In Touch With Us</h3>
+
+      <div class="info-item">
+        <i class="fa-solid fa-house"></i>
+        <p><b>Address:</b><br>33 New Montgomery St.<br>Ste 750 San Francisco,<br>CA, USA 94105</p>
+      </div>
+
+      <div class="info-item">
+        <i class="fa-solid fa-phone"></i>
+        <p><b>Contact No:</b><br>(+91) 9876-543-210</p>
+      </div>
+
+      <div class="info-item">
+        <i class="fa-solid fa-envelope"></i>
+        <p><b>Email:</b><br>meowzy@exampledemo.com</p>
+      </div>
+
+      <div class="info-item">
+        <i class="fa-solid fa-info-circle"></i>
+        <p><b>Store Info:</b><br>Monday – Friday 10 AM – 8 PM</p>
+      </div>
+    </section>
+  </main>
 </body>
 
 <footer class="footer">
