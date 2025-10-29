@@ -9,7 +9,8 @@ const catFood = [
     hoverimageAlt: 'Leather Chew toy image Hover',
     name: 'Pawpourri Premium Natural Suede Leather Chew Toy',
     rating: '<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>',
-    price: 900
+    price: 900,
+    link: '#'
   },
   {
     image: '/Homepage/product images/dog bowl.jpg',
@@ -18,7 +19,8 @@ const catFood = [
     imagehoverAlt: 'Dog bowl hover',
     name: 'Pets Empire Stainless Steel Dog Bowl',
     rating: '<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i><i class="fa-regular fa-star"></i>',
-    price: 2000
+    price: 2000,
+    link: '#'
   },
   {
     image: '/Homepage/product images/cake treat.jpg',
@@ -27,7 +29,8 @@ const catFood = [
     hoverimageAlt: 'Cake Treat Hover',
     name:'Dentastix Oral Care Treats For Samll Breeds Adult Dogs',
     rating:'<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>',
-    price: 2100
+    price: 2100,
+    link: '#'
   },
   {
     image: '/Homepage/product images/stainless steel bowl.jpg',
@@ -36,7 +39,8 @@ const catFood = [
     hoverimageAlt: 'Stainless Steel Bowl hover',
     name:'Food-Grade Melamine Base And Stainless Steel Bowl',
     rating:'<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i><i class="fa-regular fa-star"></i>',
-    price: 3500
+    price: 3500,
+    link: '#'
   },
   {
     image: '/Homepage/product images/soft velvet house.jpg',
@@ -45,7 +49,8 @@ const catFood = [
     hoverimageAlt: 'Soft velvet house hover',
     name: 'Foodie Puppies Foldable Softy Velvet House',
     rating: '<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>',
-    price: 9900
+    price: 9900,
+    link: '#'
   }
 ]
 
@@ -63,18 +68,23 @@ let catFoodHTML = '';
 catFood.forEach((catFood) =>
   {
      catFoodHTML += `
-      <div class="product-div">
-            <div class="product-image-div">
-                <img class="product-image" src="${catFood.image}" alt="${catFood.imageAlt}">
-                <img class="product-image-hover" src="${catFood.hoverimage}" alt="${catFood.hoverimageAlt}">
-            </div>
-            <div class="product-text-div">
-                <p class="product-text-title">${catFood.name}</p>
-                <p class="product-text-rating">${catFood.rating}</p>
-                <p class="product-text-price"><span style="color: rgb(135, 218, 72); font-weight: bold;">
-                $${(catFood.price / 100).toFixed(2)}</span></p>
-            </div>
-    </div> 
+     <a href="${catFood.link}" class="product-link">
+  <div class="product-div">
+      <div class="product-image-div">
+          <img class="product-image" src="${catFood.image}" alt="${catFood.imageAlt}">
+          <img class="product-image-hover" src="${catFood.hoverimage}" alt="${catFood.hoverimageAlt}">
+      </div>
+      <div class="product-text-div">
+          <p class="product-text-title">${catFood.name}</p>
+          <p class="product-text-rating">${catFood.rating}</p>
+          <p class="product-text-price">
+            <span style="color: rgb(135, 218, 72); font-weight: bold;">
+              $${(catFood.price / 100).toFixed(2)}
+            </span>
+          </p>
+      </div>
+  </div>
+</a> 
     `;
   }
 );
