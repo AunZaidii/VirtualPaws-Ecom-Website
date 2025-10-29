@@ -1,5 +1,7 @@
 
-const catProducts = [
+// CAT FOOD PRODUCTS:
+
+const catFood = [
   {
     image: '/Homepage/product images/leather-chew-toy.jpg',
     imageAlt: 'Leather Chew toy image',
@@ -50,23 +52,30 @@ const catProducts = [
 
 
 
-let catProductsHTML = '';
-catProducts.forEach((catProducts) =>
+
+
+
+
+
+// DOM LOGIC 
+
+let catFoodHTML = '';
+catFood.forEach((catFood) =>
   {
-     catProductsHTML += `
+     catFoodHTML += `
       <div class="product-div">
             <div class="product-image-div">
-                <img class="product-image" src="${catProducts.image}" alt="${catProducts.imageAlt}">
-                <img class="product-image-hover" src="${catProducts.hoverimage}" alt="${catProducts.hoverimageAlt}">
+                <img class="product-image" src="${catFood.image}" alt="${catFood.imageAlt}">
+                <img class="product-image-hover" src="${catFood.hoverimage}" alt="${catFood.hoverimageAlt}">
             </div>
             <div class="product-text-div">
-                <p class="product-text-title">${catProducts.name}</p>
-                <p class="product-text-rating">${catProducts.rating}</p>
+                <p class="product-text-title">${catFood.name}</p>
+                <p class="product-text-rating">${catFood.rating}</p>
                 <p class="product-text-price"><span style="color: rgb(135, 218, 72); font-weight: bold;">
-                $${(catProducts.price / 100).toFixed(2)}</span></p>
+                $${(catFood.price / 100).toFixed(2)}</span></p>
             </div>
     </div> 
     `;
   }
 );
-document.querySelector('.js-products-grid').innerHTML = catProductsHTML;
+document.querySelector('.js-products-grid').innerHTML = catFoodHTML;
