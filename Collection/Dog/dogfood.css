@@ -5,11 +5,8 @@
 }
 
 .latest-product-section {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5vw;
-  padding: 40px 30px;
-  flex-wrap: wrap;
+  position: relative;
+  padding: 0px 0px;
   background-color: #fff;
 }
 
@@ -34,16 +31,18 @@
 }
 
 .filter-sidebar {
-  position: sticky;
-  top: 100px;
-  align-self: flex-start;
+  position: fixed;
+  left: 20px;
   background-color: #fff;
   width: 300px;
-  padding: 3vw;
+  padding: 2vw;
   line-height: 1.6;
   border: 1px solid #ddd;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+  z-index: 100;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
 }
 
 .filter-sidebar h3 {
@@ -88,9 +87,13 @@
 }
 
 .products {
-  flex: 1;
-  padding-left: 2vw;
+  margin-left: calc(340px + 6vw);
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 0.5vw;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.2vw;
+}
+
+.footer {
+  position: relative;
+  z-index: 200;
 }
