@@ -1,216 +1,8 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{  
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "Liberation Sans", sans-serif;;
 }
-
-body {
-  font-family:
-    "Poppins",
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
-  line-height: 1.6;
-}
-
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 0.75rem;
-}
-
-/* Top Banner */
-.top-banner {
-  background: linear-gradient(90deg, #87da48 0%, #a3e46c 100%);
-  color: white;
-  text-align: center;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.8125rem;
-}
-
-.banner-link {
-  color: white;
-  text-decoration: none;
-  margin-left: 1.5rem;
-  font-weight: 500;
-}
-
-.banner-link:hover {
-  text-decoration: underline;
-}
-
-/* Header */
-.header {
-  background: white;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  padding: 1rem;
-  position: relative;
-}
-
-.mobile-menu-btn {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #333;
-  text-decoration: none;
-}
-
-.nav {
-  display: flex;
-  gap: 2rem;
-  flex: 1;
-}
-
-.nav a {
-  color: #666;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s;
-  position: relative;
-}
-
-.nav a:hover,
-.nav a.active {
-  color: #87da48;
-}
-
-.nav a.active::after {
-  content: "";
-  position: absolute;
-  bottom: -0.5rem;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: #87da48;
-}
-
-.header-search {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: #f5f5f5;
-  padding: 0.5rem 1rem;
-  border-radius: 50px;
-  flex: 0 1 400px;
-}
-
-.header-search svg {
-  color: #999;
-}
-
-.header-search input {
-  border: none;
-  background: none;
-  outline: none;
-  flex: 1;
-  font-size: 0.875rem;
-}
-
-.header-icons {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.icon-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 50%;
-  position: relative;
-  transition: background 0.3s;
-}
-
-.icon-btn:hover {
-  background: #f5f5f5;
-}
-
-.icon-btn svg {
-  display: block;
-  color: #666;
-}
-
-.badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: #87da48;
-  color: white;
-  font-size: 0.625rem;
-  padding: 0.125rem 0.375rem;
-  border-radius: 50px;
-  font-weight: 600;
-}
-
-.mobile-search {
-  display: none;
-  padding: 0 1rem 1rem;
-  align-items: center;
-  gap: 0.5rem;
-  background: #f5f5f5;
-  margin: 0 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 50px;
-}
-
-.mobile-search svg {
-  color: #999;
-}
-
-.mobile-search input {
-  border: none;
-  background: none;
-  outline: none;
-  flex: 1;
-  font-size: 0.875rem;
-}
-
-.mobile-menu {
-  display: none;
-  background: white;
-  border-top: 1px solid #eee;
-  padding: 1rem;
-}
-
-.mobile-menu.active {
-  display: block;
-}
-
-.mobile-menu a {
-  display: block;
-  padding: 0.75rem 0;
-  color: #666;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.mobile-menu a.active {
-  color: #87da48;
-}
-
 /* Hero Section */
 .hero {
   background: linear-gradient(135deg, #ffe5d9 0%, #e8f8f5 100%);
@@ -438,8 +230,8 @@ body {
 .pets-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
-  margin-bottom: 2rem;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 /* Pet Card */
@@ -448,34 +240,40 @@ body {
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  font-size: 0.9375rem;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  font-size: 0.95rem;
   display: flex;
   flex-direction: column;
+  padding: 0.25rem;
 }
 
 .pet-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
 }
 
 .pet-image-container {
   position: relative;
-  aspect-ratio: 1;
   overflow: hidden;
   background: #f5f5f5;
+  padding: 0.75rem; /* breathing room around the image */
+  height: 220px; /* shorter image area to reduce card length */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pet-image-container img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s;
+  object-fit: cover; /* fill the box for consistent visual */
+  display: block;
+  transition: transform 0.35s;
 }
 
 .pet-card:hover .pet-image-container img {
-  transform: scale(1.1);
+  transform: scale(1.03);
 }
 
 .sale-badge {
@@ -523,7 +321,7 @@ body {
 }
 
 .pet-info {
-  padding: 1rem;
+  padding: 0.75rem;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -1183,7 +981,8 @@ body {
 }
 
 /* Responsive */
-@media (max-width: 1280px) {
+/* Keep 4 cards per row on wide screens; switch to 3 at narrower widths */
+@media (max-width: 1100px) {
   .pets-grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -1305,4 +1104,118 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 0.5rem;
   }
+}
+
+/* Page heading band used on category/adoption and pet detail pages */
+.page-heading {
+  background: #f3f4f6;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+.page-heading .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.page-heading h2 {
+  margin: 0;
+  font-size: 28px;
+  color: #161616;
+  font-weight: 700;
+}
+.page-heading .breadcrumb {
+  font-size: 13px;
+  color: #6b7280;
+}
+.page-heading .breadcrumb a {
+  color: #6b7280;
+  text-decoration: none;
+}
+.page-heading .breadcrumb span { color: #9ca3af; }
+
+@media (max-width: 768px) {
+  .page-heading { padding: 20px 0; }
+  .page-heading h2 { font-size: 20px; }
+}
+
+/* Centralized details layout used on pet-detail page */
+.central-details {
+  padding: 3rem 0 4rem;
+  background: transparent;
+}
+.central-details .container {
+  display: flex;
+  justify-content: center;
+}
+.central-grid {
+  display: flex;
+  gap: 1.25rem;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.central-grid .detail-card,
+.central-grid .shelter-card,
+.central-grid .health-card,
+.central-grid .adoption-card,
+.central-grid .encouragement-card {
+  flex: 1 1 220px;
+  max-width: 300px;
+  background: white;
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* About card: green background with white text for a fun pop */
+.central-grid .detail-card.about {
+  background: linear-gradient(135deg, #87da48 0%, #5ec03f 100%);
+  color: #fff;
+}
+.central-grid .detail-card.about h3,
+.central-grid .detail-card.about p { color: #fff; }
+
+.central-grid .detail-card h3,
+.central-grid .shelter-card h3,
+.central-grid .health-card h3,
+.central-grid .adoption-card h3 {
+  margin: 0 0 0.75rem; 
+  font-size: 1.125rem;
+}
+.central-grid .detail-card p,
+.central-grid .shelter-card p,
+.central-grid .health-card p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.encouragement-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+.encouragement-card .note { color: #666; font-size: 0.9rem; }
+
+@media (max-width: 1024px) {
+  .central-grid .detail-card,
+  .central-grid .shelter-card,
+  .central-grid .health-card,
+  .central-grid .adoption-card,
+  .central-grid .encouragement-card { max-width: 45%; flex-basis: 45%; }
+}
+
+@media (max-width: 640px) {
+  .central-grid { gap: 0.75rem; }
+  .central-grid .detail-card,
+  .central-grid .shelter-card,
+  .central-grid .health-card,
+  .central-grid .adoption-card,
+  .central-grid .encouragement-card { max-width: 100%; flex-basis: 100%; }
 }

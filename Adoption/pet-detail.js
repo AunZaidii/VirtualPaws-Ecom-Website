@@ -16,6 +16,45 @@ const temperamentTags = document.querySelector('.temperament-tags');
 const aboutText = document.querySelector('.about-text');
 const adoptButton = document.querySelector('.adopt-button');
 const contactButton = document.querySelector('.contact-button');
+const petInfo = document.getElementById('petInfo');
+const infoSection = document.querySelector('.info-section');
+
+// Utility: debounce to limit resize calls
+function debounce(fn, wait) {
+  let t;
+  return function(...args) {
+    clearTimeout(t);
+    t = setTimeout(() => fn.apply(this, args), wait);
+  };
+}
+
+// Keep the info section height matched to the main image height on wide screens
+function syncInfoHeight() {
+  // if no elements, nothing to do
+  if (!infoSection || !mainImage) return;
+
+  // On small screens allow natural flow
+  if (window.matchMedia('(max-width: 768px)').matches) {
+    infoSection.style.height = 'auto';
+    infoSection.style.overflow = 'visible';
+    return;
+  }
+
+  // Use the rendered height of the image container
+  const imgHeight = mainImage.getBoundingClientRect().height;
+  if (imgHeight && imgHeight > 0) {
+    infoSection.style.height = `${Math.round(imgHeight)}px`;
+    infoSection.style.overflow = 'auto';
+  }
+}
+
+// sync when main image finishes loading (covers initial load and thumbnail swaps)
+if (mainImage) {
+  mainImage.addEventListener('load', () => {
+    // small timeout to ensure layout settled
+    setTimeout(syncInfoHeight, 20);
+  });
+}
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
@@ -50,7 +89,7 @@ function renderPetDetail() {
     thumbnailGrid.appendChild(thumbnail);
   });
 
-  // Render pet info
+  // Render pet info (kept compact so CTA is visible without long scrolling)
   petInfo.innerHTML = `
     <div class="pet-detail-header">
       <div class="pet-detail-title">
@@ -96,31 +135,13 @@ function renderPetDetail() {
 
     <div class="health-badges">
       ${currentPet.vaccinated ? `
-        <div class="health-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-          </svg>
-          Vaccinated
-        </div>
+        <div class="health-badge">Vaccinated</div>
       ` : ''}
       ${currentPet.microchipped ? `
-        <div class="health-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-          </svg>
-          Microchipped
-        </div>
+        <div class="health-badge">Microchipped</div>
       ` : ''}
       ${currentPet.spayedNeutered ? `
-        <div class="health-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-          </svg>
-          Spayed/Neutered
-        </div>
+        <div class="health-badge">Spayed/Neutered</div>
       ` : ''}
     </div>
 
@@ -145,101 +166,18 @@ function renderPetDetail() {
       <button class="btn btn-primary" id="adoptBtn">Adopt ${currentPet.name}</button>
       <button class="btn btn-outline-primary" id="contactBtn">Contact Shelter</button>
     </div>
-
-    <div class="detail-card">
-      <h3>About ${currentPet.name}</h3>
-      <p>${currentPet.description}</p>
-    </div>
-
-    <div class="detail-card">
-      <h3>Health & History</h3>
-      <div class="health-table">
-        <div class="health-row">
-          <span class="label">Last Vet Visit</span>
-          <span class="value">${currentPet.healthHistory.lastVetVisit}</span>
-        </div>
-        <div class="health-row">
-          <span class="label">Diet</span>
-          <span class="value">${currentPet.healthHistory.diet}</span>
-        </div>
-        <div class="health-row">
-          <span class="label">Vaccinations</span>
-          <span class="value">${currentPet.healthHistory.vaccinations}</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="detail-card">
-      <h3>Adoption Details</h3>
-      <div class="adoption-fee">
-        <label>Adoption Fee</label>
-        <div class="price">PKR ${currentPet.adoptionFee.toLocaleString()}</div>
-      </div>
-      <div>
-        <label style="display: block; color: #666; margin-bottom: 0.75rem;">Requirements</label>
-        <ul class="requirements-list">
-          ${currentPet.requirements.map(req => `
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                <polyline points="22 4 12 14.01 9 11.01"></polyline>
-              </svg>
-              <span>${req}</span>
-            </li>
-          `).join('')}
-        </ul>
-      </div>
-    </div>
-
-    <div class="shelter-card">
-      <div class="shelter-header">
-        ${currentPet.shelter.verified ? `
-          <div class="verified-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-              <polyline points="22 4 12 14.01 9 11.01"></polyline>
-            </svg>
-          </div>
-        ` : ''}
-        <div>
-          <h4>${currentPet.shelter.name}</h4>
-          ${currentPet.shelter.verified ? '<div class="verified">Verified Shelter ✓</div>' : ''}
-        </div>
-      </div>
-      <div class="contact-list">
-        <div class="contact-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-          </svg>
-          <a href="tel:${currentPet.shelter.phone}">${currentPet.shelter.phone}</a>
-        </div>
-        <div class="contact-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-            <polyline points="22,6 12,13 2,6"></polyline>
-          </svg>
-          <a href="mailto:${currentPet.shelter.email}">${currentPet.shelter.email}</a>
-        </div>
-        <div class="contact-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-            <circle cx="12" cy="10" r="3"></circle>
-          </svg>
-          <span>${currentPet.shelter.address}</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="encouragement">
-      <p>Give ${currentPet.name} a loving home ❤️</p>
-      <p class="note">Every adoption saves a life and makes room for another animal in need.</p>
-    </div>
   `;
+
+  // Render the centralized details area (horizontal cards below main)
+  renderCentralDetails();
 
   // Attach event listeners for buttons in the rendered content
   document.getElementById('adoptBtn').addEventListener('click', openContactModal);
   document.getElementById('contactBtn').addEventListener('click', openContactModal);
   document.getElementById('saveBtn').addEventListener('click', toggleSave);
+
+  // After rendering, ensure heights are synced (if image already loaded)
+  setTimeout(syncInfoHeight, 30);
 }
 
 // Select image
@@ -325,6 +263,58 @@ function submitForm(e) {
   }, 2500);
 }
 
+// Render centralized horizontal details under the main grid
+function renderCentralDetails() {
+  const container = document.getElementById('centralDetails');
+  if (!container) return;
+
+  const aboutHTML = `
+    <div class="detail-card about">
+      <h3>About ${currentPet.name}</h3>
+      <p>${currentPet.description}</p>
+    </div>`;
+
+  const healthHTML = `
+    <div class="health-card">
+      <h3>Health & History</h3>
+      <div class="health-table">
+        <div class="health-row"><span class="label">Last Vet Visit</span><span class="value">${currentPet.healthHistory.lastVetVisit}</span></div>
+        <div class="health-row"><span class="label">Diet</span><span class="value">${currentPet.healthHistory.diet}</span></div>
+        <div class="health-row"><span class="label">Vaccinations</span><span class="value">${currentPet.healthHistory.vaccinations}</span></div>
+      </div>
+    </div>`;
+
+  const adoptionHTML = `
+    <div class="adoption-card">
+      <h3>Adoption Details</h3>
+      <div class="adoption-fee"><label>Fee</label><div class="price">PKR ${currentPet.adoptionFee.toLocaleString()}</div></div>
+      <label style="display:block; color:#666; margin-top:0.75rem;">Requirements</label>
+      <ul class="requirements-list">
+        ${currentPet.requirements.map(req => `<li>${req}</li>`).join('')}
+      </ul>
+    </div>`;
+
+  const shelterHTML = `
+    <div class="shelter-card">
+      <h3>${currentPet.shelter.name}${currentPet.shelter.verified ? ' ✓' : ''}</h3>
+      <div class="contact-list">
+        <div class="contact-item"><i class="fas fa-phone"></i> <a href="tel:${currentPet.shelter.phone}">${currentPet.shelter.phone}</a></div>
+        <div class="contact-item"><i class="fas fa-envelope"></i> <a href="mailto:${currentPet.shelter.email}">${currentPet.shelter.email}</a></div>
+        <div class="contact-item"><i class="fas fa-map-marker-alt"></i> <span>${currentPet.shelter.address}</span></div>
+      </div>
+    </div>`;
+
+  const encourageHTML = `
+    <div class="encouragement-card">
+      <div>
+        <p style="font-weight:700; margin:0;">Give ${currentPet.name} a loving home ❤️</p>
+        <p class="note" style="margin:6px 0 0;">Every adoption saves a life and makes room for another animal in need.</p>
+      </div>
+    </div>`;
+
+  container.innerHTML = `<div class="central-grid">${aboutHTML}${healthHTML}${adoptionHTML}${shelterHTML}${encourageHTML}</div>`;
+}
+
 // Event listeners
 function attachEventListeners() {
   closeModal.addEventListener('click', closeContactModal);
@@ -342,4 +332,7 @@ function attachEventListeners() {
   mobileMenuBtn.addEventListener('click', () => {
     mobileMenu.classList.toggle('active');
   });
+
+  // Keep info height in sync on resize (debounced)
+  window.addEventListener('resize', debounce(syncInfoHeight, 120));
 }

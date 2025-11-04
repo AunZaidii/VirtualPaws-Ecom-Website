@@ -46,10 +46,17 @@
 </header>
 
 <body>
+    <!-- Page Heading (category / title band) -->
+    <section class="page-heading">
+        <div class="container">
+            <h2>Pet Details</h2>
+            <nav class="breadcrumb"><a href="adoption.html">Home</a> <span>/</span> <span>Pet Details</span></nav>
+        </div>
+    </section>
   <!-- Back Button -->
     <div class="back-bar">
         <div class="container">
-            <a href="index.html" class="back-btn">
+            <a href="adoption.html" class="back-btn">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
                     <polyline points="12 19 5 12 12 5"></polyline>
@@ -80,6 +87,13 @@
             </div>
         </div>
     </main>
+
+    <!-- Centralized details section (About, Health, Adoption, Shelter, Encourage) -->
+    <section class="central-details">
+        <div class="container" id="centralDetails">
+            <!-- Filled dynamically by JS: about, health, adoption, shelter, encouragement -->
+        </div>
+    </section>
 
     <!-- Contact Modal -->
     <div class="modal" id="contactModal">

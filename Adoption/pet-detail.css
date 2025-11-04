@@ -4,16 +4,17 @@
 }
 
 .pet-detail-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: start;
-    margin-top: 2rem;
+  display: flex;
+  gap: 3rem;
+  align-items: stretch; /* makes both columns same height */
+  margin-top: 2rem;
+  padding: 1rem;
 }
 
 .gallery-section {
-    position: sticky;
-    top: 2rem;
+  position: relative;
+  top: 0;
+  align-self: stretch;
 }
 
 .main-image {
@@ -64,10 +65,13 @@
 }
 
 .info-section {
-    background: white;
-    border-radius: 16px;
-    padding: 2rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background: white;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  flex: 1; /* makes it expand same height as image */
+  overflow: hidden; /* ensure no inner scroll */
 }
 
 .pet-name {
@@ -200,185 +204,6 @@
 .contact-button:hover {
     border-color: #87da48;
     color: #87da48;
-}
-
-/* Modal Styles */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-content {
-    background: white;
-    border-radius: 16px;
-    padding: 2rem;
-    width: 90%;
-    max-width: 500px;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.modal-header h3 {
-    font-size: 1.5rem;
-    color: #333;
-    margin: 0;
-}
-
-.close-modal {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-    color: #666;
-    transition: color 0.2s;
-}
-
-.close-modal:hover {
-    color: #333;
-}
-
-.shelter-info-card {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.shelter-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.verified-badge {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: #e9f7e5;
-    color: #4a9534;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.875rem;
-}
-
-.shelter-details {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.shelter-details p {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: #555;
-}
-
-.shelter-details i {
-    color: #87da48;
-}
-
-.contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.form-group label {
-    font-size: 0.875rem;
-    color: #555;
-}
-
-.form-group input,
-.form-group textarea {
-    padding: 0.75rem;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.2s;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-    border-color: #87da48;
-    outline: none;
-}
-
-.modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.btn-primary {
-    background: #87da48;
-    color: white;
-    border: none;
-}
-
-.btn-primary:hover {
-    background: #78c23e;
-}
-
-.btn-outline {
-    background: white;
-    color: #666;
-    border: 2px solid #e0e0e0;
-}
-
-.btn-outline:hover {
-    border-color: #87da48;
-    color: #87da48;
-}
-
-/* Success Modal */
-.success-modal-content {
-    text-align: center;
-    padding: 3rem 2rem;
-}
-
-.success-icon {
-    color: #87da48;
-    margin-bottom: 1.5rem;
-}
-
-.success-modal-content h3 {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 1rem;
 }
 
 @media (max-width: 768px) {
