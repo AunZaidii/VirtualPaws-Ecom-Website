@@ -3,9 +3,9 @@
 
 const catFood = [
   {
-    image: '/Homepage/product images/leather-chew-toy.jpg',
+    image: '/Homepage/product images/catfood1 front.png',
     imageAlt: 'Leather Chew toy image',
-    hoverimage: '/Homepage/product images/leather-chew-toy-2.jpg',
+    hoverimage: '/Homepage/product images/catfood1 back.png',
     hoverimageAlt: 'Leather Chew toy image Hover',
     name: 'Pawpourri Premium Natural Suede Leather Chew Toy',
     rating: '<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>',
