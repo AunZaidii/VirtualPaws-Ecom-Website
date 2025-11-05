@@ -1,6 +1,127 @@
-*{  
-    margin: 0px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
-    font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "Liberation Sans", sans-serif;;
+/* ------------------ Global Styles ------------------ */
+* {  
+    margin: 0;
+    padding: 0vb;
+    font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "Liberation Sans", sans-serif;
 }
 
+/* ------------------ Header Section ------------------ */
+.account-header {
+    background-color: #f5f5f5;
+    text-align: center;
+    padding: 4vb 0 2vb 0;
+}
+
+.account-header h1 {
+    font-size: 2.3vw;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 0.4vb;
+}
+
+.account-header p a {
+    color: #000;
+    text-decoration: none;
+    font-weight: 400;
+    transition: 0.3s;
+}
+
+.account-header p a:hover {
+    color: #87da48;
+}
+
+/* ------------------ Login Section ------------------ */
+.login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10vb 2vw 14vb 2vw;
+    background-color: #ffffff;
+}
+
+/* ------------------ Login Box ------------------ */
+.login-box {
+    background-color: #ffffff;
+    border: 0.1vw solid #e2e2e2;
+    border-radius: 0.8vw;
+    max-width: 35vw;
+    width: 100%;
+    text-align: center;
+    padding: 10vb 5vw ;
+    box-shadow: 0 0 1.5vw rgba(0, 0, 0, 0.08);
+    transform: scale(1.05);
+}
+
+.login-box h2 {
+    font-size: 2vw;
+    font-weight: 700;
+    margin-bottom: 3vb;
+    color: #1a1a1a;
+}
+
+/* ------------------ Form Inputs ------------------ */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 3vb;
+    align-items: stretch;
+}
+
+.login-form input {
+    padding: 1.6vb;
+    border: 0.1vw solid #ccc;
+    border-radius: 3vw;
+    outline: none;
+    font-size: 1.2vw;
+}
+
+.login-form input:focus {
+    border-color: #87da48;
+}
+
+/* ------------------ Forgot Password Link ------------------ */
+.forgot-password {
+    text-align: left;
+    display: inline-block;
+    font-size: 1.1vw;
+    color: #000;
+    text-decoration: underline;;
+    padding:1.6vb;
+}
+
+.forgot-password:hover {
+    color: #87da48;
+}
+
+/* ------------------ Login Button ------------------ */
+.login-btn {
+    background-color: #87da48;  
+    border: none;
+    border-radius: 3vw;
+    padding: 1.5vb;
+    font-size: 1.3vw;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background-color: #555;
+}
+
+/* ------------------ Bottom Text (No Account) ------------------ */
+.no-account {
+    font-size: 1.1vw;
+    margin-top: 2.5vb;
+    color: #555;
+}
+
+.no-account a {
+    color: #87da48;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.no-account a:hover {
+    text-decoration: underline;
+}
