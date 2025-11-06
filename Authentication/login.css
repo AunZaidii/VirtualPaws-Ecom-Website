@@ -125,3 +125,33 @@
 .no-account a:hover {
     text-decoration: underline;
 }
+
+.login-message {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+}
+/* Password field wrapper */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 2.8rem; /* leave space for the icon */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 1rem;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.3s;
+}
+
+.toggle-password:hover {
+  color: #87da48;
+}
