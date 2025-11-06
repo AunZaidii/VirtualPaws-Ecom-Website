@@ -67,7 +67,15 @@
         </div>
 
 
-        <a href="forget-password.html" class="forgot-password">Forgot your password?</a>
+        <a href="#" id="forgotPasswordLink" class="forgot-password">Forgot your password?</a>
+
+        <div id="resetSection" style="display: none; margin-top: 1vw;">
+          <input type="email" id="resetEmail" placeholder="Enter your email" required />
+          <button id="sendResetEmail" type="button" class="login-btn" style="margin-top: 0.5vw;">
+            Send Reset Link
+          </button>
+          <p id="resetMessage" style="margin-top: 0.5vw; font-size: 1vw;"></p>
+        </div>
 
         <button type="submit" class="login-btn">Sign In</button>
       </form>
@@ -80,7 +88,8 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="login.js"></script>
+<script src="login.js"></script> 
+
 
 </body>
 

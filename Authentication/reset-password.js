@@ -5,105 +5,55 @@ const SUPABASE_ANON_KEY =
 const { createClient } = supabase;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const form = document.querySelector(".reset-form");
-  const msg = form.querySelector(".reset-message");
+const form = document.getElementById("resetForm");
+const newPassword = document.getElementById("newPassword");
+const confirmPassword = document.getElementById("confirmPassword");
+const message = document.getElementById("message");
+const togglePassword = document.getElementById("togglePassword");
 
-  // Add eye toggles
-  const toggleIcons = document.querySelectorAll(".toggle-password");
-  toggleIcons.forEach((icon) => {
-    icon.addEventListener("click", () => {
-      const input = icon.previousElementSibling;
-      if (input.type === "password") {
-        input.type = "text";
-        icon.classList.replace("fa-eye", "fa-eye-slash");
-      } else {
-        input.type = "password";
-        icon.classList.replace("fa-eye-slash", "fa-eye");
-      }
-    });
-  });
-
-  // Get token from URL
-  const params = new URLSearchParams(location.search);
-  const token = params.get("token");
-
-  if (!token) {
-    msg.textContent = "Invalid reset link.";
-    msg.style.color = "red";
-    form.querySelector('button[type="submit"]').disabled = true;
-    return;
-  }
-
-  // Quick client-side check (optional): ensure token exists and is not expired/used
-  const { data: resetRow, error: resetErr } = await supabaseClient
-    .from("password_resets")
-    .select("used, expires_at")
-    .eq("reset_token", token)
-    .maybeSingle();
-
-  if (resetErr || !resetRow) {
-    msg.textContent = "This reset link is invalid.";
-    msg.style.color = "red";
-    form.querySelector('button[type="submit"]').disabled = true;
-    return;
-  }
-
-  if (resetRow.used) {
-    msg.textContent = "This reset link has already been used.";
-    msg.style.color = "red";
-    form.querySelector('button[type="submit"]').disabled = true;
-    return;
-  }
-
-  if (new Date(resetRow.expires_at) <= new Date()) {
-    msg.textContent = "This reset link has expired.";
-    msg.style.color = "red";
-    form.querySelector('button[type="submit"]').disabled = true;
-    return;
-  }
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    msg.textContent = "";
-    msg.style.color = "#333";
-
-    const password = form.querySelector('input[name="password"]').value.trim();
-    const confirm = form.querySelector('input[name="confirm_password"]').value.trim();
-
-    if (password.length < 8) {
-      msg.textContent = "Password must be at least 8 characters.";
-      msg.style.color = "red";
-      return;
-    }
-    if (password !== confirm) {
-      msg.textContent = "Passwords do not match.";
-      msg.style.color = "red";
-      return;
-    }
-
-    // Call secure RPC to update user password and mark token used
-    const { data: ok, error: rpcErr } = await supabaseClient
-      .rpc("reset_password", { p_token: token, p_new_password: password });
-
-    if (rpcErr || ok !== true) {
-      console.error(rpcErr);
-      showMessage(msg, "Something went wrong. Try again.", "error");
-
-      return;
-    }
-
-    showMessage(msg, "Reset link created!", "success");
-
-
-    setTimeout(() => {
-      window.location.href = "/Login/login.html";
-    }, 2000);
-  });
+// Toggle password visibility
+togglePassword.addEventListener("click", () => {
+  const type =
+    confirmPassword.getAttribute("type") === "password" ? "text" : "password";
+  confirmPassword.setAttribute("type", type);
+  togglePassword.classList.toggle("fa-eye");
+  togglePassword.classList.toggle("fa-eye-slash");
 });
-// ✨ Helper to display messages smoothly
-function showMessage(element, text, type = "success") {
-  element.textContent = text;
-  element.className = ""; // reset classes
-  element.classList.add(type, "show");
-}
+
+// Handle password reset
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const password = newPassword.value.trim();
+  const confirm = confirmPassword.value.trim();
+
+  if (password.length < 8) {
+    message.style.color = "red";
+    message.textContent = "Password must be at least 8 characters.";
+    return;
+  }
+
+  if (password !== confirm) {
+    message.style.color = "red";
+    message.textContent = "Passwords do not match!";
+    return;
+  }
+
+  try {
+    const { data, error } = await supabaseClient.auth.updateUser({
+      password: password,
+    });
+
+    if (error) throw error;
+
+    message.style.color = "green";
+    message.textContent = "Password updated successfully! Redirecting...";
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 2000);
+  } catch (err) {
+    console.error("Error resetting password:", err);
+    message.style.color = "red";
+    message.textContent = "Failed to reset password. Try again.";
+  }
+});
