@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/Homepage/homepage.css">
+  <link rel="stylesheet" href="styles.css">
+  <title>Adoption</title>
+</head>
+
+<header>
+
+  <section class="navbar">
+
+<div class="nav">
+
+    <div class="nav-logo">
+        <a href=""><img class="logo" src="/Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo"></a>
+    </div>
+
+    <div class="nav-items">
+        <ul>
+            <li><a style="color: rgb(135, 218, 72);" href="#">Home</a></li>
+            <li><a href="#">Shop <i class="fa-solid fa-angle-down" style="color: #000000;"></i></a></li>
+            <li><a href="#">Adoption</a></li>
+            <li><a href="#">Vet</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-items-logo">
+        <ul>
+            <li><a href="#"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a></li>
+            <li><a href="#"><i class="fa-regular fa-user" style="color: #000000;"></i></a></li>
+            <li><a href="#"><i class="fa-regular fa-heart" style="color: #000000;"></i></a></li>
+            <li><a href="#"><i class="fa-solid fa-bag-shopping" style="color: #000000;"></i></a></li>
+        </ul>
+    </div>
+</div>
+
+</section>
+</header>
+
+<body>
+    <!-- Page Heading (category / title band) -->
+    <section class="page-heading">
+        <div class="container">
+            <h2>Adoption</h2>
+            <nav class="breadcrumb"><a href="index.html">Home</a> <span>/</span> <span>Adoption</span></nav>
+        </div>
+    </section>
+      <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Find Your Forever Friend 🐾</h1>
+            <p>Browse loving pets waiting for a new home — from trusted shelters & NGOs</p>
+            <button class="btn btn-primary">See Pets Near You</button>
+        </div>
+    </section>
+
+    <!-- Category Chips -->
+    <div class="category-bar">
+        <div class="container">
+            <div class="category-chips">
+                <button class="chip active" data-category="all">
+                    <span>🐾</span> All Pets
+                </button>
+                <button class="chip" data-category="dog">
+                    <span>🐶</span> Dogs
+                </button>
+                <button class="chip" data-category="cat">
+                    <span>🐱</span> Cats
+                </button>
+                <button class="chip" data-category="small-pet">
+                    <span>🐹</span> Small Pets
+                </button>
+                <button class="chip" data-category="bird">
+                    <span>🦜</span> Birds
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="content-grid">
+                <!-- Sidebar Filters -->
+                <aside class="sidebar" id="sidebar">
+                    <div class="filter-header">
+                        <h3>Filter:</h3>
+                        <button class="close-filters" id="closeFilters">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="filter-section">
+                        <h4>Species</h4>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="species" value="dog">
+                            <span>Dogs</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="species" value="cat">
+                            <span>Cats</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="species" value="small-pet">
+                            <span>Small Pets</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="species" value="bird">
+                            <span>Birds</span>
+                        </label>
+                    </div>
+
+                    <div class="filter-section">
+                        <h4>Age</h4>
+                        <select class="filter-select" id="ageFilter">
+                            <option value="">Any Age</option>
+                            <option value="0-1">Puppy/Kitten (0-1 year)</option>
+                            <option value="1-3">Young (1-3 years)</option>
+                            <option value="3-7">Adult (3-7 years)</option>
+                            <option value="7+">Senior (7+ years)</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-section">
+                        <h4>Gender</h4>
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="male">
+                            <span>Male</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="female">
+                            <span>Female</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="" checked>
+                            <span>Any</span>
+                        </label>
+                    </div>
+
+                    <div class="filter-section">
+                        <h4>Location</h4>
+                        <select class="filter-select" id="locationFilter">
+                            <option value="">All Cities</option>
+                            <option value="Lahore">Lahore</option>
+                            <option value="Karachi">Karachi</option>
+                            <option value="Islamabad">Islamabad</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-section">
+                        <h4>Health</h4>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="vaccinatedFilter">
+                            <span>Vaccinated Only</span>
+                        </label>
+                    </div>
+
+                    <button class="btn btn-outline-primary" id="resetFilters">Reset Filters</button>
+                </aside>
+
+                <!-- Pets Grid -->
+                <div class="pets-section">
+                    <div class="pets-header">
+                        <p class="results-count" id="resultsCount">8 pets available</p>
+                        <button class="btn btn-outline mobile-filter-btn" id="mobileFilterBtn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                            </svg>
+                            Filters
+                        </button>
+                    </div>
+
+                    <div class="pets-grid" id="petsGrid">
+                        <!-- Pets will be inserted here by JavaScript -->
+                    </div>
+
+                    <div class="load-more">
+                        <button class="btn btn-outline-primary">Load More Pets</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </main>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+<footer class="footer">
+    <div class="footer-container">
+
+        <div class="footer-column contact-us">
+            <h3>Contact Us</h3>
+            <p><i class="fa-solid fa-location-dot"></i> Virtual Paws - Pets Store<br>
+              Karachi, Pakistan<br>
+            </p>
+            <p><i class="fa-solid fa-envelope"></i> contact_virtualpaws@gmail.com</p>
+            <p><i class="fa-solid fa-phone"></i> (+91) 9876-543-210</p>
+          </div>
+          
+
+      <div class="footer-column">
+        <h3>Find Product</h3>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Refund Policy</a></li>
+          <li><a href="#">Shipping Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Policy for Buyers</a></li>
+          <li><a href="#">Policy for Sellers</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Useful Links</h3>
+        <ul>
+          <li><a href="#">Shipping & Refund</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Delivery Information</a></li>
+          <li><a href="#">Shipping</a></li>
+          <li><a href="#">Size Chart</a></li>
+          <li><a href="#">Sitemap</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column newsletter">
+        <h3>Our Newsletter</h3>
+        <p>Subscribe to our latest newsletter to get news about special discounts.</p>
+        <form>
+          <input type="email" class="email-placeholder" placeholder="Email">
+          <a href="#" class="subscribe-btn" type="submit">Subscribe</a>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="social-icons">
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+      <p>© 2025, Virtual Paws - Pets Store </p>
+      <div class="payment-icons">
+        <img src="https://img.icons8.com/color/48/visa.png" alt="Visa">
+        <img src="https://img.icons8.com/color/48/mastercard.png" alt="Mastercard">
+        <img src="https://img.icons8.com/color/48/amex.png" alt="Amex">
+        <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal">
+        <img src="https://img.icons8.com/color/48/discover.png" alt="Discover">
+      </div>
+    </div>
+</footer>
+
+</html>

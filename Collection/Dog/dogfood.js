@@ -1,92 +1,86 @@
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-// DOG ACCESSORIES PRODUCTS:
+const SUPABASE_URL = "https://oekreylufrqvuzgoyxye.supabase.co";
+const SUPABASE_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const dogFood = [
-  {
-    image: '/Homepage/product images/leather-chew-toy.jpg',
-    imageAlt: 'Leather Chew toy image',
-    hoverimage: '/Homepage/product images/leather-chew-toy-2.jpg',
-    hoverimageAlt: 'Leather Chew toy image Hover',
-    name: 'Pawpourri Premium Natural Suede Leather Chew Toy',
-    rating: '<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>',
-    price: 900,
-    lik: '#'
-  },
-  {
-    image: '/Homepage/product images/dog bowl.jpg',
-    imageAlt: 'Dog Bowl',
-    hoverimage: '/Homepage/product images/dog bowl 2.jpg',
-    imagehoverAlt: 'Dog bowl hover',
-    name: 'Pets Empire Stainless Steel Dog Bowl',
-    rating: '<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i><i class="fa-regular fa-star"></i>',
-    price: 2000,
-    lik: '#'
-  },
-  {
-    image: '/Homepage/product images/cake treat.jpg',
-    imageAlt: 'Cake Treat',
-    hoverimage:'/Homepage/product images/cake treat 2.jpg',
-    hoverimageAlt: 'Cake Treat Hover',
-    name:'Dentastix Oral Care Treats For Samll Breeds Adult Dogs',
-    rating:'<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>',
-    price: 2100,
-    lik: '#'
-  },
-  {
-    image: '/Homepage/product images/stainless steel bowl.jpg',
-    imageAlt: 'Stainless Steel Bowl',
-    hoverimage: '/Homepage/product images/stainless steel bowl 2.jpg',
-    hoverimageAlt: 'Stainless Steel Bowl hover',
-    name:'Food-Grade Melamine Base And Stainless Steel Bowl',
-    rating:'<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i><i class="fa-regular fa-star"></i>',
-    price: 3500,
-    lik: '#'
-  },
-  {
-    image: '/Homepage/product images/soft velvet house.jpg',
-    imageAlt:'Soft velvet house',
-    hoverimage: '/Homepage/product images/soft velvet house 2.jpg',
-    hoverimageAlt: 'Soft velvet house hover',
-    name: 'Foodie Puppies Foldable Softy Velvet House',
-    rating: '<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>',
-    price: 9900,
-    lik: '#'
+// ⭐ Function to generate star icons dynamically
+function renderStars(rating) {
+  const fullStar = '<i class="fa-solid fa-star"></i>';
+  const halfStar = '<i class="fa-solid fa-star-half-stroke"></i>';
+  const emptyStar = '<i class="fa-regular fa-star"></i>';
+
+  let starsHTML = "";
+  const fullStars = Math.floor(rating);
+  const hasHalf = rating % 1 !== 0;
+
+  // full stars
+  for (let i = 0; i < fullStars; i++) {
+    starsHTML += fullStar;
   }
-]
 
+  // half star if needed
+  if (hasHalf) starsHTML += halfStar;
 
+  // remaining empty stars
+  const remaining = 5 - fullStars - (hasHalf ? 1 : 0);
+  for (let i = 0; i < remaining; i++) {
+    starsHTML += emptyStar;
+  }
 
+  return starsHTML;
+}
 
+// 🦴 Fetch only "Dog Food" products from Supabase (case-insensitive)
+async function fetchDogFood() {
+  const { data, error } = await supabase
+    .from("product")
+    .select("*")
+    .ilike("category", "dog food"); // 👈 case-insensitive match
 
+  if (error) {
+    console.error("Error fetching products:", error);
+    return;
+  }
 
+  renderProducts(data);
+}
 
+// 🧩 Render function
+function renderProducts(products) {
+  const container = document.querySelector(".js-products-grid");
+  container.innerHTML = "";
 
+  if (products.length === 0) {
+    container.innerHTML = `<p style="font-size:18px;text-align:center;width:100%;">No dog food products found.</p>`;
+    return;
+  }
 
-// DOM LOGIC 
-
-let dogFoodHTML = '';
-dogFood.forEach((dogFood) =>
-  {
-     dogFoodHTML += `
-      <a href="${dogFood.link}" class="product-link">
-  <div class="product-div">
-      <div class="product-image-div">
-          <img class="product-image" src="${dogFood.image}" alt="${dogFood.imageAlt}">
-          <img class="product-image-hover" src="${dogFood.hoverimage}" alt="${dogFood.hoverimageAlt}">
-      </div>
-      <div class="product-text-div">
-          <p class="product-text-title">${dogFood.name}</p>
-          <p class="product-text-rating">${dogFood.rating}</p>
-          <p class="product-text-price">
-            <span style="color: rgb(135, 218, 72); font-weight: bold;">
-              $${(dogFood.price / 100).toFixed(2)}
-            </span>
-          </p>
-      </div>
-  </div>
-</a> 
+  products.forEach((product) => {
+    const stars = renderStars(product.rating);
+    const html = `
+      <a href="${product.link}" class="product-link">
+        <div class="product-div">
+          <div class="product-image-div">
+            <img class="product-image" src="${product.image}" alt="${product.imageAlt}">
+            <img class="product-image-hover" src="${product.hoverimage}" alt="${product.hoverimageAlt}">
+          </div>
+          <div class="product-text-div">
+            <p class="product-text-title">${product.name}</p>
+            <p class="product-text-rating">${stars}</p>
+            <p class="product-text-price">
+              <span style="color: rgb(135, 218, 72); font-weight: bold;">
+                $${(product.price / 100).toFixed(2)}
+              </span>
+            </p>
+          </div>
+        </div>
+      </a>
     `;
-  }
-);
+    container.innerHTML += html;
+  });
+}
 
-document.querySelector('.js-products-grid').innerHTML = dogFoodHTML;
+// 🚀 Run on load
+fetchDogFood();
