@@ -5,55 +5,49 @@ const SUPABASE_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ⭐ Function to generate star icons dynamically
+let allProducts = []; // store fetched products globally
+
+// ⭐ Render stars dynamically
 function renderStars(rating) {
   const fullStar = '<i class="fa-solid fa-star"></i>';
   const halfStar = '<i class="fa-solid fa-star-half-stroke"></i>';
   const emptyStar = '<i class="fa-regular fa-star"></i>';
-
   let starsHTML = "";
+
   const fullStars = Math.floor(rating);
   const hasHalf = rating % 1 !== 0;
 
-  // full stars
-  for (let i = 0; i < fullStars; i++) {
-    starsHTML += fullStar;
-  }
-
-  // half star if needed
+  for (let i = 0; i < fullStars; i++) starsHTML += fullStar;
   if (hasHalf) starsHTML += halfStar;
-
-  // remaining empty stars
-  const remaining = 5 - fullStars - (hasHalf ? 1 : 0);
-  for (let i = 0; i < remaining; i++) {
-    starsHTML += emptyStar;
-  }
+  for (let i = 0; i < 5 - fullStars - (hasHalf ? 1 : 0); i++) starsHTML += emptyStar;
 
   return starsHTML;
 }
 
-// 🦴 Fetch only "Dog Food" products from Supabase (case-insensitive)
+// 🦴 Fetch dog food
 async function fetchDogFood() {
   const { data, error } = await supabase
     .from("product")
     .select("*")
-    .ilike("category", "dog food"); // 👈 case-insensitive match
+    .ilike("category", "dog food");
 
   if (error) {
     console.error("Error fetching products:", error);
     return;
   }
 
-  renderProducts(data);
+  allProducts = data;
+  renderProducts(allProducts);
 }
 
-// 🧩 Render function
+// 🧩 Render products
 function renderProducts(products) {
   const container = document.querySelector(".js-products-grid");
   container.innerHTML = "";
 
-  if (products.length === 0) {
-    container.innerHTML = `<p style="font-size:18px;text-align:center;width:100%;">No dog food products found.</p>`;
+  if (!products || products.length === 0) {
+    container.innerHTML =
+      `<p style="font-size:18px;text-align:center;width:100%;">No dog food products found.</p>`;
     return;
   }
 
@@ -82,5 +76,18 @@ function renderProducts(products) {
   });
 }
 
-// 🚀 Run on load
+// 💰 Filter by price
+function applyPriceFilter() {
+  const minPrice = parseFloat(document.getElementById("price-min").value) || 0;
+  const maxPrice = parseFloat(document.getElementById("price-max").value) || Infinity;
+
+  const filtered = allProducts.filter(
+    (p) => p.price / 100 >= minPrice && p.price / 100 <= maxPrice
+  );
+
+  renderProducts(filtered);
+}
+
+// 🚀 Initialize
 fetchDogFood();
+document.getElementById("apply-filter").addEventListener("click", applyPriceFilter);
