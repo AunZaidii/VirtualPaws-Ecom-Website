@@ -57,6 +57,16 @@
   </section>
 </header>
 
+<!-- NEW: Page Heading band (matches Adoption page) -->
+<section class="page-heading">
+  <div class="container">
+    <h2>Vet</h2>
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a> <span>/</span> <span>Vet</span>
+    </nav>
+  </div>
+</section>
+
 <!-- Page Title Section -->
 <section class="page-title-section" id="page-title" aria-label="Virtual Paws veterinary team">
   <!-- src is set by resolver script -->
@@ -343,13 +353,12 @@
     const tried = [];
 
     for (let p of tryPaths) {
-      // normalize accidental double slashes
       const path = p.replace(/([^:]\/)\/+/g, "$1");
       tried.push(path);
       try {
         const res = await fetch(path, { method: "HEAD", cache: "no-store" });
         if (res.ok) {
-          imgEl.src = path + "?v=" + Date.now(); // cache-bust
+          imgEl.src = path + "?v=" + Date.now();
           imgEl.setAttribute("data-resolved-src", path);
           console.log(`[resolver] ✓ Found image for #${imgEl.id}:`, path);
           return true;
@@ -374,16 +383,13 @@
   }
 
   document.addEventListener("DOMContentLoaded", async () => {
-    // Resolve the logo
     const logoEl = document.getElementById("siteLogo");
     const logoOK = await resolveImageByCandidates(logoEl);
     if (!logoOK) setLogoFallback(logoEl);
 
-    // Resolve the hero
     const heroEl = document.getElementById("heroImage");
     const heroOK = await resolveImageByCandidates(heroEl);
     if (!heroOK) {
-      // keep pleasant gradient and hide the empty <img>
       heroEl.style.display = "none";
       document.querySelector(".page-title-section").classList.add("hero-fallback");
     }
