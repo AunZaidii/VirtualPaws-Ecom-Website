@@ -2,35 +2,33 @@
 const petId = localStorage.getItem('selectedPet');
 let currentPet = null;
 
-// DOM Elements
+// DOM Elements (safe selections)
 const mainImage = document.getElementById('mainImage');
 const thumbnailGrid = document.getElementById('thumbnailGrid');
-const petNameElement = document.querySelector('.pet-name');
-const petBreedElement = document.querySelector('.pet-breed');
-const ageValue = document.querySelector('.age-value');
-const genderValue = document.querySelector('.gender-value');
-const sizeValue = document.querySelector('.size-value');
-const colorValue = document.querySelector('.color-value');
-const petTraits = document.querySelector('.pet-traits');
-const temperamentTags = document.querySelector('.temperament-tags');
-const aboutText = document.querySelector('.about-text');
-const adoptButton = document.querySelector('.adopt-button');
-const contactButton = document.querySelector('.contact-button');
 const petInfo = document.getElementById('petInfo');
 const infoSection = document.querySelector('.info-section');
+
+// Modal refs (were missing)
+const contactModal = document.getElementById('contactModal');
+const contactForm = document.getElementById('contactForm');
+const modalTitle = document.getElementById('modalTitle');
+const modalShelterInfo = document.getElementById('modalShelterInfo');
+const closeModal = document.getElementById('closeModal');
+const cancelBtn = document.getElementById('cancelBtn');
+const successModal = document.getElementById('successModal');
+const successMessage = document.getElementById('successMessage');
 
 // Utility: debounce to limit resize calls
 function debounce(fn, wait) {
   let t;
-  return function(...args) {
+  return function (...args) {
     clearTimeout(t);
     t = setTimeout(() => fn.apply(this, args), wait);
   };
 }
 
-// Keep the info section height matched to the main image height on wide screens
+// Keep the info section height roughly matched to the main image on wide screens
 function syncInfoHeight() {
-  // if no elements, nothing to do
   if (!infoSection || !mainImage) return;
 
   // On small screens allow natural flow
@@ -40,7 +38,6 @@ function syncInfoHeight() {
     return;
   }
 
-  // Use the rendered height of the image container
   const imgHeight = mainImage.getBoundingClientRect().height;
   if (imgHeight && imgHeight > 0) {
     infoSection.style.height = `${Math.round(imgHeight)}px`;
@@ -51,7 +48,6 @@ function syncInfoHeight() {
 // sync when main image finishes loading (covers initial load and thumbnail swaps)
 if (mainImage) {
   mainImage.addEventListener('load', () => {
-    // small timeout to ensure layout settled
     setTimeout(syncInfoHeight, 20);
   });
 }
@@ -63,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  currentPet = pets.find(p => p.id === petId);
+  currentPet = (typeof pets !== 'undefined') ? pets.find(p => p.id === petId) : null;
   if (!currentPet) {
     window.location.href = 'index.html';
     return;
@@ -76,12 +72,14 @@ document.addEventListener('DOMContentLoaded', () => {
 // Render pet detail
 function renderPetDetail() {
   // Set main image
-  mainImage.src = currentPet.images[0];
-  mainImage.alt = currentPet.name;
+  if (currentPet.images?.length) {
+    mainImage.src = currentPet.images[0];
+    mainImage.alt = currentPet.name;
+  }
 
   // Render thumbnails
   thumbnailGrid.innerHTML = '';
-  currentPet.images.forEach((image, index) => {
+  (currentPet.images || []).forEach((image, index) => {
     const thumbnail = document.createElement('div');
     thumbnail.className = `thumbnail ${index === 0 ? 'active' : ''}`;
     thumbnail.innerHTML = `<img src="${image}" alt="${currentPet.name}">`;
@@ -89,7 +87,7 @@ function renderPetDetail() {
     thumbnailGrid.appendChild(thumbnail);
   });
 
-  // Render pet info (kept compact so CTA is visible without long scrolling)
+  // Render pet info (compact card)
   petInfo.innerHTML = `
     <div class="pet-detail-header">
       <div class="pet-detail-title">
@@ -97,12 +95,12 @@ function renderPetDetail() {
         <h3>${currentPet.breed}</h3>
       </div>
       <div class="action-btns">
-        <button class="action-btn" id="saveBtn">
+        <button class="action-btn" id="saveBtn" aria-label="Save">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
           </svg>
         </button>
-        <button class="action-btn">
+        <button class="action-btn" aria-label="Share">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="18" cy="5" r="3"></circle>
             <circle cx="6" cy="12" r="3"></circle>
@@ -121,7 +119,7 @@ function renderPetDetail() {
       </div>
       <div class="info-card">
         <label>Gender</label>
-        <div class="value">${currentPet.gender}</div>
+        <div class="value" style="text-transform:capitalize">${currentPet.gender}</div>
       </div>
       <div class="info-card">
         <label>Size</label>
@@ -134,23 +132,15 @@ function renderPetDetail() {
     </div>
 
     <div class="health-badges">
-      ${currentPet.vaccinated ? `
-        <div class="health-badge">Vaccinated</div>
-      ` : ''}
-      ${currentPet.microchipped ? `
-        <div class="health-badge">Microchipped</div>
-      ` : ''}
-      ${currentPet.spayedNeutered ? `
-        <div class="health-badge">Spayed/Neutered</div>
-      ` : ''}
+      ${currentPet.vaccinated ? `<div class="health-badge">Vaccinated</div>` : ''}
+      ${currentPet.microchipped ? `<div class="health-badge">Microchipped</div>` : ''}
+      ${currentPet.spayedNeutered ? `<div class="health-badge">Spayed/Neutered</div>` : ''}
     </div>
 
     <div class="temperament-section">
       <h4>Temperament</h4>
       <div class="temperament-tags">
-        ${currentPet.temperament.map(trait => `
-          <span class="temperament-tag">${trait}</span>
-        `).join('')}
+        ${(currentPet.temperament || []).map(trait => `<span class="temperament-tag">${trait}</span>`).join('')}
       </div>
     </div>
 
@@ -168,22 +158,22 @@ function renderPetDetail() {
     </div>
   `;
 
-  // Render the centralized details area (horizontal cards below main)
+  // Render the centralized details area (cards below main)
   renderCentralDetails();
 
-  // Attach event listeners for buttons in the rendered content
+  // Button handlers
   document.getElementById('adoptBtn').addEventListener('click', openContactModal);
   document.getElementById('contactBtn').addEventListener('click', openContactModal);
   document.getElementById('saveBtn').addEventListener('click', toggleSave);
 
-  // After rendering, ensure heights are synced (if image already loaded)
+  // Ensure heights are synced (if image already loaded)
   setTimeout(syncInfoHeight, 30);
 }
 
 // Select image
 function selectImage(index) {
   mainImage.src = currentPet.images[index];
-  
+
   // Update active thumbnail
   const thumbnails = document.querySelectorAll('.thumbnail');
   thumbnails.forEach((thumb, i) => {
@@ -199,8 +189,10 @@ function toggleSave() {
 
 // Open contact modal
 function openContactModal() {
+  if (!contactModal) return;
+
   modalTitle.textContent = `Contact About ${currentPet.name}`;
-  
+
   modalShelterInfo.innerHTML = `
     <div class="shelter-header">
       ${currentPet.shelter.verified ? `
@@ -209,8 +201,8 @@ function openContactModal() {
             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
             <polyline points="22 4 12 14.01 9 11.01"></polyline>
           </svg>
-        </div>
-      ` : ''}
+        </div>` : ''
+      }
       <div>
         <h4>${currentPet.shelter.name}</h4>
         ${currentPet.shelter.verified ? '<div class="verified">Verified Shelter</div>' : ''}
@@ -239,31 +231,36 @@ function openContactModal() {
       </div>
     </div>
   `;
-  
+
   contactModal.classList.add('active');
+  // lock page scroll
+  document.body.style.overflow = 'hidden';
 }
 
 // Close modal
 function closeContactModal() {
+  if (!contactModal) return;
   contactModal.classList.remove('active');
-  contactForm.reset();
+  contactForm?.reset();
+  // restore page scroll
+  document.body.style.overflow = '';
 }
 
 // Submit form
 function submitForm(e) {
   e.preventDefault();
-  
+
   closeContactModal();
-  
+
   successMessage.textContent = `The shelter will contact you soon regarding ${currentPet.name}.`;
   successModal.classList.add('active');
-  
+
   setTimeout(() => {
     successModal.classList.remove('active');
   }, 2500);
 }
 
-// Render centralized horizontal details under the main grid
+// Render centralized cards under the main grid
 function renderCentralDetails() {
   const container = document.getElementById('centralDetails');
   if (!container) return;
@@ -312,25 +309,22 @@ function renderCentralDetails() {
       </div>
     </div>`;
 
-  container.innerHTML = `<div class="central-grid">${aboutHTML}${healthHTML}${adoptionHTML}${shelterHTML}${encourageHTML}</div>`;
+  // IMPORTANT: inject cards directly as children of #centralDetails (no wrapper)
+  container.innerHTML = aboutHTML + healthHTML + adoptionHTML + shelterHTML + encourageHTML;
 }
 
 // Event listeners
 function attachEventListeners() {
-  closeModal.addEventListener('click', closeContactModal);
-  cancelBtn.addEventListener('click', closeContactModal);
-  contactForm.addEventListener('submit', submitForm);
-  
+  // Modal buttons (guard for null)
+  closeModal?.addEventListener('click', closeContactModal);
+  cancelBtn?.addEventListener('click', closeContactModal);
+  contactForm?.addEventListener('submit', submitForm);
+
   // Close modal on backdrop click
-  contactModal.addEventListener('click', (e) => {
+  contactModal?.addEventListener('click', (e) => {
     if (e.target === contactModal) {
       closeContactModal();
     }
-  });
-
-  // Mobile menu
-  mobileMenuBtn.addEventListener('click', () => {
-    mobileMenu.classList.toggle('active');
   });
 
   // Keep info height in sync on resize (debounced)

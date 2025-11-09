@@ -1,6 +1,6 @@
 /* =========================================================
-   Pet Detail — dedicated file (safe alongside styles.css)
-   Slimmer, product-like layout to match your shop page
+   Pet Detail — page-specific styles (kept separate)
+   Clean, card-based layout + compact gallery
    ========================================================= */
 
 .pet-detail-main{
@@ -8,14 +8,14 @@
   min-height: calc(100vh - 200px);
 }
 
-/* Two columns with smaller proportions */
+/* Two columns with tighter proportions */
 .pet-detail-grid{
   display: grid;
   grid-template-columns: minmax(520px, 1fr) minmax(340px, 520px);
   column-gap: 2rem;
   align-items: start;
   margin-top: 2rem;
-  --panel-size: clamp(320px, 36vw, 460px); /* smaller */
+  --panel-size: clamp(320px, 36vw, 460px);
 }
 
 /* ------------------
@@ -62,19 +62,17 @@
 .thumbnail img{ width: 100%; height: 100%; object-fit: cover; }
 
 /* -------------------
-   Right: Info panel
+   Right: Info card
    ------------------- */
 .info-section{
   background: #fff;
-  border: 1px solid #eceff3;
+  border: 1px solid #eef1f4;
   border-radius: 16px;
-  padding: 1rem 1.25rem;
-  box-shadow: 0 2px 6px rgba(15,23,42,0.04);
+  padding: 1rem 1.25rem 1.25rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
   display: flex;
   flex-direction: column;
   max-width: 520px;
-  height: auto;                 /* no forced equal height */
-  overflow: visible;
 }
 
 .pet-detail-header{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:.65rem; }
@@ -110,39 +108,118 @@
 .temperament-tag{ padding:.48rem .8rem; background:#fff; border:1px solid #e5e7eb; border-radius:999px; font-size:.85rem; color:#374151; }
 
 .location-info{ display:flex; align-items:center; gap:.5rem; color:#6b7280; margin-bottom:.75rem; font-size:.95rem; }
-.location-info svg{ width:20px; height:20px; color:#ff6b35; }
+.location-info svg{ width:20px; height:20px; color:#87da48; }
 
-/* CTAs styled like product page (scoped) */
-.info-section .btn-primary{ background:#ff6b35; }
-.info-section .btn-primary:hover{ background:#f25a24; }
+/* CTAs */
+.info-section .btn-primary{ background:#87da48; }
+.info-section .btn-primary:hover{ background:#78c23e; }
 .info-section .btn-outline-primary{ border-color:#0b0b31; color:#0b0b31; }
 .info-section .btn-outline-primary:hover{ background:#0b0b31; color:#fff; }
 .cta-buttons{ display:flex; gap:.6rem; margin-top:auto; }
 .cta-buttons .btn{ flex:1; padding:.9rem 1rem; }
 .cta-buttons .btn-outline-primary{ flex:0 0 auto; padding:.9rem 1.25rem; }
 
-/* ---- Legacy utility (kept for safety with JS/templates) ---- */
-.pet-name{ font-size: 2.5rem; margin-bottom: 0.5rem; color: #333; }
-.pet-breed{ color: #666; font-size: 1.2rem; margin-bottom: 2rem; }
-.pet-stats{ display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; margin-bottom:2rem; }
-.stat-item{ background:#f8f9fa; padding:1rem; border-radius:8px; }
-.stat-label{ font-size:.875rem; color:#666; }
-.stat-value{ font-size:1.1rem; color:#333; font-weight:600; margin-top:.25rem; }
-.pet-traits{ display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:2rem; }
-.trait-tag{ background:#e9f7e5; color:#4a9534; padding:.5rem 1rem; border-radius:20px; font-size:.875rem; font-weight:500; }
-.temperament-title{ font-size:1.25rem; color:#333; margin-bottom:1rem; }
-.about-section{ margin-bottom:2rem; }
-.about-title{ font-size:1.25rem; color:#333; margin-bottom:1rem; }
-.about-text{ color:#555; line-height:1.8; margin-bottom:1.5rem; }
-.action-buttons{ display:flex; gap:1rem; margin-top:2rem; }
-.adopt-button{ background:#87da48; color:#fff; padding:1rem 2rem; border-radius:8px; border:none; font-size:1rem; font-weight:600; cursor:pointer; transition:background-color .2s; }
-.adopt-button:hover{ background:#78c23e; }
-.contact-button{ background:#fff; color:#333; padding:1rem 2rem; border-radius:8px; border:2px solid #e0e0e0; font-size:1rem; font-weight:600; cursor:pointer; transition:all .2s; }
-.contact-button:hover{ border-color:#87da48; color:#87da48; }
+/* ======================================
+   CENTRAL DETAILS (About / Health / etc.)
+   ====================================== */
+.central-details{
+  padding: 2rem 0 3rem;
+  background: #fafafa;
+}
 
-/* -------------------
-   Responsive
-   ------------------- */
+/* Fluid grid that always fills the row */
+#centralDetails{
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-inline: 1rem;
+
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.25rem;
+  align-items: stretch;
+
+  grid-auto-flow: row dense;
+}
+
+/* Base card (applies to any immediate child) */
+#centralDetails > .detail-card,
+#centralDetails > .health-card,
+#centralDetails > .adoption-card,
+#centralDetails > .shelter-card,
+#centralDetails > .encouragement-card,
+#centralDetails > article,
+#centralDetails > section{
+  background: #fff;
+  border: 1px solid #eef1f4;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+#centralDetails h3{
+  margin: 0 0 .75rem;
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+/* About (green) */
+#centralDetails .about,
+#centralDetails .detail-card.about{
+  background: linear-gradient(135deg, #8ee36c 0%, #5fc242 100%);
+  color: #fff;
+  border-color: transparent;
+}
+#centralDetails .about h3,
+#centralDetails .about p{ color: #fff; }
+
+/* Health rows */
+#centralDetails .health-row{
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .9rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+#centralDetails .health-row:last-child{ border-bottom: none; }
+#centralDetails .health-row .label{ color: #6b7280; }
+#centralDetails .health-row .value{ color: #222; font-weight: 600; text-align: right; }
+
+/* Adoption price emphasis */
+#centralDetails .adoption-card .adoption-fee{ margin-bottom: 1rem; }
+#centralDetails .adoption-card .adoption-fee label{ color: #6b7280; margin-bottom: .25rem; }
+#centralDetails .adoption-card .adoption-fee .price{
+  font-size: 2rem;
+  font-weight: 800;
+  color: #16a34a;
+}
+
+/* Shelter look */
+#centralDetails .shelter-card{
+  background: linear-gradient(135deg, #e8f8f5 0%, #ffffff 100%);
+  border-color: #e7f3ef;
+}
+#centralDetails .shelter-card .contact-item{
+  display: flex; align-items: center; gap: .6rem; color: #374151; margin: .35rem 0;
+}
+#centralDetails .shelter-card .contact-item a{ color: #0b5; text-decoration: none; }
+#centralDetails .shelter-card .contact-item a:hover{ text-decoration: underline; }
+
+/* Encouragement */
+#centralDetails .encouragement-card{
+  text-align: center; align-items: center; justify-content: center;
+}
+
+/* Wide screens: let About span two columns if present */
+@media (min-width: 1280px){
+  #centralDetails .about{ grid-column: span 2; }
+}
+
+/* Tablet tweaks */
 @media (max-width: 1024px){
   .pet-detail-grid{
     grid-template-columns: 1fr;
@@ -153,8 +230,9 @@
   .thumbnail-grid{ width: 100%; grid-template-columns: repeat(4, 1fr); }
 }
 @media (max-width: 768px){
-  .pet-stats{ grid-template-columns: 1fr; }
-  .action-buttons{ flex-direction: column; }
+  .quick-info-grid{ grid-template-columns: 1fr; }
+  .cta-buttons{ flex-direction: column; }
+  .cta-buttons .btn-outline-primary{ flex: 1; }
 }
 @media (max-width: 480px){
   .thumbnail-grid{ grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
