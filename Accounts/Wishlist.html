@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/Homepage/homepage.css">
+  <link rel="stylesheet" href="Wishlist.css">
+  <title>Wishlist</title>
+</head>
+
+<header>
+  <section class="navbar">
+
+<div class="nav">
+
+    <div class="nav-logo">
+        <a href=""><img class="logo" src="/Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo"></a>
+    </div>
+
+    <div class="nav-items">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Shop </a></li>
+            <li><a href="#">Adoption</a></li>
+            <li><a href="#">Vet</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-items-logo">
+        <ul>
+            <li><a href="#"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a></li>
+            <li><a href="#"><i class="fa-regular fa-user" style="color: #000000 ;"></i></a></li>
+            <li><a href="#"><i class="fa-regular fa-heart" style="color: rgb(135, 218, 72);"></i></a></li>
+            <li><a href="#"><i class="fa-solid fa-bag-shopping" style="color: #000000;"></i></a></li>
+        </ul>
+    </div>
+</div>
+
+</section>
+</header>
+
+<body>
+    <section class="account-header">
+    <h1>Wishlist</h1>
+    </section>
+    <main>
+    <div class="container">
+      <div class="wishlist-count" id="wishlistCount"></div>
+
+      <div class="wishlist-grid" id="wishlistGrid"></div>
+
+      <div class="empty-state" id="emptyState" style="display: none;">
+        <p>Your wishlist is empty</p>
+        <a href="#" class="shop-btn">Continue Shopping</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // Wishlist Data
+    let wishlistItems = [
+      {
+        id: '1',
+        name: 'Premium Dog Food Bowl',
+        price: 24.99,
+        image: 'https://images.unsplash.com/photo-1598134493179-51332e56807f?w=400',
+        inStock: true
+      },
+      {
+        id: '2',
+        name: 'Interactive Cat Toy Mouse',
+        price: 12.99,
+        image: 'https://images.unsplash.com/photo-1759720488555-d4ca178c2543?w=400',
+        inStock: true
+      },
+      {
+        id: '3',
+        name: 'Adjustable Pet Collar & Leash Set',
+        price: 18.99,
+        image: 'https://images.unsplash.com/photo-1596822316110-288c7b8f24f8?w=400',
+        inStock: false
+      },
+      {
+        id: '4',
+        name: 'Comfortable Dog Bed Cushion',
+        price: 49.99,
+        image: 'https://images.unsplash.com/photo-1676374024221-318172d3671a?w=400',
+        inStock: true
+      }
+    ];
+
+    // Toast Notification Function
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = 'toast show ' + type;
+
+      setTimeout(() => {
+        toast.className = 'toast';
+      }, 3000);
+    }
+
+    // Remove Item from Wishlist
+    function removeItem(id) {
+      wishlistItems = wishlistItems.filter(item => item.id !== id);
+      renderWishlist();
+      showToast('Item removed from wishlist', 'success');
+    }
+
+    // Add Item to Cart
+    function addToCart(id) {
+      const item = wishlistItems.find(item => item.id === id);
+      if (item) {
+        showToast(item.name + ' added to cart', 'success');
+      }
+    }
+
+    // Render Wishlist Items
+    function renderWishlist() {
+      const grid = document.getElementById('wishlistGrid');
+      const emptyState = document.getElementById('emptyState');
+      const countElement = document.getElementById('wishlistCount');
+
+      if (wishlistItems.length === 0) {
+        grid.innerHTML = '';
+        emptyState.style.display = 'block';
+        countElement.textContent = '';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      countElement.textContent = wishlistItems.length + (wishlistItems.length === 1 ? ' item' : ' items') + ' in your wishlist';
+
+      grid.innerHTML = wishlistItems.map(item => `
+        <div class="wishlist-item">
+          <div class="item-image-container">
+            <img src="${item.image}" alt="${item.name}" class="item-image">
+            <button class="remove-btn" onclick="removeItem('${item.id}')" aria-label="Remove item">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            ${!item.inStock ? `
+              <div class="out-of-stock-overlay">
+                <span class="out-of-stock-badge">Out of Stock</span>
+              </div>` : ''}
+          </div>
+          <div class="item-details">
+            <h3 class="item-name">${item.name}</h3>
+            <p class="item-price">$${item.price.toFixed(2)}</p>
+            <button 
+              class="add-to-cart-btn" 
+              onclick="addToCart('${item.id}')"
+              ${!item.inStock ? 'disabled' : ''}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+              ${item.inStock ? 'Add to Cart' : 'Out of Stock'}
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', renderWishlist);
+  </script>
+
+</body>
+
+<footer class="footer">
+    <div class="footer-container">
+
+        <div class="footer-column contact-us">
+            <h3>Contact Us</h3>
+            <p><i class="fa-solid fa-location-dot"></i> Virtual Paws - Pets Store<br>
+              Karachi, Pakistan<br>
+            </p>
+            <p><i class="fa-solid fa-envelope"></i> contact_virtualpaws@gmail.com</p>
+            <p><i class="fa-solid fa-phone"></i> (+91) 9876-543-210</p>
+          </div>
+          
+
+      <div class="footer-column">
+        <h3>Find Product</h3>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Refund Policy</a></li>
+          <li><a href="#">Shipping Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Policy for Buyers</a></li>
+          <li><a href="#">Policy for Sellers</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Useful Links</h3>
+        <ul>
+          <li><a href="#">Shipping & Refund</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Delivery Information</a></li>
+          <li><a href="#">Shipping</a></li>
+          <li><a href="#">Size Chart</a></li>
+          <li><a href="#">Sitemap</a></li>
+        </ul>
+      </div>
+
+    <div class="footer-column newsletter">
+    <h3>Our Newsletter</h3>
+    <p>Subscribe to our latest newsletter to get news about special discounts.</p>
+    <form>
+        <input type="email" class="email-placeholder" placeholder="Email" required>
+        <button type="submit" class="subscribe-btn">Subscribe</button>
+    </form>
+    </div>
+
+
+    <div class="footer-bottom">
+      <div class="social-icons">
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+      <p>© 2025, Virtual Paws - Pets Store </p>
+      <div class="payment-icons">
+        <img src="https://img.icons8.com/color/48/visa.png" alt="Visa">
+        <img src="https://img.icons8.com/color/48/mastercard.png" alt="Mastercard">
+        <img src="https://img.icons8.com/color/48/amex.png" alt="Amex">
+        <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal">
+        <img src="https://img.icons8.com/color/48/discover.png" alt="Discover">
+      </div>
+    </div>
+</footer>
+</html>
