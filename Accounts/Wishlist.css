@@ -1,0 +1,280 @@
+/* ------------------ Global Styles ------------------ */
+* {  
+    margin: 0;
+    padding: 0vb;
+    font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+}
+
+/* ------------------ Header Section ------------------ */
+.account-header {
+    background-color: #f5f5f5;
+    text-align: center;
+    padding: 4vb 0 2vb 0;
+}
+
+.account-header h1 {
+    font-size: 2.3vw;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 0.4vb;
+}
+
+.account-header p a {
+    color: #000;
+    text-decoration: none;
+    font-weight: 400;
+    transition: 0.3s;
+}
+
+.account-header p a:hover {
+    color: #87da48;
+}
+/* ------------------ Wishlist Section ------------------ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px;
+    color: #1f2937;
+    background-color: #f9fafb;
+    line-height: 1.5;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+h3 {
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Page Title */
+.page-title {
+    background-color: white;
+    padding: 2rem 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.page-title h1 {
+    text-align: center;
+    margin: 0;
+}
+
+/* Main Content */
+main {
+    min-height: 60vh;
+    padding: 3rem 0;
+}
+
+.wishlist-count {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+.wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+/* Wishlist Item Card */
+.wishlist-item {
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+}
+
+.wishlist-item:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.item-image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background-color: white;
+    border-radius: 50%;
+    padding: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s;
+}
+
+.remove-btn:hover {
+    background-color: #fee2e2;
+}
+
+.remove-btn svg {
+    width: 16px;
+    height: 16px;
+    color: #6b7280;
+}
+
+.remove-btn:hover svg {
+    color: #dc2626;
+}
+
+.out-of-stock-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.out-of-stock-badge {
+    background-color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-weight: 500;
+}
+
+.item-details {
+    padding: 1rem;
+}
+
+.item-name {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.item-price {
+    color: rgb(135, 218, 72);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.add-to-cart-btn {
+    width: 100%;
+    background-color: rgb(135, 218, 72);
+    color: white;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.add-to-cart-btn:hover:not(:disabled) {
+    background-color: rgb(135, 218, 72);
+}
+
+.add-to-cart-btn:disabled {
+    background-color: #d1d5db;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
+.add-to-cart-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.empty-state p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+.shop-btn {
+    display: inline-block;
+    background-color: rgb(135, 218, 72);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.shop-btn:hover {
+    background-color: rgb(135, 218, 72);
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: #1f2937;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    display: none;
+    animation: slideIn 0.3s ease-out;
+    z-index: 1000;
+}
+
+.toast.show {
+    display: block;
+}
+
+.toast.success {
+    background-color: rgb(135, 218, 72);
+}
+
+@keyframes slideIn {
+    from {
+    transform: translateX(400px);
+    opacity: 0;
+    }
+    to {
+    transform: translateX(0);
+    opacity: 1;
+    }
+}
