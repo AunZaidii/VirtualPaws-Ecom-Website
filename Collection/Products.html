@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/Homepage/homepage.css">
+  <link rel="stylesheet" href="Products.css">
+  <title>Products</title>
+</head>
+
+<header>
+
+  <section class="navbar">
+
+<div class="nav">
+
+    <div class="nav-logo">
+        <a href=""><img class="logo" src="/Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo"></a>
+    </div>
+
+    <div class="nav-items">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Shop </a></li>
+            <li><a href="#">Adoption</a></li>
+            <li><a href="#">Vet</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-items-logo">
+        <ul>
+            <li><a href="#"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a></li>
+            <li><a href="#"><i class="fa-regular fa-user" style="color:#000000;"></i></a></li>
+            <li><a href="#"><i class="fa-regular fa-heart" style="color: #000000;"></i></a></li>
+            <li><a href="#"><i class="fa-solid fa-bag-shopping" style="color: #000000;"></i></a></li>
+        </ul>
+    </div>
+</div>
+
+</section>
+</header>
+
+<body >
+  
+  <!-- Top Bar -->
+  <section class="account-header">
+    <h1>Products</h1>
+  </section>
+    
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="#">Home</a> / <span>Prairie Poultry For All Breeds And Life Stages</span>
+        </div>
+
+        <!-- Product Container -->
+        <div class="product-container">
+            <!-- Image Gallery -->
+            <div class="gallery">
+                <div class="thumbnails">
+                    <div class="thumbnail active" data-index="0">
+                        <img src="https://images.unsplash.com/photo-1761486691834-cd4925ad60b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" alt="Product view 1">
+                    </div>
+                    <div class="thumbnail" data-index="1">
+                        <img src="https://images.unsplash.com/photo-1713106872096-cee971f0528e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" alt="Product view 2">
+                    </div>
+                    <div class="thumbnail" data-index="2">
+                        <img src="https://images.unsplash.com/photo-1650174744083-113d3bd49994?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" alt="Product view 3">
+                    </div>
+                </div>
+                <div class="main-image">
+                    <img id="mainImage" src="https://images.unsplash.com/photo-1761486691834-cd4925ad60b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Prairie Poultry For All Breeds And Life Stages">
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="product-info">
+                <h1 class="product-title">Prairie Poultry For All Breeds And Life Stages</h1>
+                <div class="product-price">$35.00</div>
+                <p class="product-description">
+                    The bed is made of soft Sherpa fleece, ensuring your furry friend is surrounded by softness. Your pet will be free to step on and lie down and fall in comfort. Perfect for dogs and cats of all sizes, this premium pet food is specially formulated with high-quality ingredients to support optimal health and nutrition.
+                </p>
+
+                <div class="viewing-count">
+                    👁️ <span>26 people are viewing this right now</span>
+                </div>
+
+                <div class="availability">
+                    <span>Availability:</span>
+                    <span>⚠ Low stock: 80 left</span>
+                </div>
+
+                <div class="quantity-section">
+                    <label class="quantity-label">Quantity</label>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" id="decreaseQty">−</button>
+                        <span class="quantity-value" id="quantity">1</span>
+                        <button class="quantity-btn" id="increaseQty">+</button>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary">Add To Cart</button>
+                <button class="btn btn-secondary">Buy It Now</button>
+
+                <button class="wishlist-btn" id="wishlistBtn">
+                    <span id="heartIcon">🤍</span>
+                    <span>Wishlist</span>
+                </button>
+
+                <div class="product-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Vendor:</span>
+                        <span class="meta-value">Kitten</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Category:</span>
+                        <span class="meta-value">Beds</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Tags:</span>
+                        <span class="meta-value">Accessories, Cotton, Fashion, Summer, Vintage</span>
+                    </div>
+                </div>
+
+                <!-- Collapsible Sections -->
+                <div class="collapsible-section">
+                    <div class="collapsible-header" data-section="shipping">
+                        <div class="collapsible-title">
+                            <span>📦</span>
+                            <span>Shipping & Returns</span>
+                        </div>
+                        <span class="collapsible-icon">▼</span>
+                    </div>
+                    <div class="collapsible-content">
+                        Free shipping on orders over $50. Standard delivery takes 3-5 business days. Express shipping available at checkout.
+                    </div>
+                </div>
+
+                <div class="collapsible-section">
+                    <div class="collapsible-header" data-section="materials">
+                        <div class="collapsible-title">
+                            <span>🧵</span>
+                            <span>Materials</span>
+                        </div>
+                        <span class="collapsible-icon">▼</span>
+                    </div>
+                    <div class="collapsible-content">
+                        Made from premium natural ingredients including chicken, turkey, and wholesome grains. No artificial preservatives or colors.
+                    </div>
+                </div>
+
+                <div class="collapsible-section">
+                    <div class="collapsible-header" data-section="size">
+                        <div class="collapsible-title">
+                            <span>📏</span>
+                            <span>Size Chart</span>
+                        </div>
+                        <span class="collapsible-icon">▼</span>
+                    </div>
+                    <div class="collapsible-content">
+                        Available in 5lb, 15lb, and 30lb bags. Please refer to feeding guidelines on packaging.
+                    </div>
+                </div>
+
+                <div class="collapsible-section">
+                    <div class="collapsible-header" data-section="care">
+                        <div class="collapsible-title">
+                            <span>❤️</span>
+                            <span>Care Instructions</span>
+                        </div>
+                        <span class="collapsible-icon">▼</span>
+                    </div>
+                    <div class="collapsible-content">
+                        Store in a cool, dry place. Seal bag after opening. Best served at room temperature. Always provide fresh water.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="reviews-section">
+            <h2 class="reviews-header">Customer Reviews</h2>
+
+            <div class="review-summary">
+                <div class="rating-overview">
+                    <div class="rating-number">4.5</div>
+                    <div class="stars">★★★★☆</div>
+                    <div class="rating-count">Based on 127 reviews</div>
+                </div>
+
+                <div class="rating-bars">
+                    <div class="rating-bar">
+                        <span class="rating-bar-label">5 stars</span>
+                        <div class="rating-bar-fill-container">
+                            <div class="rating-bar-fill" style="width: 70%"></div>
+                        </div>
+                        <span class="rating-bar-count">89</span>
+                    </div>
+                    <div class="rating-bar">
+                        <span class="rating-bar-label">4 stars</span>
+                        <div class="rating-bar-fill-container">
+                            <div class="rating-bar-fill" style="width: 20%"></div>
+                        </div>
+                        <span class="rating-bar-count">25</span>
+                    </div>
+                    <div class="rating-bar">
+                        <span class="rating-bar-label">3 stars</span>
+                        <div class="rating-bar-fill-container">
+                            <div class="rating-bar-fill" style="width: 7%"></div>
+                        </div>
+                        <span class="rating-bar-count">9</span>
+                    </div>
+                    <div class="rating-bar">
+                        <span class="rating-bar-label">2 stars</span>
+                        <div class="rating-bar-fill-container">
+                            <div class="rating-bar-fill" style="width: 2%"></div>
+                        </div>
+                        <span class="rating-bar-count">3</span>
+                    </div>
+                    <div class="rating-bar">
+                        <span class="rating-bar-label">1 star</span>
+                        <div class="rating-bar-fill-container">
+                            <div class="rating-bar-fill" style="width: 1%"></div>
+                        </div>
+                        <span class="rating-bar-count">1</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="review-list">
+                <div class="review-item">
+                    <div class="review-header-row">
+                        <div class="review-author">Sarah M.</div>
+                        <div class="review-date">November 5, 2025</div>
+                    </div>
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">
+                        My dog absolutely loves this food! We've been using it for 3 months now and I've noticed his coat is shinier and he has more energy. The ingredients are high quality and I feel good about what I'm feeding him.
+                    </p>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-header-row">
+                        <div class="review-author">Michael R.</div>
+                        <div class="review-date">November 3, 2025</div>
+                    </div>
+                    <div class="review-stars">★★★★☆</div>
+                    <p class="review-text">
+                        Great product overall. My cat is picky but she eats this without any issues. The only reason for 4 stars instead of 5 is the price - it's a bit expensive but worth it for the quality.
+                    </p>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-header-row">
+                        <div class="review-author">Jennifer L.</div>
+                        <div class="review-date">October 28, 2025</div>
+                    </div>
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">
+                        Excellent! My senior dog has digestive issues and this food has been perfect for him. No more stomach problems and he actually looks forward to meal times. Highly recommend!
+                    </p>
+                </div>
+            </div>
+
+            <button class="write-review-btn" id="openModal">Write a Review</button>
+        </div>
+    </main>
+
+    <!-- Review Modal -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Write a Review</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+
+            <form id="reviewForm">
+                <div class="form-group">
+                    <label class="form-label" for="reviewName">Name</label>
+                    <input type="text" class="form-input" id="reviewName" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="reviewEmail">Email</label>
+                    <input type="email" class="form-input" id="reviewEmail" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="reviewRating">Rating</label>
+                    <div class="star-rating" id="starRating">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="reviewText">Review</label>
+                    <textarea class="form-textarea" id="reviewText" required></textarea>
+                </div>
+
+                <button type="submit" class="submit-review-btn">Submit Review</button>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        // Image Gallery
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        const mainImage = document.getElementById('mainImage');
+        const images = [
+            'https://images.unsplash.com/photo-1761486691834-cd4925ad60b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
+            'https://images.unsplash.com/photo-1713106872096-cee971f0528e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
+            'https://images.unsplash.com/photo-1650174744083-113d3bd49994?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800'
+        ];
+
+        thumbnails.forEach(thumbnail => {
+            thumbnail.addEventListener('click', function() {
+                const index = parseInt(this.getAttribute('data-index'));
+                mainImage.src = images[index];
+                
+                thumbnails.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Quantity Controls
+        let quantity = 1;
+        const quantityDisplay = document.getElementById('quantity');
+        const increaseBtn = document.getElementById('increaseQty');
+        const decreaseBtn = document.getElementById('decreaseQty');
+
+        increaseBtn.addEventListener('click', () => {
+            quantity++;
+            quantityDisplay.textContent = quantity;
+        });
+
+        decreaseBtn.addEventListener('click', () => {
+            if (quantity > 1) {
+                quantity--;
+                quantityDisplay.textContent = quantity;
+            }
+        });
+
+        // Wishlist Toggle
+        let isWishlisted = false;
+        const wishlistBtn = document.getElementById('wishlistBtn');
+        const heartIcon = document.getElementById('heartIcon');
+
+        wishlistBtn.addEventListener('click', () => {
+            isWishlisted = !isWishlisted;
+            heartIcon.textContent = isWishlisted ? '❤️' : '🤍';
+            wishlistBtn.classList.toggle('active');
+        });
+
+        // Collapsible Sections
+        const collapsibleHeaders = document.querySelectorAll('.collapsible-header');
+
+        collapsibleHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                const section = this.parentElement;
+                section.classList.toggle('open');
+            });
+        });
+
+        // Review Modal
+        const openModalBtn = document.getElementById('openModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const reviewModal = document.getElementById('reviewModal');
+
+        openModalBtn.addEventListener('click', () => {
+            reviewModal.classList.add('active');
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            reviewModal.classList.remove('active');
+        });
+
+        reviewModal.addEventListener('click', (event) => {
+            if (event.target === reviewModal) {
+                reviewModal.classList.remove('active');
+            }
+        });
+
+        // Star Rating
+        const starRating = document.getElementById('starRating');
+        const stars = starRating.querySelectorAll('.star');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const value = parseInt(this.getAttribute('data-value'));
+                stars.forEach(s => s.classList.remove('active'));
+                for (let i = 0; i < value; i++) {
+                    stars[i].classList.add('active');
+                }
+            });
+        });
+
+        // Review Form Submission
+        const reviewForm = document.getElementById('reviewForm');
+
+        reviewForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const name = document.getElementById('reviewName').value;
+            const email = document.getElementById('reviewEmail').value;
+            const rating = starRating.querySelector('.star.active') ? starRating.querySelector('.star.active').getAttribute('data-value') : 0;
+            const text = document.getElementById('reviewText').value;
+
+            // Here you can add code to send the review data to the server
+            console.log('Review Submitted:', { name, email, rating, text });
+
+            // Close the modal
+            reviewModal.classList.remove('active');
+
+            // Reset the form
+            reviewForm.reset();
+            stars.forEach(s => s.classList.remove('active'));
+        });
+    </script>
+
+</body>
+
+<footer class="footer">
+    <div class="footer-container">
+
+        <div class="footer-column contact-us">
+            <h3>Contact Us</h3>
+            <p><i class="fa-solid fa-location-dot"></i> Virtual Paws - Pets Store<br>
+              Karachi, Pakistan<br>
+            </p>
+            <p><i class="fa-solid fa-envelope"></i> contact_virtualpaws@gmail.com</p>
+            <p><i class="fa-solid fa-phone"></i> (+91) 9876-543-210</p>
+          </div>
+          
+
+      <div class="footer-column">
+        <h3>Find Product</h3>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Refund Policy</a></li>
+          <li><a href="#">Shipping Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Policy for Buyers</a></li>
+          <li><a href="#">Policy for Sellers</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Useful Links</h3>
+        <ul>
+          <li><a href="#">Shipping & Refund</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Delivery Information</a></li>
+          <li><a href="#">Shipping</a></li>
+          <li><a href="#">Size Chart</a></li>
+          <li><a href="#">Sitemap</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column newsletter">
+        <h3>Our Newsletter</h3>
+        <p>Subscribe to our latest newsletter to get news about special discounts.</p>
+        <form>
+          <input type="email" class="email-placeholder" placeholder="Email">
+          <a href="#" class="subscribe-btn" type="submit">Subscribe</a>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="social-icons">
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+      <p>© 2025, Virtual Paws - Pets Store </p>
+      <div class="payment-icons">
+        <img src="https://img.icons8.com/color/48/visa.png" alt="Visa">
+        <img src="https://img.icons8.com/color/48/mastercard.png" alt="Mastercard">
+        <img src="https://img.icons8.com/color/48/amex.png" alt="Amex">
+        <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal">
+        <img src="https://img.icons8.com/color/48/discover.png" alt="Discover">
+      </div>
+    </div>
+</footer>
+
+</html><!DOCTYPE html>
