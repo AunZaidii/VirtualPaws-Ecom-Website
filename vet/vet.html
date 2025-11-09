@@ -1,447 +1,439 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Veterinary Experts - Virtual Paws</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Veterinary Experts - Virtual Paws</title>
 
-    <link rel="stylesheet" href="vet.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
+  <link rel="stylesheet" href="vet.css" />
 </head>
 <body>
-    <header>
-
-    <section class="navbar">
-
+<header>
+  <section class="navbar">
     <div class="nav">
+      <div class="nav-logo">
+        <!-- src is set by resolver script -->
+        <img id="siteLogo" class="logo" alt="Virtual Paws Logo"
+             data-candidates='[
+               "Homepage/Logo/virtualpaws-logo.png",
+               "/Homepage/Logo/virtualpaws-logo.png",
+               "Homepage/logo/virtualpaws-logo.png",
+               "homepage/Logo/virtualpaws-logo.png",
+               "homepage/logo/virtualpaws-logo.png",
+               "Images/virtualpaws-logo.png",
+               "images/virtualpaws-logo.png",
+               "assets/logo/virtualpaws-logo.png",
+               "assets/images/virtualpaws-logo.png",
+               "img/virtualpaws-logo.png",
+               "virtualpaws-logo.png"
+             ]'/>
+      </div>
 
-        <div class="nav-logo">
-            <a href=""><img class="logo" src="/Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo"></a>
-        </div>
+      <div class="nav-items">
+        <ul>
+          <li><a style="color: rgb(135, 218, 72);" href="#">Home</a></li>
+          <li><a href="#">Shop <i class="fa-solid fa-angle-down" style="color: #000000;"></i></a></li>
+          <li><a href="#">Adoption</a></li>
+          <li><a href="#">Vet</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
 
-        <div class="nav-items">
-            <ul>
-                <li><a style="color: rgb(135, 218, 72);" href="#">Home</a></li>
-                <li><a href="#">Shop <i class="fa-solid fa-angle-down" style="color: #000000;"></i></a></li>
-                <li><a href="#">Adoption</a></li>
-                <li><a href="#">Vet</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
+      <div class="nav-items-logo">
+        <ul>
+          <li><a href="#"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a></li>
+          <li><a href="#"><i class="fa-regular fa-user" style="color: #000000;"></i></a></li>
+          <li><a href="#"><i class="fa-regular fa-heart" style="color: #000000;"></i></a></li>
+          <li><a href="#"><i class="fa-solid fa-bag-shopping" style="color: #000000;"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</header>
 
-        <div class="nav-items-logo">
-            <ul>
-                <li><a href="#"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a></li>
-                <li><a href="#"><i class="fa-regular fa-user" style="color: #000000;"></i></a></li>
-                <li><a href="#"><i class="fa-regular fa-heart" style="color: #000000;"></i></a></li>
-                <li><a href="#"><i class="fa-solid fa-bag-shopping" style="color: #000000;"></i></a></li>
-            </ul>
+<!-- Page Title Section -->
+<section class="page-title-section" id="page-title" aria-label="Virtual Paws veterinary team">
+  <!-- src is set by resolver script -->
+  <img id="heroImage" class="hero-image" alt=""
+       data-candidates='[
+         "Homepage/Images/vetpage.jpg",
+         "/Homepage/Images/vetpage.jpg",
+         "Homepage/images/vetpage.jpg",
+         "homepage/Images/vetpage.jpg",
+         "homepage/images/vetpage.jpg",
+         "Images/vetpage.png",
+         "images/vetpage.png",
+         "assets/images/vetpage.png",
+         "img/vetpage.png",
+         "vetpage.png",
+         "Images/Your Paragraph Text.png",
+         "Images/Your%20Paragraph%20Text.png",
+         "images/your-paragraph-text.png"
+       ]'/>
+  <!-- kept for accessibility (hidden by CSS) -->
+  <h1>Our Veterinary Experts</h1>
+  <p>Meet our professional vets dedicated to keeping your pets healthy and happy.</p>
+</section>
+
+<!-- Veterinarian Profiles Section -->
+<section class="vet-profiles-section" id="vet-profiles">
+  <div class="vet-grid">
+    <!-- Vet Card 1 -->
+    <div class="vet-card" data-vet="0">
+      <div class="vet-header">
+        <img class="vet-avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Dr. Sarah Pawson profile photo" loading="lazy" />
+        <div class="vet-heading">
+          <h3>Dr. Sarah Pawson</h3>
+          <div class="vet-specialty">Small Animal Specialist</div>
         </div>
+      </div>
+      <div class="vet-info">
+        <div class="info-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          <span>+92 300 4567890</span>
+        </div>
+        <div class="info-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <span>sarahpawson@virtualpaws.com</span>
+        </div>
+        <div class="info-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <span>Virtual Paws Vet Clinic, Karachi</span>
+        </div>
+        <div class="info-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span>Mon–Sat: 9:00 AM – 6:00 PM</span>
+        </div>
+      </div>
+      <button class="book-btn" type="button">Book Appointment</button>
     </div>
 
-    </section>
-    </header>
-
-    <!-- Page Title Section -->
-    <section class="page-title-section" id="page-title">
-        <h1>Our Veterinary Experts</h1>
-        <p>Meet our professional vets dedicated to keeping your pets healthy and happy.</p>
-    </section>
-
-    <!-- Veterinarian Profiles Section -->
-    <section class="vet-profiles-section" id="vet-profiles">
-        <div class="vet-grid">
-            <!-- Vet Card 1 -->
-            <div class="vet-card" data-vet="0">
-                <h3>Dr. Sarah Pawson</h3>
-                <div class="vet-specialty">Small Animal Specialist</div>
-                <div class="vet-info">
-                    <div class="info-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                        </svg>
-                        <span>+92 300 4567890</span>
-                    </div>
-                    <div class="info-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                        <span>sarahpawson@virtualpaws.com</span>
-                    </div>
-                    <div class="info-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
-                        <span>Virtual Paws Vet Clinic, Karachi</span>
-                    </div>
-                    <div class="info-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <span>Mon–Sat: 9:00 AM – 6:00 PM</span>
-                    </div>
-                </div>
-                <button class="book-btn">Book Appointment</button>
-            </div>
-
-            <!-- Vet Card 2 -->
-            <div class="vet-card" data-vet="1">
-                <h3>Dr. Leo Barkwell</h3>
-                <div class="vet-specialty">Pet Nutrition Expert</div>
-                <div class="vet-info">
-                    <div class="info-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                        </svg>
-                        <span>+92 300 4567891</span>
-                    </div>
-                    <div class="info-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                        <span>leobarkwell@virtualpaws.com</span>
-                    </div>
-                    <div class="info-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
-                        <span>Virtual Paws Vet Clinic, Karachi</span>
-                    </div>
-                    <div class="info-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <span>Mon–Sat: 9:00 AM – 6:00 PM</span>
-                    </div>
-                </div>
-                <button class="book-btn">Book Appointment</button>
-            </div>
-
-            <!-- Vet Card 3 -->
-            <div class="vet-card" data-vet="2">
-                <h3>Dr. Mia Whiskerly</h3>
-                <div class="vet-specialty">Feline Health Specialist</div>
-                <div class="vet-info">
-                    <div class="info-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                        </svg>
-                        <span>+92 300 4567892</span>
-                    </div>
-                    <div class="info-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                        <span>miawhiskerly@virtualpaws.com</span>
-                    </div>
-                    <div class="info-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
-                        <span>Virtual Paws Vet Clinic, Karachi</span>
-                    </div>
-                    <div class="info-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <span>Mon–Sat: 9:00 AM – 6:00 PM</span>
-                    </div>
-                </div>
-                <button class="book-btn">Book Appointment</button>
-            </div>
-
-            <!-- Vet Card 4 -->
-            <div class="vet-card" data-vet="3">
-                <h3>Dr. Oliver Tailor</h3>
-                <div class="vet-specialty">Veterinary Surgeon</div>
-                <div class="vet-info">
-                    <div class="info-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                        </svg>
-                        <span>+92 300 4567893</span>
-                    </div>
-                    <div class="info-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                        <span>olivertailor@virtualpaws.com</span>
-                    </div>
-                    <div class="info-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
-                        <span>Virtual Paws Vet Clinic, Karachi</span>
-                    </div>
-                    <div class="info-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <span>Mon–Sat: 9:00 AM – 6:00 PM</span>
-                    </div>
-                </div>
-                <button class="book-btn">Book Appointment</button>
-            </div>
+    <!-- Vet Card 2 -->
+    <div class="vet-card" data-vet="1">
+      <div class="vet-header">
+        <img class="vet-avatar" src="https://randomuser.me/api/portraits/men/31.jpg" alt="Dr. Leo Barkwell profile photo" loading="lazy" />
+        <div class="vet-heading">
+          <h3>Dr. Leo Barkwell</h3>
+          <div class="vet-specialty">Pet Nutrition Expert</div>
         </div>
-    </section>
-
-    <!-- Appointment Information Section -->
-    <section class="appointment-section" id="appointment-info">
-        <div class="appointment-content">
-            <h2>Need a Checkup for Your Pet?</h2>
-            <p class="subtext">Call us or schedule an appointment with one of our vets.</p>
-            
-            <div class="contact-icons">
-                <div class="contact-icon-item">
-                    <div class="icon-circle">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                        </svg>
-                    </div>
-                    <span>Phone</span>
-                </div>
-                <div class="contact-icon-item">
-                    <div class="icon-circle">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                    </div>
-                    <span>Email</span>
-                </div>
-                <div class="contact-icon-item">
-                    <div class="icon-circle">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
-                    </div>
-                    <span>Location</span>
-                </div>
-            </div>
-
-            <button class="book-now-btn" onclick="scrollToVets()">Book Now</button>
+      </div>
+      <div class="vet-info">
+        <div class="info-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          <span>+92 300 4567891</span>
         </div>
-    </section>
-
-    <!-- Emergency Contact Strip -->
-    <section class="emergency-strip">
-        <div class="emergency-text">
-            24/7 Emergency Helpline: +92 345 7894561 | Virtual Paws Vet Hospital, Karachi
+        <div class="info-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <span>leobarkwell@virtualpaws.com</span>
         </div>
-        <button class="directions-btn" onclick="getDirections()">Get Directions</button>
-    </section>
-
-    <!-- Modal -->
-    <div id="vetModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <div class="modal-header">
-                <h2 id="modalName"></h2>
-                <div class="modal-specialty" id="modalSpecialty"></div>
-            </div>
-            <div class="modal-bio" id="modalBio"></div>
-            <div class="modal-details">
-                <div class="modal-detail-item">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <span id="modalExperience"></span>
-                </div>
-                <div class="modal-detail-item">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                    </svg>
-                    <span id="modalEducation"></span>
-                </div>
-            </div>
-            <div class="modal-actions">
-                <button class="modal-btn modal-btn-primary" onclick="bookAppointment()">Book Appointment</button>
-                <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Close</button>
-            </div>
+        <div class="info-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <span>Virtual Paws Vet Clinic, Karachi</span>
         </div>
+        <div class="info-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span>Mon–Sat: 9:00 AM – 6:00 PM</span>
+        </div>
+      </div>
+      <button class="book-btn" type="button">Book Appointment</button>
     </div>
 
-    <!--  Footer Section  -->
-    
-    <footer class="footer">
-        <div class="footer-container">
-
-            <div class="footer-column contact-us">
-                <h3>Contact Us</h3>
-                <p><i class="fa-solid fa-location-dot"></i> Virtual Paws - Pets Store<br>
-                Karachi, Pakistan<br>
-                </p>
-                <p><i class="fa-solid fa-envelope"></i> contact_virtualpaws@gmail.com</p>
-                <p><i class="fa-solid fa-phone"></i> (+91) 9876-543-210</p>
-            </div>
-            
-
-        <div class="footer-column">
-            <h3>Find Product</h3>
-            <ul>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Refund Policy</a></li>
-            <li><a href="#">Shipping Policy</a></li>
-            <li><a href="#">Terms of Service</a></li>
-            <li><a href="#">Policy for Buyers</a></li>
-            <li><a href="#">Policy for Sellers</a></li>
-            </ul>
+    <!-- Vet Card 3 -->
+    <div class="vet-card" data-vet="2">
+      <div class="vet-header">
+        <img class="vet-avatar" src="https://randomuser.me/api/portraits/women/21.jpg" alt="Dr. Mia Whiskerly profile photo" loading="lazy" />
+        <div class="vet-heading">
+          <h3>Dr. Mia Whiskerly</h3>
+          <div class="vet-specialty">Feline Health Specialist</div>
         </div>
+      </div>
+      <div class="vet-info">
+        <div class="info-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          <span>+92 300 4567892</span>
+        </div>
+        <div class="info-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <span>miawhiskerly@virtualpaws.com</span>
+        </div>
+        <div class="info-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <span>Virtual Paws Vet Clinic, Karachi</span>
+        </div>
+        <div class="info-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span>Mon–Sat: 9:00 AM – 6:00 PM</span>
+        </div>
+      </div>
+      <button class="book-btn" type="button">Book Appointment</button>
+    </div>
 
-        <div class="footer-column">
-            <h3>Useful Links</h3>
-            <ul>
-            <li><a href="#">Shipping & Refund</a></li>
-            <li><a href="#">FAQs</a></li>
-            <li><a href="#">Delivery Information</a></li>
-            <li><a href="#">Shipping</a></li>
-            <li><a href="#">Size Chart</a></li>
-            <li><a href="#">Sitemap</a></li>
-            </ul>
+    <!-- Vet Card 4 -->
+    <div class="vet-card" data-vet="3">
+      <div class="vet-header">
+        <img class="vet-avatar" src="https://randomuser.me/api/portraits/men/64.jpg" alt="Dr. Oliver Tailor profile photo" loading="lazy" />
+        <div class="vet-heading">
+          <h3>Dr. Oliver Tailor</h3>
+          <div class="vet-specialty">Veterinary Surgeon</div>
         </div>
+      </div>
+      <div class="vet-info">
+        <div class="info-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          <span>+92 300 4567893</span>
+        </div>
+        <div class="info-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <span>olivertailor@virtualpaws.com</span>
+        </div>
+        <div class="info-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <span>Virtual Paws Vet Clinic, Karachi</span>
+        </div>
+        <div class="info-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span>Mon–Sat: 9:00 AM – 6:00 PM</span>
+        </div>
+      </div>
+      <button class="book-btn" type="button">Book Appointment</button>
+    </div>
+  </div>
+</section>
 
-        <div class="footer-column newsletter">
-            <h3>Our Newsletter</h3>
-            <p>Subscribe to our latest newsletter to get news about special discounts.</p>
-            <form>
-            <input type="email" class="email-placeholder" placeholder="Email">
-            <a href="#" class="subscribe-btn" type="submit">Subscribe</a>
-            </form>
-        </div>
-        </div>
+<!-- Appointment Information Section -->
+<section class="appointment-section" id="appointment-info">
+  <div class="appointment-content">
+    <h2>Need a Checkup for Your Pet?</h2>
+    <p class="subtext">Call us or schedule an appointment with one of our vets.</p>
 
-        <div class="footer-bottom">
-        <div class="social-icons">
-            <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+    <div class="contact-icons">
+      <div class="contact-icon-item">
+        <div class="icon-circle">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
         </div>
-        <p>© 2025, Virtual Paws - Pets Store </p>
-        <div class="payment-icons">
-            <img src="https://img.icons8.com/color/48/visa.png" alt="Visa">
-            <img src="https://img.icons8.com/color/48/mastercard.png" alt="Mastercard">
-            <img src="https://img.icons8.com/color/48/amex.png" alt="Amex">
-            <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal">
-            <img src="https://img.icons8.com/color/48/discover.png" alt="Discover">
+        <span>Phone</span>
+      </div>
+      <div class="contact-icon-item">
+        <div class="icon-circle">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
         </div>
+        <span>Email</span>
+      </div>
+      <div class="contact-icon-item">
+        <div class="icon-circle">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
         </div>
-    </footer>
+        <span>Location</span>
+      </div>
+    </div>
 
-    <script>
-        // Vet data
-        const vets = [
-            {
-                name: "Dr. Sarah Pawson",
-                specialty: "Small Animal Specialist",
-                bio: "Dr. Sarah has over 10 years of experience caring for dogs, cats, and small mammals. She specializes in preventive care and emergency medicine, ensuring your furry friends receive the best treatment possible.",
-                experience: "10+ years of veterinary experience",
-                education: "DVM, University of Veterinary Sciences, Lahore"
-            },
-            {
-                name: "Dr. Leo Barkwell",
-                specialty: "Pet Nutrition Expert",
-                bio: "Dr. Leo focuses on creating customized nutrition plans for pets of all sizes and breeds. His expertise helps pets maintain optimal health through balanced diets and nutritional counseling.",
-                experience: "8+ years specializing in pet nutrition",
-                education: "DVM & MSc in Animal Nutrition, Sindh Agriculture University"
-            },
-            {
-                name: "Dr. Mia Whiskerly",
-                specialty: "Feline Health Specialist",
-                bio: "Dr. Mia is passionate about feline health and behavior. With extensive training in cat-specific medicine, she provides gentle, expert care tailored to your cat's unique needs.",
-                experience: "12+ years dedicated to feline medicine",
-                education: "DVM & Advanced Feline Medicine Certificate, Cornell University"
-            },
-            {
-                name: "Dr. Oliver Tailor",
-                specialty: "Veterinary Surgeon",
-                bio: "Dr. Oliver is a board-certified veterinary surgeon with expertise in soft tissue and orthopedic procedures. He combines surgical precision with compassionate care for optimal recovery.",
-                experience: "15+ years of surgical experience",
-                education: "DVM & Surgical Residency, Royal College of Veterinary Surgeons"
-            }
-        ];
+    <button class="book-now-btn" type="button" onclick="scrollToVets()">Book Now</button>
+  </div>
+</section>
 
-        // Open modal with vet details
-        function openModal(vetIndex) {
-            const vet = vets[vetIndex];
-            const modal = document.getElementById('vetModal');
-            
-            document.getElementById('modalName').textContent = vet.name;
-            document.getElementById('modalSpecialty').textContent = vet.specialty;
-            document.getElementById('modalBio').textContent = vet.bio;
-            document.getElementById('modalExperience').textContent = vet.experience;
-            document.getElementById('modalEducation').textContent = vet.education;
-            
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
+<!-- Emergency Contact Strip -->
+<section class="emergency-strip">
+  <div class="emergency-text">
+    24/7 Emergency Helpline: +92 345 7894561 | Virtual Paws Vet Hospital, Karachi
+  </div>
+  <button class="directions-btn" type="button" onclick="getDirections()">Get Directions</button>
+</section>
+
+<!-- Modal -->
+<div id="vetModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalName">
+  <div class="modal-content">
+    <span class="close-modal" role="button" aria-label="Close" onclick="closeModal()">&times;</span>
+    <div class="modal-header">
+      <h2 id="modalName"></h2>
+      <div class="modal-specialty" id="modalSpecialty"></div>
+    </div>
+    <div class="modal-bio" id="modalBio"></div>
+    <div class="modal-details">
+      <div class="modal-detail-item">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span id="modalExperience"></span>
+      </div>
+      <div class="modal-detail-item">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        <span id="modalEducation"></span>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn modal-btn-primary" type="button" onclick="bookAppointment()">Book Appointment</button>
+      <button class="modal-btn modal-btn-secondary" type="button" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!--  Footer Section  -->
+<footer class="footer">
+  <div class="footer-container">
+
+    <div class="footer-column contact-us">
+      <h3>Contact Us</h3>
+      <p><i class="fa-solid fa-location-dot"></i> Virtual Paws - Pets Store<br/>Karachi, Pakistan<br/></p>
+      <p><i class="fa-solid fa-envelope"></i> contact_virtualpaws@gmail.com</p>
+      <p><i class="fa-solid fa-phone"></i> (+91) 9876-543-210</p>
+    </div>
+
+    <div class="footer-column">
+      <h3>Find Product</h3>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Refund Policy</a></li>
+        <li><a href="#">Shipping Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Policy for Buyers</a></li>
+        <li><a href="#">Policy for Sellers</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h3>Useful Links</h3>
+      <ul>
+        <li><a href="#">Shipping & Refund</a></li>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Delivery Information</a></li>
+        <li><a href="#">Shipping</a></li>
+        <li><a href="#">Size Chart</a></li>
+        <li><a href="#">Sitemap</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column newsletter">
+      <h3>Our Newsletter</h3>
+      <p>Subscribe to our latest newsletter to get news about special discounts.</p>
+      <form>
+        <input type="email" class="email-placeholder" placeholder="Email" />
+        <a href="#" class="subscribe-btn" type="submit">Subscribe</a>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="social-icons">
+      <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+      <a href="#"><i class="fa-brands fa-instagram"></i></a>
+      <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="#"><i class="fa-brands fa-youtube"></i></a>
+    </div>
+    <p>© 2025, Virtual Paws - Pets Store</p>
+    <div class="payment-icons">
+      <img src="https://img.icons8.com/color/48/visa.png" alt="Visa" />
+      <img src="https://img.icons8.com/color/48/mastercard.png" alt="Mastercard" />
+      <img src="https://img.icons8.com/color/48/amex.png" alt="Amex" />
+      <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal" />
+      <img src="https://img.icons8.com/color/48/discover.png" alt="Discover" />
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ---------- Image Path Auto-Resolver ---------- */
+  async function resolveImageByCandidates(imgEl) {
+    const raw = imgEl.getAttribute("data-candidates");
+    if (!raw) return false;
+    const tryPaths = JSON.parse(raw);
+    const tried = [];
+
+    for (let p of tryPaths) {
+      // normalize accidental double slashes
+      const path = p.replace(/([^:]\/)\/+/g, "$1");
+      tried.push(path);
+      try {
+        const res = await fetch(path, { method: "HEAD", cache: "no-store" });
+        if (res.ok) {
+          imgEl.src = path + "?v=" + Date.now(); // cache-bust
+          imgEl.setAttribute("data-resolved-src", path);
+          console.log(`[resolver] ✓ Found image for #${imgEl.id}:`, path);
+          return true;
         }
+      } catch(e) { /* ignore */ }
+    }
 
-        // Close modal
-        function closeModal() {
-            const modal = document.getElementById('vetModal');
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
+    console.warn(`[resolver] ✗ Could not find image for #${imgEl.id}. Tried:`, tried);
+    return false;
+  }
 
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('vetModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
+  function setLogoFallback(el){
+    el.src = "data:image/svg+xml;utf8," + encodeURIComponent(`
+      <svg xmlns='http://www.w3.org/2000/svg' width='320' height='80'>
+        <rect width='100%' height='100%' fill='#e9f6e4'/>
+        <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'
+              font-family='Poppins, Arial, sans-serif' font-size='22' fill='#6BA82F'>
+          Virtual Paws
+        </text>
+      </svg>
+    `);
+  }
 
-        // Book appointment
-        function bookAppointment() {
-            alert('Booking system will be integrated here. For now, please call +92 300 4567890');
-            closeModal();
-        }
+  document.addEventListener("DOMContentLoaded", async () => {
+    // Resolve the logo
+    const logoEl = document.getElementById("siteLogo");
+    const logoOK = await resolveImageByCandidates(logoEl);
+    if (!logoOK) setLogoFallback(logoEl);
 
-        // Scroll to vets section
-        function scrollToVets() {
-            document.getElementById('vet-profiles').scrollIntoView({ behavior: 'smooth' });
-        }
+    // Resolve the hero
+    const heroEl = document.getElementById("heroImage");
+    const heroOK = await resolveImageByCandidates(heroEl);
+    if (!heroOK) {
+      // keep pleasant gradient and hide the empty <img>
+      heroEl.style.display = "none";
+      document.querySelector(".page-title-section").classList.add("hero-fallback");
+    }
+  });
 
-        // Get directions
-        function getDirections() {
-            window.open('https://maps.google.com/?q=Virtual+Paws+Vet+Hospital+Karachi', '_blank');
-        }
+  /* ---------- Existing page JS ---------- */
+  const vets = [
+    { name: "Dr. Sarah Pawson", specialty: "Small Animal Specialist",
+      bio: "Dr. Sarah has over 10 years of experience caring for dogs, cats, and small mammals. She specializes in preventive care and emergency medicine, ensuring your furry friends receive the best treatment possible.",
+      experience: "10+ years of veterinary experience",
+      education: "DVM, University of Veterinary Sciences, Lahore" },
+    { name: "Dr. Leo Barkwell", specialty: "Pet Nutrition Expert",
+      bio: "Dr. Leo focuses on creating customized nutrition plans for pets of all sizes and breeds. His expertise helps pets maintain optimal health through balanced diets and nutritional counseling.",
+      experience: "8+ years specializing in pet nutrition",
+      education: "DVM & MSc in Animal Nutrition, Sindh Agriculture University" },
+    { name: "Dr. Mia Whiskerly", specialty: "Feline Health Specialist",
+      bio: "Dr. Mia is passionate about feline health and behavior. With extensive training in cat-specific medicine, she provides gentle, expert care tailored to your cat's unique needs.",
+      experience: "12+ years dedicated to feline medicine",
+      education: "DVM & Advanced Feline Medicine Certificate, Cornell University" },
+    { name: "Dr. Oliver Tailor", specialty: "Veterinary Surgeon",
+      bio: "Dr. Oliver is a board-certified veterinary surgeon with expertise in soft tissue and orthopedic procedures. He combines surgical precision with compassionate care for optimal recovery.",
+      experience: "15+ years of surgical experience",
+      education: "DVM & Surgical Residency, Royal College of Veterinary Surgeons" }
+  ];
 
-        // Add event listeners to all vet cards
-        document.addEventListener('DOMContentLoaded', function() {
-            const vetCards = document.querySelectorAll('.vet-card');
-            
-            vetCards.forEach(card => {
-                card.addEventListener('click', function(e) {
-                    // Don't open modal if clicking the book button
-                    if (e.target.classList.contains('book-btn')) {
-                        e.stopPropagation();
-                        bookAppointment();
-                        return;
-                    }
-                    
-                    const vetIndex = parseInt(this.getAttribute('data-vet'));
-                    openModal(vetIndex);
-                });
-            });
-
-            // Add keyboard accessibility
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closeModal();
-                }
-            });
-        });
-    </script>
-
+  function openModal(vetIndex) {
+    const vet = vets[vetIndex];
+    const modal = document.getElementById('vetModal');
+    document.getElementById('modalName').textContent = vet.name;
+    document.getElementById('modalSpecialty').textContent = vet.specialty;
+    document.getElementById('modalBio').textContent = vet.bio;
+    document.getElementById('modalExperience').textContent = vet.experience;
+    document.getElementById('modalEducation').textContent = vet.education;
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){ const modal = document.getElementById('vetModal'); modal.style.display='none'; document.body.style.overflow='auto'; }
+  window.onclick = function(e){ const m=document.getElementById('vetModal'); if(e.target===m) closeModal(); }
+  function bookAppointment(){ alert('Booking system will be integrated here. For now, please call +92 300 4567890'); closeModal(); }
+  function scrollToVets(){ document.getElementById('vet-profiles').scrollIntoView({ behavior: 'smooth' }); }
+  function getDirections(){ window.open('https://maps.google.com/?q=Virtual+Paws+Vet+Hospital+Karachi', '_blank'); }
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('.vet-card').forEach(card=>{
+      card.addEventListener('click', function(e){
+        if (e.target.classList.contains('book-btn')) { e.stopPropagation(); bookAppointment(); return; }
+        const i = parseInt(this.getAttribute('data-vet'), 10); openModal(i);
+      });
+    });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeModal(); });
+  });
+</script>
 </body>
 </html>
