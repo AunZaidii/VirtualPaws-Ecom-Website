@@ -47,19 +47,19 @@
 
 <body>
     </section>
-      <!-- Hero Section -->
-    <section class="hero">
-        <div class="container hero-content">
-            <h1>Find Your Forever Friend 🐾</h1>
-            <p>Browse loving pets waiting for a new home — from trusted shelters & NGOs</p>
-            <button class="btn btn-primary">See Pets Near You</button>
+        <!-- Hero Section (image banner with CTA) -->
+    <section class="hero hero-image">
+        <div class="hero-image-wrap">
+            <img id="heroGraphic" src="/Homepage/Images/Find your forever Friend.png" alt="Find your forever Friend" class="hero-graphic" onerror="this.onerror=null;this.src='/Homepage/Images/Find-your-forever-Friend.svg'">
+            <a href="#petsGrid" class="btn hero-cta">See pets near you</a>
         </div>
     </section>
+
 
     <!-- Category Chips -->
     <div class="category-bar">
         <div class="container">
-            <div class="category-chips">
+            <div class="category-chips center-chips">
                 <button class="chip active" data-category="all">
                     <span>🐾</span> All Pets
                 </button>
@@ -69,15 +69,10 @@
                 <button class="chip" data-category="cat">
                     <span>🐱</span> Cats
                 </button>
-                <button class="chip" data-category="small-pet">
-                    <span>🐹</span> Small Pets
-                </button>
-                <button class="chip" data-category="bird">
-                    <span>🦜</span> Birds
-                </button>
             </div>
         </div>
     </div>
+
 
     <!-- Main Content -->
     <main class="main-content">
@@ -105,15 +100,8 @@
                             <input type="checkbox" name="species" value="cat">
                             <span>Cats</span>
                         </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="species" value="small-pet">
-                            <span>Small Pets</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="species" value="bird">
-                            <span>Birds</span>
-                        </label>
                     </div>
+
 
                     <div class="filter-section">
                         <h4>Age</h4>

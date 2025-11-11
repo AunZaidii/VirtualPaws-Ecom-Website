@@ -1,21 +1,33 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="/Homepage/homepage.css">
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pet</title>
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Global site styles (keep your homepage) -->
+  <link rel="stylesheet" href="/Homepage/homepage.css" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Page-specific styles (this was missing before) -->
+  <link rel="stylesheet" href="pet-detail.css" />
 </head>
 
+<body>
 <header>
-
   <section class="navbar">
+    <div class="nav">
+      <div class="nav-logo">
+        <a href=""><img class="logo" src="/Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo" /></a>
+      </div>
 
+<<<<<<< HEAD
 <div class="nav">
 
     <div class="nav-logo">
@@ -29,198 +41,201 @@
             <li><a href="../Adoption/adoption.html">Adoption</a></li>
             <li><a href="../vet/vet.html">Vet</a></li>
             <li><a href="../Contact/contact.html">Contact</a></li>
-        </ul>
-    </div>
-
-    <div class="nav-items-logo">
+=======
+      <div class="nav-items">
         <ul>
+          <li><a style="color: rgb(135, 218, 72);" href="#">Home</a></li>
+          <li><a href="#">Shop <i class="fa-solid fa-angle-down" style="color: #000000;"></i></a></li>
+          <li><a href="#">Adoption</a></li>
+          <li><a href="#">Vet</a></li>
+          <li><a href="#">Contact</a></li>
+>>>>>>> products
+        </ul>
+      </div>
+
+      <div class="nav-items-logo">
+        <ul>
+<<<<<<< HEAD
             <li><a href="#"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a></li>
             <li><a href="../Accounts/Accountpage.html"><i class="fa-regular fa-user" style="color: #000000;"></i></a></li>
             <li><a href="../Accounts/Wishlist.html"><i class="fa-regular fa-heart" style="color: #000000;"></i></a></li>
             <li><a href="../cart-and-checkout/cart.html"><i class="fa-solid fa-bag-shopping" style="color: #000000;"></i></a></li>
+=======
+          <li><a href="#"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a></li>
+          <li><a href="#"><i class="fa-regular fa-user" style="color: #000000;"></i></a></li>
+          <li><a href="#"><i class="fa-regular fa-heart" style="color: #000000;"></i></a></li>
+          <li><a href="#"><i class="fa-solid fa-bag-shopping" style="color: #000000;"></i></a></li>
+>>>>>>> products
         </ul>
+      </div>
     </div>
-</div>
-
-</section>
+  </section>
 </header>
 
-<body>
-    <!-- Page Heading (category / title band) -->
-    <section class="page-heading">
-        <div class="container">
-            <h2>Pet Details</h2>
-            <nav class="breadcrumb"><a href="adoption.html">Home</a> <span>/</span> <span>Pet Details</span></nav>
+<!-- Page Heading (category / breadcrumb band) -->
+<section class="page-heading">
+  <div class="container">
+    <h2>Pet Details</h2>
+    <nav class="breadcrumb"><a href="adoption.html">Home</a> <span>/</span> <span>Pet Details</span></nav>
+  </div>
+</section>
+
+<!-- Back Button -->
+<div class="back-bar">
+  <div class="container">
+    <a href="adoption.html" class="back-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Back to all pets
+    </a>
+  </div>
+</div>
+
+<!-- Pet Detail Content -->
+<main class="pet-detail-main">
+  <div class="container">
+    <div class="pet-detail-grid">
+      <!-- Image Gallery -->
+      <div class="gallery-section">
+        <div class="main-image">
+          <img id="mainImage" src="" alt="Pet" />
         </div>
-    </section>
-  <!-- Back Button -->
-    <div class="back-bar">
-        <div class="container">
-            <a href="adoption.html" class="back-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Back to all pets
-            </a>
-        </div>
+        <div class="thumbnail-grid" id="thumbnailGrid"><!-- Thumbnails injected by JS --></div>
+      </div>
+
+      <!-- Pet Info (card) -->
+      <div class="info-section" id="petInfo"><!-- Injected by JS --></div>
+    </div>
+  </div>
+</main>
+
+<!-- Central details (cards) -->
+<section class="central-details">
+  <div class="container">
+    <div id="centralDetails"><!-- Injected by JS into separate cards --></div>
+  </div>
+</section>
+
+<!-- Contact Modal -->
+<div class="modal" id="contactModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalTitle">Contact About Pet</h3>
+      <button class="close-modal" id="closeModal" aria-label="Close">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
     </div>
 
-    <!-- Pet Detail Content -->
-    <main class="pet-detail-main">
-        <div class="container">
-            <div class="pet-detail-grid">
-                <!-- Image Gallery -->
-                <div class="gallery-section">
-                    <div class="main-image">
-                        <img id="mainImage" src="" alt="Pet">
-                    </div>
-                    <div class="thumbnail-grid" id="thumbnailGrid">
-                        <!-- Thumbnails will be inserted here -->
-                    </div>
-                </div>
+    <div class="shelter-info-card" id="modalShelterInfo"><!-- Injected by JS --></div>
 
-                <!-- Pet Info -->
-                <div class="info-section" id="petInfo">
-                    <!-- Content will be inserted by JavaScript -->
-                </div>
-            </div>
-        </div>
-    </main>
+    <form class="contact-form" id="contactForm">
+      <div class="form-group">
+        <label>Your Name *</label>
+        <input type="text" required placeholder="Enter your full name" />
+      </div>
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input type="email" required placeholder="your.email@example.com" />
+      </div>
+      <div class="form-group">
+        <label>Phone Number *</label>
+        <input type="tel" required placeholder="+92 300 1234567" />
+      </div>
+      <div class="form-group">
+        <label>Message *</label>
+        <textarea required rows="4" placeholder="I'm interested in adopting..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" id="cancelBtn">Cancel</button>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+      </div>
+    </form>
+  </div>
+</div>
 
-    <!-- Centralized details section (About, Health, Adoption, Shelter, Encourage) -->
-    <section class="central-details">
-        <div class="container" id="centralDetails">
-            <!-- Filled dynamically by JS: about, health, adoption, shelter, encouragement -->
-        </div>
-    </section>
-
-    <!-- Contact Modal -->
-    <div class="modal" id="contactModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">Contact About Pet</h3>
-                <button class="close-modal" id="closeModal">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="shelter-info-card" id="modalShelterInfo">
-                <!-- Shelter info will be inserted here -->
-            </div>
-
-            <form class="contact-form" id="contactForm">
-                <div class="form-group">
-                    <label>Your Name *</label>
-                    <input type="text" required placeholder="Enter your full name">
-                </div>
-                <div class="form-group">
-                    <label>Email Address *</label>
-                    <input type="email" required placeholder="your.email@example.com">
-                </div>
-                <div class="form-group">
-                    <label>Phone Number *</label>
-                    <input type="tel" required placeholder="+92 300 1234567">
-                </div>
-                <div class="form-group">
-                    <label>Message *</label>
-                    <textarea required rows="4" placeholder="I'm interested in adopting..."></textarea>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-outline" id="cancelBtn">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
-                </div>
-            </form>
-        </div>
+<!-- Success Modal -->
+<div class="modal" id="successModal">
+  <div class="modal-content success-modal-content">
+    <div class="success-icon">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
     </div>
+    <h3>Message Sent!</h3>
+    <p id="successMessage">The shelter will contact you soon.</p>
+  </div>
+</div>
 
-    <!-- Success Modal -->
-    <div class="modal" id="successModal">
-        <div class="modal-content success-modal-content">
-            <div class="success-icon">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                </svg>
-            </div>
-            <h3>Message Sent!</h3>
-            <p id="successMessage">The shelter will contact you soon.</p>
-        </div>
-    </div>
-
-    <script src="data.js"></script>
-    <script src="pet-detail.js"></script>
-
-
-</body>
+<!-- JS -->
+<script src="data.js"></script>
+<script src="pet-detail.js"></script>
 
 <footer class="footer">
-    <div class="footer-container">
-
-        <div class="footer-column contact-us">
-            <h3>Contact Us</h3>
-            <p><i class="fa-solid fa-location-dot"></i> Virtual Paws - Pets Store<br>
-              Karachi, Pakistan<br>
-            </p>
-            <p><i class="fa-solid fa-envelope"></i> contact_virtualpaws@gmail.com</p>
-            <p><i class="fa-solid fa-phone"></i> (+91) 9876-543-210</p>
-          </div>
-          
-
-      <div class="footer-column">
-        <h3>Find Product</h3>
-        <ul>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Refund Policy</a></li>
-          <li><a href="#">Shipping Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
-          <li><a href="#">Policy for Buyers</a></li>
-          <li><a href="#">Policy for Sellers</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h3>Useful Links</h3>
-        <ul>
-          <li><a href="#">Shipping & Refund</a></li>
-          <li><a href="#">FAQs</a></li>
-          <li><a href="#">Delivery Information</a></li>
-          <li><a href="#">Shipping</a></li>
-          <li><a href="#">Size Chart</a></li>
-          <li><a href="#">Sitemap</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column newsletter">
-        <h3>Our Newsletter</h3>
-        <p>Subscribe to our latest newsletter to get news about special discounts.</p>
-        <form>
-          <input type="email" class="email-placeholder" placeholder="Email">
-          <a href="#" class="subscribe-btn" type="submit">Subscribe</a>
-        </form>
-      </div>
+  <div class="footer-container">
+    <div class="footer-column contact-us">
+      <h3>Contact Us</h3>
+      <p><i class="fa-solid fa-location-dot"></i> Virtual Paws - Pets Store<br />Karachi, Pakistan<br /></p>
+      <p><i class="fa-solid fa-envelope"></i> contact_virtualpaws@gmail.com</p>
+      <p><i class="fa-solid fa-phone"></i> (+91) 9876-543-210</p>
     </div>
 
-    <div class="footer-bottom">
-      <div class="social-icons">
-        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="#"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-        <a href="#"><i class="fa-brands fa-youtube"></i></a>
-      </div>
-      <p>© 2025, Virtual Paws - Pets Store </p>
-      <div class="payment-icons">
-        <img src="https://img.icons8.com/color/48/visa.png" alt="Visa">
-        <img src="https://img.icons8.com/color/48/mastercard.png" alt="Mastercard">
-        <img src="https://img.icons8.com/color/48/amex.png" alt="Amex">
-        <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal">
-        <img src="https://img.icons8.com/color/48/discover.png" alt="Discover">
-      </div>
+    <div class="footer-column">
+      <h3>Find Product</h3>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Refund Policy</a></li>
+        <li><a href="#">Shipping Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Policy for Buyers</a></li>
+        <li><a href="#">Policy for Sellers</a></li>
+      </ul>
     </div>
+
+    <div class="footer-column">
+      <h3>Useful Links</h3>
+      <ul>
+        <li><a href="#">Shipping & Refund</a></li>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Delivery Information</a></li>
+        <li><a href="#">Shipping</a></li>
+        <li><a href="#">Size Chart</a></li>
+        <li><a href="#">Sitemap</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column newsletter">
+      <h3>Our Newsletter</h3>
+      <p>Subscribe to our latest newsletter to get news about special discounts.</p>
+      <form>
+        <input type="email" class="email-placeholder" placeholder="Email" />
+        <a href="#" class="subscribe-btn" type="submit">Subscribe</a>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="social-icons">
+      <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+      <a href="#"><i class="fa-brands fa-instagram"></i></a>
+      <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="#"><i class="fa-brands fa-youtube"></i></a>
+    </div>
+    <p>© 2025, Virtual Paws - Pets Store</p>
+    <div class="payment-icons">
+      <img src="https://img.icons8.com/color/48/visa.png" alt="Visa" />
+      <img src="https://img.icons8.com/color/48/mastercard.png" alt="Mastercard" />
+      <img src="https://img.icons8.com/color/48/amex.png" alt="Amex" />
+      <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal" />
+      <img src="https://img.icons8.com/color/48/discover.png" alt="Discover" />
+    </div>
+  </div>
 </footer>
 
+</body>
 </html>
-   
