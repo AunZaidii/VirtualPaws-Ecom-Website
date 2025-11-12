@@ -53,27 +53,42 @@ function renderProducts(products) {
 
   products.forEach((product) => {
     const stars = renderStars(product.rating);
+    // ✅ Use product.product_id (adjust this if your table column name differs)
+    const id = product.product_id || product.id;
+
     const html = `
-      <a href="${product.link}" class="product-link">
-        <div class="product-div">
-          <div class="product-image-div">
-            <img class="product-image" src="${product.image}" alt="${product.imageAlt}">
-            <img class="product-image-hover" src="${product.hoverimage}" alt="${product.hoverimageAlt}">
-          </div>
-          <div class="product-text-div">
-            <p class="product-text-title">${product.name}</p>
-            <p class="product-text-rating">${stars}</p>
-            <p class="product-text-price">
-              <span style="color: rgb(135, 218, 72); font-weight: bold;">
-                $${(product.price / 100).toFixed(2)}
-              </span>
-            </p>
-          </div>
+      <div class="product-div" data-id="${id}">
+        <div class="product-image-div">
+          <img class="product-image" src="${product.image}" alt="${product.imageAlt}">
+          <img class="product-image-hover" src="${product.hoverimage}" alt="${product.hoverimageAlt}">
         </div>
-      </a>
+        <div class="product-text-div">
+          <p class="product-text-title">${product.name}</p>
+          <p class="product-text-rating">${stars}</p>
+          <p class="product-text-price">
+            <span style="color: rgb(135, 218, 72); font-weight: bold;">
+              $${(product.price / 100).toFixed(2)}
+            </span>
+          </p>
+        </div>
+      </div>
     `;
-    container.innerHTML += html;
+
+    container.insertAdjacentHTML("beforeend", html);
   });
+
+  // ✅ Redirect each card to products.html in same folder
+  document.querySelectorAll(".product-div").forEach((card) => {
+  card.addEventListener("click", () => {
+    const id = card.dataset.id;
+    if (id) {
+      // ✅ go one folder up to reach /Collection/
+      window.location.href = `../products.html?id=${id}`;
+    } else {
+      console.warn("No product ID found for this card:", card);
+    }
+  });
+});
 }
 
 // 💰 Filter by price

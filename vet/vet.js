@@ -28,9 +28,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       const card = document.createElement("div");
       card.classList.add("vet-card");
 
-      // random placeholder photo if none provided
       const avatarUrl =
-        vet.photo_url ||
+        vet.image_url ||
         `https://randomuser.me/api/portraits/${
           Math.random() > 0.5 ? "men" : "women"
         }/${Math.floor(Math.random() * 80)}.jpg`;
@@ -66,10 +65,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         <button class="book-btn" type="button">View Profile</button>
       `;
 
-      // Event: open modal on button click
-      card
-        .querySelector(".book-btn")
-        .addEventListener("click", () => openModal(vet));
+      // ✅ Redirect to single_vet.html when clicked
+      const button = card.querySelector(".book-btn");
+      button.addEventListener("click", () => {
+        // Pass vet_id in URL
+        window.location.href = `../vet/single_vet.html?id=${vet.vet_id}`;
+      });
 
       container.appendChild(card);
     });
@@ -78,47 +79,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     container.innerHTML = `<p style="color:red;">Error loading vets. Check console for details.</p>`;
   }
 });
-
-// ---------- Modal Handling ----------
-function openModal(vet) {
-  const modal = document.getElementById("vetModal");
-  document.getElementById("modalName").textContent = vet.name || "Unnamed Vet";
-  document.getElementById("modalSpecialty").textContent =
-    vet.category || "Veterinarian";
-  document.getElementById("modalBio").textContent =
-    vet.description || "No description available.";
-  document.getElementById("modalExperience").textContent =
-    vet.experience || "Experience not specified.";
-  document.getElementById("modalEducation").textContent =
-    vet.education || "Education not specified.";
-
-  modal.style.display = "block";
-  document.body.style.overflow = "hidden";
-}
-
-function closeModal() {
-  const modal = document.getElementById("vetModal");
-  modal.style.display = "none";
-  document.body.style.overflow = "auto";
-}
-
-// Close modal when clicking outside
-window.onclick = function (event) {
-  const modal = document.getElementById("vetModal");
-  if (event.target === modal) closeModal();
-};
-
-// Close modal with ESC key
-document.addEventListener("keydown", function (e) {
-  if (e.key === "Escape") closeModal();
-});
-
-// ---------- Booking Logic ----------
-function bookAppointment() {
-  const vetName = document.getElementById("modalName").textContent;
-  alert(`Booking system not yet active.\n\nPlease contact ${vetName} via phone or email for appointments.`);
-  closeModal();
-}
 
 // ---------- Extra Buttons ----------
 function getDirections() {
