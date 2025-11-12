@@ -1,0 +1,201 @@
+* {  
+    margin: 0;
+    padding: 0vb;
+    font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+}
+
+.hero {
+    background: linear-gradient(135deg, #DBEAFE 0%, #87da48 100%);
+    padding: 4rem 1rem;
+    text-align: center;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 4rem 1rem;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+}
+
+.category-card {
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.category-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.category-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.category-card h3 {
+    margin-bottom: 0.5rem;
+}
+
+.category-card p {
+    color: #666;
+    font-size: 0.875rem;
+    margin-bottom: 0;
+}
+
+.faq-section {
+    max-width: 900px;
+    margin: 0 auto 4rem;
+}
+
+.faq-category {
+    margin-bottom: 3rem;
+}
+
+.faq-category h3 {
+    color: #87da48;
+    margin-bottom: 1rem;
+}
+
+.accordion-item {
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+}
+
+.accordion-header {
+    width: 100%;
+    background: white;
+    border: none;
+    padding: 1rem 1.5rem;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.accordion-header:hover {
+    background: #f9f9f9;
+}
+
+.accordion-icon {
+    transition: transform 0.3s;
+    font-size: 1.25rem;
+    color: #666;
+}
+
+.accordion-item.active .accordion-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.accordion-item.active .accordion-content {
+    max-height: 500px;
+}
+
+.accordion-content-inner {
+    padding: 0 1.5rem 1rem 1.5rem;
+    color: #666;
+}
+
+
+.contact-section {
+    background: #87da48;
+    border-radius: 16px;
+    padding: 3rem;
+    color: white;
+    text-align: center;
+}
+
+.contact-section h2 {
+    margin-bottom: 0.5rem;
+}
+
+.contact-section > p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    margin-bottom: 3rem;
+}
+
+.contact-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.contact-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    color: #333;
+}
+
+.contact-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 2rem;
+}
+
+.contact-card h4 {
+    margin-bottom: 1rem;
+}
+
+.contact-card p {
+    color: #666;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+.contact-card button {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 0.5rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+}
+
+.contact-card button:hover {
+    background: #f9f9f9;
+    border-color: #87da48;
+}
+
+

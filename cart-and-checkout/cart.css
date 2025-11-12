@@ -31,6 +31,15 @@
     color: #111827;
 }
 
+.shopping-header {
+    background: white;
+    color: #87da48;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 32px;
+    margin-bottom: 24px;
+}
+
 .cart-card {
     background: white;
     border-radius: 8px;

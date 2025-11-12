@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/Homepage/homepage.css">
+    <title>Track Order</title>
+    <link rel="stylesheet" href="track-order.css">
+</head>
+<header>
+
+<section class="navbar">
+
+<div class="nav">
+
+    <div class="nav-logo">
+        <a href="../../Homepage/homepage.html"><img class="logo" src="/Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo"></a>
+    </div>
+
+    <div class="nav-items">
+        <ul>
+            <li><a style="color: rgb(135, 218, 72);" href="../../Homepage/homepage.html">Home</a></li>
+            <li><a href="./dog-products.html">Shop <i class="fa-solid fa-angle-down" style="color: #000000;"></i></a></li>
+            <li><a href="../../Adoption/adoption.html">Adoption</a></li>
+            <li><a href="../../vet/vet.html">Vet</a></li>
+            <li><a href="../../Contact/contact.html">Contact</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-items-logo">
+        <ul>
+            <li><a href="../../Homepage/homepage.html"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a></li>
+            <li><a href="../../Authentication/login.html"><i class="fa-regular fa-user" style="color: #000000;"></i></a></li>
+            <li><a href="../../Homepage/homepage.html"><i class="fa-regular fa-heart" style="color: #000000;"></i></a></li>
+            <li><a href="../../Homepage/homepage.html"><i class="fa-solid fa-bag-shopping" style="color: #000000;"></i></a></li>
+        </ul>
+    </div>
+</div>
+</section>
+
+</header> 
+<body>
+    <section class="track-order-section">
+        <div class="container track-container">
+
+            <div class="section-header">
+                <h1>Track Your Order</h1>
+                <p class="section-description">Enter your order number and email address to track your package</p>
+            </div>
+            <div id="trackOrderForm" class="card">
+                <div class="card-header">
+                    <h3>Order Tracking</h3>
+                    <p class="card-description">You can find your order number in your confirmation email</p>
+                </div>
+
+                <div class="card-content">
+                    <form onsubmit="trackOrder(event)">
+                        <div class="form-group">
+                            <label for="orderNumber">Order Number</label>
+                            <input type="text" id="orderNumber" class="form-input" placeholder="VP123456789" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-input" placeholder="your.email@example.com" required>
+                        </div>
+
+                        <div id="formError" class="error-message"></div>
+
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Track Order
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="orderStatus" class="order-status" style="display:none;">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="order-header">
+                            <div>
+                                <h3 id="orderIdDisplay">Order #VP123456789</h3>
+                                <p id="trackingNumberDisplay">Tracking Number: VPWABCDEFGH123</p>
+                            </div>
+                            <button onclick="resetTrackingForm()" class="btn btn-outline">Track Another Order</button>
+                        </div>
+                    </div>
+
+                    <div class="card-content">
+                        <div class="order-info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Status</div>
+                                <div id="orderStatusText">In Transit</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Current Location</div>
+                                <div id="currentLocation">Distribution Center</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Estimated Delivery</div>
+                                <div id="estimatedDelivery">November 14, 2025</div>
+                            </div>
+                        </div>
+
+                        <div class="order-items-section">
+                            <h3>Order Items</h3>
+                            <div id="orderItems" class="order-items">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Tracking Timeline</h3>
+                    </div>
+                    <div class="card-content">
+                        <div id="timeline" class="timeline"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card help-card">
+                <div class="card-content text-center">
+                    <h3>Need Help?</h3>
+                    <p>If you have questions about your order, our support team is here to help.</p>
+                    <button class="btn btn-outline">Contact Support</button>
+                    <button class="btn btn-outline">Help Center</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <script src="track-order.js"></script>
+</body>
+<footer class="footer">
+    <div class="footer-container">
+
+        <div class="footer-column contact-us">
+            <h3>Contact Us</h3>
+            <p><i class="fa-solid fa-location-dot"></i> Virtual Paws - Pets Store<br>
+              Karachi, Pakistan<br>
+            </p>
+            <p><i class="fa-solid fa-envelope"></i> contact_virtualpaws@gmail.com</p>
+            <p><i class="fa-solid fa-phone"></i> (+91) 9876-543-210</p>
+          </div>
+          
+
+      <div class="footer-column">
+        <h3>Find Product</h3>
+        <ul>
+          <li><a href="../../Contact/contact.html">Privacy Policy</a></li>
+          <li><a href="../../Contact/contact.html">Refund Policy</a></li>
+          <li><a href="../../Contact/contact.html">Shipping Policy</a></li>
+          <li><a href="../../Contact/contact.html">Terms of Service</a></li>
+          <li><a href="../../Contact/contact.html">Policy for Buyers</a></li>
+          <li><a href="../../Contact/contact.html">Policy for Sellers</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Useful Links</h3>
+        <ul>
+          <li><a href="../../Contact/contact.html">Shipping & Refund</a></li>
+          <li><a href="../../Contact/contact.html">FAQs</a></li>
+          <li><a href="../../Contact/contact.html">Delivery Information</a></li>
+          <li><a href="../../Contact/contact.html">Shipping</a></li>
+          <li><a href="../../Contact/contact.html">Size Chart</a></li>
+          <li><a href="../../Contact/contact.html">Sitemap</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column newsletter">
+        <h3>Our Newsletter</h3>
+        <p>Subscribe to our latest newsletter to get news about special discounts.</p>
+        <form>
+          <input type="email" class="email-placeholder" placeholder="Email">
+          <a href="../../Contact/contact.html" class="subscribe-btn" type="submit">Subscribe</a>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="social-icons">
+        <a href="https://facebook.com"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://instagram.com"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://twitter.com"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="https://youtube.com"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+      <p>© 2025, Virtual Paws - Pets Store </p>
+      <div class="payment-icons">
+        <img src="https://img.icons8.com/color/48/visa.png" alt="Visa">
+        <img src="https://img.icons8.com/color/48/mastercard.png" alt="Mastercard">
+        <img src="https://img.icons8.com/color/48/amex.png" alt="Amex">
+        <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal">
+        <img src="https://img.icons8.com/color/48/discover.png" alt="Discover">
+      </div>
+    </div>
+</footer>
+</html>
