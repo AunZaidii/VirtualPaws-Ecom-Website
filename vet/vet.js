@@ -1,33 +1,40 @@
-// ---------- Supabase Initialization ----------
+// ✅ vet.js (final working version for your "vet" table)
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+// --- Your Supabase credentials ---
 const SUPABASE_URL = "https://oekreylufrqvuzgoyxye.supabase.co";
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// --- Initialize Supabase ---
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ---------- Fetch and Render Vets ----------
-document.addEventListener("DOMContentLoaded", async () => {
-  const container = document.getElementById("vetContainer");
+// --- Get the container for vet cards ---
+const vetGrid = document.querySelector(".vet-grid");
+
+// --- Main function to load vets ---
+async function loadVets() {
+  console.log("➡️ Starting to load vets...");
 
   try {
-    const { data: vets, error } = await supabase
-      .from("vet")
-      .select("*")
-      .order("created_at", { ascending: true });
+    // ✅ Correct table name for your schema
+    const { data: vets, error } = await supabase.from("vet").select("*");
+    console.log("✅ Supabase response:", { vets, error });
 
     if (error) throw error;
 
     if (!vets || vets.length === 0) {
-      container.innerHTML = "<p>No vets found in the database.</p>";
+      vetGrid.innerHTML = `<p style="color:red; text-align:center;">No vets found in database.</p>`;
       return;
     }
 
-    container.innerHTML = ""; // Clear placeholder
+    // Clear any previous content
+    vetGrid.innerHTML = "";
 
+    // --- Create Vet Cards ---
     vets.forEach((vet) => {
-      const card = document.createElement("div");
-      card.classList.add("vet-card");
+      const imageUrl = vet.image_url || "https://via.placeholder.com/120?text=Vet";
 
+<<<<<<< Updated upstream
       const avatarUrl =
         vet.image_url ||
         `https://randomuser.me/api/portraits/${
@@ -40,31 +47,42 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="vet-heading">
             <h3>${vet.name}</h3>
             <div class="vet-specialty">${vet.category || "Veterinarian"}</div>
+=======
+      const vetCard = `
+        <div class="vet-card">
+          <div class="vet-header">
+            <img src="${imageUrl}" alt="${vet.name}" class="vet-avatar" />
+            <div class="vet-heading">
+              <h3>${vet.name}</h3>
+              <p class="vet-specialty">${vet.category || "Veterinary Specialist"}</p>
+            </div>
+>>>>>>> Stashed changes
           </div>
-        </div>
 
-        <div class="vet-info">
-          <div class="info-item">
-            <i class="fa-solid fa-phone"></i> <span>${vet.phone || "N/A"}</span>
+          <div class="vet-info">
+            <div class="info-item">
+              <i class="fa-solid fa-phone" style="color:#8DC63F; margin-right:10px;"></i>
+              <span>${vet.phone || "N/A"}</span>
+            </div>
+            <div class="info-item">
+              <i class="fa-solid fa-envelope" style="color:#8DC63F; margin-right:10px;"></i>
+              <span>${vet.email || "N/A"}</span>
+            </div>
+            <div class="info-item">
+              <i class="fa-solid fa-location-dot" style="color:#8DC63F; margin-right:10px;"></i>
+              <span>${vet.clinicAddress || "N/A"}</span>
+            </div>
+            <div class="info-item">
+              <i class="fa-solid fa-star" style="color:#8DC63F; margin-right:10px;"></i>
+              <span>Rating: ${vet.rating || "N/A"}</span>
+            </div>
           </div>
-          <div class="info-item">
-            <i class="fa-solid fa-envelope"></i> <span>${vet.email || "N/A"}</span>
-          </div>
-          <div class="info-item">
-            <i class="fa-solid fa-location-dot"></i> <span>${
-              vet.clinicAddress || "Not available"
-            }</span>
-          </div>
-          <div class="info-item">
-            <i class="fa-solid fa-star"></i> <span>Rating: ${
-              vet.rating || "N/A"
-            }</span>
-          </div>
-        </div>
 
-        <button class="book-btn" type="button">View Profile</button>
+          <button class="book-btn">View Profile</button>
+        </div>
       `;
 
+<<<<<<< Updated upstream
       // ✅ Redirect to single_vet.html when clicked
       const button = card.querySelector(".book-btn");
       button.addEventListener("click", () => {
@@ -73,11 +91,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
 
       container.appendChild(card);
+=======
+      vetGrid.insertAdjacentHTML("beforeend", vetCard);
+>>>>>>> Stashed changes
     });
   } catch (err) {
-    console.error("Error fetching vets:", err.message);
-    container.innerHTML = `<p style="color:red;">Error loading vets. Check console for details.</p>`;
+    console.error("💥 Error loading vets:", err);
+    vetGrid.innerHTML = `<p style="color:red; text-align:center;">Failed to load vet profiles.</p>`;
   }
+<<<<<<< Updated upstream
 });
 
 // ---------- Extra Buttons ----------
@@ -93,3 +115,9 @@ function scrollToVets() {
     .getElementById("vet-profiles")
     .scrollIntoView({ behavior: "smooth" });
 }
+=======
+}
+
+// --- Call function on load ---
+loadVets();
+>>>>>>> Stashed changes
