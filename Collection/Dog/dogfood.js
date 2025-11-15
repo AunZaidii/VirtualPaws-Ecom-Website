@@ -5,7 +5,7 @@ const SUPABASE_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let allProducts = []; // store fetched products globally
+let allProducts = [];
 
 // ⭐ Render stars dynamically
 function renderStars(rating) {
@@ -53,8 +53,7 @@ function renderProducts(products) {
 
   products.forEach((product) => {
     const stars = renderStars(product.rating);
-    // ✅ Use product.product_id (adjust this if your table column name differs)
-    const id = product.product_id || product.id;
+    const id = product.product_id;
 
     const html = `
       <div class="product-div" data-id="${id}">
@@ -67,7 +66,7 @@ function renderProducts(products) {
           <p class="product-text-rating">${stars}</p>
           <p class="product-text-price">
             <span style="color: rgb(135, 218, 72); font-weight: bold;">
-              $${(product.price / 100).toFixed(2)}
+              $${product.price}
             </span>
           </p>
         </div>
@@ -77,18 +76,15 @@ function renderProducts(products) {
     container.insertAdjacentHTML("beforeend", html);
   });
 
-  // ✅ Redirect each card to products.html in same folder
+  // ⭐ Auto redirect to products page
   document.querySelectorAll(".product-div").forEach((card) => {
-  card.addEventListener("click", () => {
-    const id = card.dataset.id;
-    if (id) {
-      // ✅ go one folder up to reach /Collection/
-      window.location.href = `../products.html?id=${id}`;
-    } else {
-      console.warn("No product ID found for this card:", card);
-    }
+    card.addEventListener("click", () => {
+      const id = card.dataset.id;
+      if (id) {
+        window.location.href = `../Products.html?id=${id}`;
+      }
+    });
   });
-});
 }
 
 // 💰 Filter by price
@@ -97,7 +93,7 @@ function applyPriceFilter() {
   const maxPrice = parseFloat(document.getElementById("price-max").value) || Infinity;
 
   const filtered = allProducts.filter(
-    (p) => p.price / 100 >= minPrice && p.price / 100 <= maxPrice
+    (p) => p.price >= minPrice && p.price <= maxPrice
   );
 
   renderProducts(filtered);
