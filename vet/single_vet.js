@@ -108,13 +108,15 @@ async function setupForm() {
 
     const { data, error } = await supabase.from("appointment").insert([
       {
-        vet_id: vetId,
-        user_id: null,
-        date: date,
-        "time": time24, // IMPORTANT
-        status: "pending",
-        notes: combinedNotes,
-      }
+    vet_id: vetId,
+    user_id: null,          // still null until you add login system
+    name: name,             // now stored separately
+    phone: phone,           // numeric column (int8)
+    date: date,
+    time: time24,
+    status: "pending",
+    notes: notes            // only the notes you typed
+  }
     ]);
 
     console.log("Insert error:", error); // DEBUG — SHOW ME ERROR IN CONSOLE
