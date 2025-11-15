@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vet Profile – Virtual Paws</title>
 
+  <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Main Styles -->
   <link rel="stylesheet" href="/Homepage/homepage.css">
   <link rel="stylesheet" href="single_vet.css">
 </head>
@@ -19,6 +21,7 @@
 <header>
   <section class="navbar">
     <div class="nav">
+
       <div class="nav-logo">
         <a href="../Homepage/homepage.html">
           <img class="logo" src="../Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo">
@@ -30,7 +33,7 @@
           <li><a href="../Homepage/homepage.html">Home</a></li>
           <li><a href="../Collection/Dog/dogfood.html">Shop</a></li>
           <li><a href="../Adoption/adoption.html">Adoption</a></li>
-          <li><a style="color: rgb(135, 218, 72);" href="../vet/vet.html">Vet</a></li>
+          <li><a style="color: rgb(135,218,72);" href="../vet/vet.html">Vet</a></li>
           <li><a href="../Contact/contact.html">Contact</a></li>
         </ul>
       </div>
@@ -43,38 +46,39 @@
           <li><a href="../cart-and-checkout/cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
         </ul>
       </div>
+
     </div>
   </section>
 </header>
 
 <section class="account-header">
   <h1>Vet Profile</h1>
-  <p><a href="../vet/vet.html">Back to Vets</a></p>
+  <p><a href="../Homepage/homepage.html">Home</a> / Vet</p>
 </section>
 
 <div class="container">
   <section class="profile-grid">
 
-    <!-- LEFT MAIN COLUMN -->
+    <!-- LEFT SIDE -->
     <div class="main-col">
 
-      <!-- HEADER CARD -->
+      <!-- Vet Header -->
       <div class="card header-card">
         <div class="profile-left">
+
           <div class="avatar">
-            <img id="vetImage" style="width: 90px; height: 90px; border-radius: 50%;">
+            <i class="fa-solid fa-user fa-2x"></i>
           </div>
 
           <div class="profile-meta">
-            <h1 class="name" id="vetName">Loading...</h1>
-            <p class="specialty" id="vetCategory">—</p>
+            <h1 class="name">Loading...</h1>
+            <p class="specialty">Loading...</p>
 
             <ul class="contact-list">
-              <li><strong>Phone:</strong> <span id="vetPhone">—</span></li>
-              <li><strong>Email:</strong> <span id="vetEmail">—</span></li>
-              <li><strong>Address:</strong> <span id="vetAddress">—</span></li>
+              <li>Loading...</li>
             </ul>
           </div>
+
         </div>
 
         <div>
@@ -82,32 +86,49 @@
         </div>
       </div>
 
-      <!-- ABOUT -->
+      <!-- About -->
       <div class="card">
         <h2>About</h2>
-        <p class="lead" id="vetDescription">Loading...</p>
+        <p class="lead">Loading vet details...</p>
       </div>
 
-      <!-- SERVICES -->
+      <!-- Services -->
       <div class="card">
         <h2>Services</h2>
-        <div class="services-wrap" id="vetServices"></div>
+        <div class="services-wrap">
+          <span class="service-pill">Treatment</span>
+          <span class="service-pill">Vaccination</span>
+          <span class="service-pill">Grooming</span>
+          <span class="service-pill">Radiology</span>
+          <span class="service-pill">Ultrasound</span>
+          <span class="service-pill">Deworming</span>
+          <span class="service-pill">Boarding</span>
+          <span class="service-pill">Surgery</span>
+        </div>
       </div>
 
-      <!-- EDUCATION + EXPERIENCE -->
+      <!-- Education / Experience -->
       <div class="card">
         <h2>Education & Experience</h2>
-        <div class="edu-grid">
 
+        <div class="edu-grid">
           <div class="edu-col">
             <h3>Education</h3>
-            <ul id="vetEducation"></ul>
+            <ul></ul>
           </div>
 
           <div class="edu-col">
             <h3>Experience</h3>
-            <ul id="vetExperience"></ul>
+            <ul></ul>
           </div>
+        </div>
+      </div>
+
+      <!-- Reviews -->
+      <div class="card">
+        <h2>Reviews</h2>
+        <div class="reviews-container">
+          <p>No reviews available.</p>
         </div>
       </div>
 
@@ -116,133 +137,110 @@
         <h2>Book Appointment</h2>
 
         <form id="appointmentForm">
+
           <div class="form-row">
             <label>Your Name</label>
-            <input id="userName" type="text" required>
+            <input type="text" id="custName" required>
           </div>
 
           <div class="form-row">
             <label>Phone</label>
-            <input id="userPhone" type="text" required>
+            <input type="text" id="custPhone" required>
           </div>
 
           <div class="form-row">
             <label>Preferred Date</label>
-            <input id="appointDate" type="date" required>
+            <input type="date" id="custDate" required>
           </div>
 
           <div class="form-row">
             <label>Preferred Time</label>
-            <input id="appointTime" type="time" required>
+            <input type="time" id="custTime" required>
           </div>
 
           <div class="form-row">
             <label>Notes</label>
-            <textarea id="userNotes" rows="3"></textarea>
+            <textarea id="custNotes" rows="3"></textarea>
           </div>
 
           <div class="form-actions">
-            <button type="submit" class="btn-primary">Submit</button>
+            <button class="btn-primary" type="submit">Submit</button>
             <button class="btn-outline" type="reset">Clear</button>
           </div>
-        </form>
 
-        <p id="appointmentMessage" style="margin-top:10px; font-weight:700;"></p>
+          <p id="successMsg" style="color: green; display:none;">
+            ✔ Appointment booked successfully!
+          </p>
+
+          <p id="errorMsg" style="color: red; display:none;">
+            ✖ Failed to book appointment.
+          </p>
+
+        </form>
       </div>
 
     </div>
 
-    <!-- RIGHT SIDE COLUMN -->
+    <!-- RIGHT SIDE -->
     <aside class="side-col">
+
       <div class="card">
         <h3>Clinic Address</h3>
-        <p id="sideClinicAddress">—</p>
+        <p>Loaded dynamically</p>
       </div>
 
       <div class="card map-card">
         <h3>Location Map</h3>
         <div class="map-container">
-          <iframe
-            id="clinicMap"
-            width="100%"
-            height="230"
-            style="border:0; border-radius:12px;"
-            loading="lazy"
-            allowfullscreen>
+          <iframe width="100%" height="230" style="border:0; border-radius:12px;" loading="lazy"
+          allowfullscreen
+          src="https://maps.google.com/?q=Virtual+Paws+Vet+Hospital+Karachi">
           </iframe>
         </div>
       </div>
-    </aside>
 
+    </aside>
   </section>
 </div>
 
-<!-- FOOTER -->
 <footer class="footer">
-    <div class="footer-container">
-
-        <div class="footer-column contact-us">
-            <h3>Contact Us</h3>
-            <p><i class="fa-solid fa-location-dot"></i> Virtual Paws - Pets Store<br>
-              Karachi, Pakistan<br>
-            </p>
-            <p><i class="fa-solid fa-envelope"></i> contact_virtualpaws@gmail.com</p>
-            <p><i class="fa-solid fa-phone"></i> (+91) 9876-543-210</p>
-          </div>
-          
-
-      <div class="footer-column">
-        <h3>Find Product</h3>
-        <ul>
-          <li><a href="../../Contact/contact.html">Privacy Policy</a></li>
-          <li><a href="../../Contact/contact.html">Refund Policy</a></li>
-          <li><a href="../../Contact/contact.html">Shipping Policy</a></li>
-          <li><a href="../../Contact/contact.html">Terms of Service</a></li>
-          <li><a href="../../Contact/contact.html">Policy for Buyers</a></li>
-          <li><a href="../../Contact/contact.html">Policy for Sellers</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h3>Useful Links</h3>
-        <ul>
-          <li><a href="../../Contact/contact.html">Shipping & Refund</a></li>
-          <li><a href="../../Contact/contact.html">FAQs</a></li>
-          <li><a href="../../Contact/contact.html">Delivery Information</a></li>
-          <li><a href="../../Contact/contact.html">Shipping</a></li>
-          <li><a href="../../Contact/contact.html">Size Chart</a></li>
-          <li><a href="../../Contact/contact.html">Sitemap</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column newsletter">
-        <h3>Our Newsletter</h3>
-        <p>Subscribe to our latest newsletter to get news about special discounts.</p>
-        <form>
-          <input type="email" class="email-placeholder" placeholder="Email">
-          <a href="../../Contact/contact.html" class="subscribe-btn" type="submit">Subscribe</a>
-        </form>
-      </div>
+  <div class="footer-container">
+    <div class="footer-column contact-us">
+      <h3>Contact Us</h3>
+      <p><i class="fa-solid fa-location-dot"></i> Virtual Paws - Pets Store<br>Karachi, Pakistan</p>
+      <p><i class="fa-solid fa-envelope"></i> contact_virtualpaws@gmail.com</p>
+      <p><i class="fa-solid fa-phone"></i> (+91) 9876-543-210</p>
     </div>
 
-    <div class="footer-bottom">
-      <div class="social-icons">
-        <a href="https://facebook.com"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="https://instagram.com"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://twitter.com"><i class="fa-brands fa-x-twitter"></i></a>
-        <a href="https://youtube.com"><i class="fa-brands fa-youtube"></i></a>
-      </div>
-      <p>© 2025, Virtual Paws - Pets Store </p>
-      <div class="payment-icons">
-        <img src="https://img.icons8.com/color/48/visa.png" alt="Visa">
-        <img src="https://img.icons8.com/color/48/mastercard.png" alt="Mastercard">
-        <img src="https://img.icons8.com/color/48/amex.png" alt="Amex">
-        <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal">
-        <img src="https://img.icons8.com/color/48/discover.png" alt="Discover">
-      </div>
+    <div class="footer-column">
+      <h3>Useful Links</h3>
+      <ul>
+        <li><a href="#">Shipping</a></li>
+        <li><a href="#">Refund</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
     </div>
+
+    <div class="footer-column newsletter">
+      <h3>Newsletter</h3>
+      <input type="email" placeholder="Email">
+      <a href="#" class="subscribe-btn">Subscribe</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="social-icons">
+      <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+      <a href="#"><i class="fa-brands fa-instagram"></i></a>
+      <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="#"><i class="fa-brands fa-youtube"></i></a>
+    </div>
+    <p>© 2025 Virtual Paws – All Rights Reserved</p>
+  </div>
 </footer>
 
+<!-- JS -->
 <script type="module" src="single_vet.js"></script>
+
 </body>
 </html>
