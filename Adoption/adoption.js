@@ -320,12 +320,6 @@ function createPetCard(pet) {
   const card = document.createElement("div");
   card.className = "pet-card";
   card.onclick = () => {
-  try {
-    // store selected pet id as a fallback for pet-detail page
-    localStorage.setItem("selectedPet", String(pet.id));
-  } catch (err) {
-    // ignore storage errors
-  }
   window.location.href = `pet-detail.html?id=${pet.id}`;
 
 
