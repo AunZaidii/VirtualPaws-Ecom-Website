@@ -94,19 +94,15 @@
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Full Name</label>
-                                <input type="text" id="name" value="John Doe" disabled>
+                                <input type="text" id="name" disabled>
                             </div>
                             <div class="form-group">
                                 <label>Email Address</label>
-                                <input type="email" id="email" value="john.doe@email.com" disabled>
+                                <input type="email" id="email" disabled>
                             </div>
                             <div class="form-group">
                                 <label>Phone Number</label>
                                 <input type="tel" id="phone" value="(+92) 300-1234567" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label>Member Since</label>
-                                <input type="text" value="January 2024" disabled>
                             </div>
                         </div>
 
@@ -504,6 +500,9 @@
             renderOrders();
             renderAddresses();
         </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="account.js"></script>
+
 </body>
 
 <footer class="footer">

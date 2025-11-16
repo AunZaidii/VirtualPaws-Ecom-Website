@@ -92,20 +92,20 @@
 }
 
 /* ---------- BOTTOM LINK ---------- */
-.no-account {
+.has-account {
     font-size: 1.3vb;
     margin-top: 2.31vb;
     color: #555;
 }
 
-.no-account a {
+.has-account a {
     color: #000;
     text-decoration: underline;
     font-weight: 500;
     transition: 0.3s;
 }
 
-.no-account a:hover {
+.has-account a:hover {
     color: #87da48;
 }
 .register-message {
