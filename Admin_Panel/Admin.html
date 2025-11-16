@@ -86,8 +86,19 @@
         </button>
         </div>
 
-        <div class="nav-section">
-          <div class="nav-label">View All</div>
+        <div class="nav-section">   <!-- THIS LINE IS MISSING -->
+          <div class="nav-label">
+            VIEW ALL</div>
+            
+          <button class="nav-btn" onclick="showSection('view-adoptions', event)">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 14l9-5-9-5-9 5 9 5z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
+            </svg>
+            Adoption Requests
+          </button>
           <button class="nav-btn" onclick="showSection('view-products', event)">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -118,6 +129,16 @@
             </svg>
               View Shelters
           </button>
+          <button class="nav-btn" onclick="showSection('view-appointments', event)">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 7V3m8 4V3M4 11h16M4 19h16M5 11V5h14v6" />
+            </svg>
+            Vet Bookings
+          </button>
+
+           <!-- closes View All section -->
+
 
         </div>
       </nav>
@@ -606,6 +627,18 @@
         </h2>
         <div id="shelters-list"></div>
       </div>
+<!-- View Adoption Requests Section -->
+      <div id="view-adoptions-section" class="section hidden">
+        <h2 class="page-title">Adoption Requests (<span id="adoptions-count">0</span>)</h2>
+        <div id="adoption-list"></div>
+      </div>
+            <!-- View Vet Appointments Section -->
+      <div id="view-appointments-section" class="section hidden">
+        <h2 class="page-title">Vet Bookings (<span id="appointments-count">0</span>)</h2>
+        <div id="appointments-list"></div>
+      </div>
+
+
     </main>
   </div>
 

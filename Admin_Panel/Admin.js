@@ -1,6 +1,7 @@
 // ---------- Supabase Init ----------
 const SUPABASE_URL = "https://oekreylufrqvuzgoyxye.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
+const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
 
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -9,30 +10,30 @@ let products = [];
 let vets = [];
 let pets = [];
 let shelters = [];
-
+let adoptions = []; // NEW
+let appointments = [];
 
 const orders = {
   pending: 12,
   completed: 145,
-  cancelled: 3
+  cancelled: 3,
 };
 
 // ---------- Upload helper ----------
 async function uploadImages(fileList, bucketName) {
-  const files = Array.from(fileList).slice(0, 3); // max 3
+  const files = Array.from(fileList).slice(0, 3);
   const urls = [];
 
   for (const file of files) {
     const ext = file.name.split(".").pop();
-    const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const fileName = `${Date.now()}-${Math.random()
+      .toString(36)
+      .slice(2)}.${ext}`;
 
-    const { error } = await db.storage
-      .from(bucketName)
-      .upload(fileName, file);
-
+    const { error } = await db.storage.from(bucketName).upload(fileName, file);
     if (error) {
       console.error("Upload error:", error);
-      alert("Error uploading image(s). Check console.");
+      alert("Error uploading image(s).");
       continue;
     }
 
@@ -48,58 +49,59 @@ async function uploadImages(fileList, bucketName) {
 
 // ---------- Navigation ----------
 function showSection(sectionName, evt) {
-  document.querySelectorAll(".section").forEach(sec => sec.classList.add("hidden"));
-  document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
+  document.querySelectorAll(".section").forEach((sec) => sec.classList.add("hidden"));
+  document.querySelectorAll(".nav-btn").forEach((btn) => btn.classList.remove("active"));
 
   const section = document.getElementById(sectionName + "-section");
   if (section) section.classList.remove("hidden");
 
-  if (evt && evt.target) {
-    evt.target.closest(".nav-btn").classList.add("active");
-  }
+  if (evt && evt.target) evt.target.closest(".nav-btn").classList.add("active");
 
   if (sectionName === "view-products") renderProducts();
   if (sectionName === "view-vets") renderVets();
   if (sectionName === "view-pets") renderPets();
   if (sectionName === "view-shelters") renderShelters();
+  if (sectionName === "view-adoptions") renderAdoptions(); // NEW
   if (sectionName === "dashboard") updateDashboard();
+  if (sectionName === "view-appointments") renderAppointments();
+
 }
 
 window.showSection = showSection;
 
-// ---------- Load supabase data ----------
+// ---------- Load Data ----------
 async function loadData() {
   const [
-    { data: prodData, error: prodError },
-    { data: vetData, error: vetError },
-    { data: petData, error: petError },
-    { data: shelterData, error: shelterError }
+    { data: prodData },
+    { data: vetData },
+    { data: petData },
+    { data: shelterData },
+    { data: adoptionData },
+    { data: appointmentData }
   ] = await Promise.all([
-    db.from("product").select("*"),
-    db.from("vet").select("*"),
-    db.from("pet").select("*"),
-    db.from("shelter").select("*")
+      db.from("product").select("*"),
+      db.from("vet").select("*"),
+      db.from("pet").select("*"),
+      db.from("shelter").select("*"),
+      db.from("adoption").select("*"),
+      db.from("appointment").select("*")   // NEW
   ]);
-
-  if (prodError) console.error("Products load error:", prodError);
-  if (vetError) console.error("Vets load error:", vetError);
-  if (petError) console.error("Pets load error:", petError);
-  if (shelterError) console.error("Shelter load error:", shelterError);
 
   products = prodData || [];
   vets = vetData || [];
   pets = petData || [];
   shelters = shelterData || [];
+  adoptions = adoptionData || []; // NEW
+  appointments = appointmentData || [];
 
   updateDashboard();
 }
 
-
 // ---------- Product Form ----------
 document.getElementById("product-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const formData = new FormData(e.target);
 
+  const formData = new FormData(e.target);
   const imageInput = document.getElementById("product-images");
   const imageUrls = await uploadImages(imageInput.files, "product-images");
 
@@ -118,14 +120,14 @@ document.getElementById("product-form").addEventListener("submit", async (e) => 
       tags: formData.get("tags"),
       material: formData.get("material"),
       size: formData.get("size"),
-      review: formData.get("review")
+      review: formData.get("review"),
     })
     .select()
     .single();
 
   if (error) {
     console.error("Product insert error:", error);
-    alert("Error adding product. Check console.");
+    alert("Error adding product.");
     return;
   }
 
@@ -139,8 +141,8 @@ document.getElementById("product-form").addEventListener("submit", async (e) => 
 // ---------- Vet Form ----------
 document.getElementById("vet-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const formData = new FormData(e.target);
 
+  const formData = new FormData(e.target);
   const imageInput = document.getElementById("vet-images");
   const imageUrls = await uploadImages(imageInput.files, "vet-images");
 
@@ -157,14 +159,14 @@ document.getElementById("vet-form").addEventListener("submit", async (e) => {
       rating: parseFloat(formData.get("rating")),
       education: formData.get("education"),
       reviews: formData.get("reviews"),
-      image_url: imageUrls[0] || null
+      image_url: imageUrls[0] || null,
     })
     .select()
     .single();
 
   if (error) {
     console.error("Vet insert error:", error);
-    alert("Error adding vet. Check console.");
+    alert("Error adding vet.");
     return;
   }
 
@@ -178,42 +180,44 @@ document.getElementById("vet-form").addEventListener("submit", async (e) => {
 // ---------- Pet Form ----------
 document.getElementById("pet-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const formData = new FormData(e.target);
 
+  const formData = new FormData(e.target);
   const imgInput = document.getElementById("pet-images");
   const imageUrls = await uploadImages(imgInput.files, "pet-images");
 
   const { data, error } = await db
     .from("pet")
-    .insert([{
-      name: formData.get("name"),
-      breed: formData.get("breed"),
-      species: formData.get("species"),
-      gender: formData.get("gender"),
-      age: parseInt(formData.get("age")),
-      size: formData.get("size"),
-      color: formData.get("color"),
-      temperament: formData.get("temperament"),
-      tags: formData.get("tags"),
-      health_status: formData.get("health_status"),
-      location: formData.get("location"),
-      description: formData.get("description"),
-      last_vet_visit: formData.get("lastVetVisit") || null,
-      diet: formData.get("diet"),
-      vaccinations: formData.get("vaccinations"),
-      fee: parseFloat(formData.get("adoptionFees")),
-      adoption_req: formData.get("adoptionRequirement") || null,
-      shelter_name: formData.get("shelter_name") || null,
-      image1: imageUrls[0] || null,
-      image2: imageUrls[1] || null,
-      image3: imageUrls[2] || null
-    }])
+    .insert([
+      {
+        name: formData.get("name"),
+        breed: formData.get("breed"),
+        species: formData.get("species"),
+        gender: formData.get("gender"),
+        age: parseInt(formData.get("age")),
+        size: formData.get("size"),
+        color: formData.get("color"),
+        temperament: formData.get("temperament"),
+        tags: formData.get("tags"),
+        health_status: formData.get("health_status"),
+        location: formData.get("location"),
+        description: formData.get("description"),
+        last_vet_visit: formData.get("lastVetVisit") || null,
+        diet: formData.get("diet"),
+        vaccinations: formData.get("vaccinations"),
+        fee: parseFloat(formData.get("adoptionFees")),
+        adoption_req: formData.get("adoptionRequirement") || null,
+        shelter_name: formData.get("shelter_name") || null,
+        image1: imageUrls[0] || null,
+        image2: imageUrls[1] || null,
+        image3: imageUrls[2] || null,
+      },
+    ])
     .select()
     .single();
 
   if (error) {
     console.error("Pet insert error:", error);
-    alert("Error adding pet. Check console for details.");
+    alert("Error adding pet.");
     return;
   }
 
@@ -224,9 +228,10 @@ document.getElementById("pet-form").addEventListener("submit", async (e) => {
   updateDashboard();
 });
 
-
+// ---------- Shelter Form ----------
 document.getElementById("shelter-form").addEventListener("submit", async (e) => {
   e.preventDefault();
+
   const formData = new FormData(e.target);
 
   const { data, error } = await db
@@ -236,7 +241,7 @@ document.getElementById("shelter-form").addEventListener("submit", async (e) => 
       phone: formData.get("phone"),
       email: formData.get("email"),
       address: formData.get("address"),
-      verified: formData.get("verified") === "true"
+      verified: formData.get("verified") === "true",
     })
     .select()
     .single();
@@ -253,7 +258,6 @@ document.getElementById("shelter-form").addEventListener("submit", async (e) => 
   updateDashboard();
 });
 
-
 // ---------- Render Products ----------
 function renderProducts() {
   const container = document.getElementById("products-list");
@@ -268,7 +272,8 @@ function renderProducts() {
     '<div class="items-grid">' +
     products
       .map(
-        (p) => `
+        (p) =>
+          `
       <div class="item-card">
         <div class="item-header">
           <div class="item-title">${p.name}</div>
@@ -301,7 +306,8 @@ function renderVets() {
     '<div class="items-grid">' +
     vets
       .map(
-        (v) => `
+        (v) =>
+          `
       <div class="item-card">
         ${v.image_url ? `<img src="${v.image_url}" class="item-image">` : ""}
         <div class="item-header">
@@ -335,7 +341,8 @@ function renderPets() {
     '<div class="items-grid">' +
     pets
       .map(
-        (p) => `
+        (p) =>
+          `
       <div class="item-card">
         ${p.image1 ? `<img src="${p.image1}" class="item-image">` : ""}
         <div class="item-header">
@@ -358,9 +365,7 @@ function renderPets() {
 // ---------- Render Shelters ----------
 function renderShelters() {
   const container = document.getElementById("shelters-list");
-  const countSpan = document.getElementById("shelters-count");
-
-  countSpan.textContent = shelters.length;
+  document.getElementById("shelters-count").textContent = shelters.length;
 
   if (shelters.length === 0) {
     container.innerHTML = `<p>No shelters found.</p>`;
@@ -371,17 +376,13 @@ function renderShelters() {
     '<div class="items-grid">' +
     shelters
       .map(
-        (s) => `
+        (s) =>
+          `
       <div class="item-card">
         <div class="item-header">
-          <div class="item-title">${s.shelter_name} ${
-          s.verified ? "✔️" : ""
-        }</div>
-          <button class="btn-danger" onclick="deleteShelter('${
-            s.shelter_id
-          }')">✕</button>
+          <div class="item-title">${s.shelter_name} ${s.verified ? "✔️" : ""}</div>
+          <button class="btn-danger" onclick="deleteShelter('${s.shelter_id}')">✕</button>
         </div>
-
         <div class="item-details">
           <div><strong>Phone:</strong> ${s.phone || "N/A"}</div>
           <div><strong>Email:</strong> ${s.email || "N/A"}</div>
@@ -393,6 +394,137 @@ function renderShelters() {
       .join("") +
     "</div>";
 }
+function renderAppointments() {
+  const container = document.getElementById("appointments-list");
+  document.getElementById("appointments-count").textContent = appointments.length;
+
+  if (appointments.length === 0) {
+    container.innerHTML = `<p>No vet booking requests found.</p>`;
+    return;
+  }
+
+  container.innerHTML =
+    '<div class="items-grid">' +
+    appointments
+      .map(
+        (req) => `
+        <div class="item-card">
+
+          <div class="item-header">
+            <div class="item-title">Booking #${req.appointment_id}</div>
+          </div>
+
+          <div class="item-details">
+            <p><strong>Name:</strong> ${req.name || "Unknown"}</p>
+            <p><strong>Phone:</strong> ${req.phone || "N/A"}</p>
+            <p><strong>Vet ID:</strong> ${req.vet_id || "N/A"}</p>
+            <p><strong>Date:</strong> ${req.date}</p>
+            <p><strong>Time:</strong> ${req.time}</p>
+            <p><strong>Notes:</strong> ${req.notes || "No notes"}</p>
+            <p><strong>Status:</strong> ${req.status}</p>
+          </div>
+
+          <div class="action-buttons">
+            <button class="btn-primary" onclick="updateAppointmentStatus('${req.appointment_id}', 'accepted')">✓ Accept</button>
+            <button class="btn-danger" onclick="updateAppointmentStatus('${req.appointment_id}', 'rejected')">✕ Reject</button>
+          </div>
+
+
+        </div>
+      `
+      )
+      .join("") +
+    "</div>";
+}
+async function updateAppointmentStatus(appointment_id, newStatus) {
+  console.log("Updating:", appointment_id, newStatus);
+
+  const { error } = await db
+    .from("appointment")
+    .update({ status: newStatus })
+    .eq("appointment_id", appointment_id);
+
+  if (error) {
+    console.error("Update Error:", error);
+    alert("Error updating appointment.");
+    return;
+  }
+
+  appointments = appointments.map((a) =>
+    a.appointment_id === appointment_id ? { ...a, status: newStatus } : a
+  );
+
+  renderAppointments();
+  alert(`Appointment ${newStatus}!`);
+}
+
+window.updateAppointmentStatus = updateAppointmentStatus;
+
+function renderAdoptions() {
+  const container = document.getElementById("adoption-list");
+  document.getElementById("adoptions-count").textContent = adoptions.length;
+
+  if (adoptions.length === 0) {
+    container.innerHTML = `<p>No adoption requests found.</p>`;
+    return;
+  }
+
+  container.innerHTML =
+    '<div class="items-grid">' +
+    adoptions
+      .map(
+        (req) => `
+      <div class="item-card">
+
+        <div class="item-header">
+          <div class="item-title">Request #${req.adoption_id}</div>
+        </div>
+
+        <div class="item-details">
+          <p><strong>Name:</strong> ${req.name}</p>
+          <p><strong>Email:</strong> ${req.email}</p>
+          <p><strong>Phone:</strong> ${req.phone}</p>
+          <p><strong>Pet ID:</strong> ${req.pet_id}</p>
+          <p><strong>Shelter ID:</strong> ${req.shelter_id}</p>
+          <p><strong>Message:</strong> ${req.message || "No message"}</p>
+          <p><strong>Status:</strong> ${req.adoptionStatus}</p>
+        </div>
+        <div class="action-buttons">
+          <button class="btn-primary" onclick="updateAdoptionStatus('${req.adoption_id}', 'accepted')">✓ Accept</button>
+          <button class="btn-danger" onclick="updateAdoptionStatus('${req.adoption_id}', 'rejected')">✕ Reject</button>
+        </div>
+
+      </div>
+      `
+      )
+      .join("") +
+    "</div>";
+}
+
+// ---------- Adoption Status Update (FIXED) ----------
+async function updateAdoptionStatus(adoption_id, newStatus) {
+  const { error } = await db
+    .from("adoption")
+    .update({ adoptionStatus: newStatus })
+    .eq("adoption_id", adoption_id);
+
+  if (error) {
+    console.error("Update Error:", error);
+    alert("Error updating request.");
+    return;
+  }
+
+  adoptions = adoptions.map((req) =>
+    req.adoption_id === adoption_id
+      ? { ...req, adoptionStatus: newStatus }
+      : req
+  );
+
+  renderAdoptions();
+  alert(`Request ${newStatus}!`);
+}
+
+window.updateAdoptionStatus = updateAdoptionStatus;
 
 // ---------- Delete ----------
 async function deleteProduct(id) {
@@ -427,6 +559,7 @@ async function deletePet(id) {
   renderPets();
   updateDashboard();
 }
+
 async function deleteShelter(id) {
   if (!confirm("Delete this shelter?")) return;
 
@@ -434,12 +567,9 @@ async function deleteShelter(id) {
   if (error) return alert("Error deleting shelter.");
 
   shelters = shelters.filter((s) => s.shelter_id !== id);
-
   renderShelters();
   updateDashboard();
 }
-
-
 
 window.deleteProduct = deleteProduct;
 window.deleteVet = deleteVet;
@@ -463,4 +593,3 @@ function updateDashboard() {
   await loadData();
   updateDashboard();
 })();
-

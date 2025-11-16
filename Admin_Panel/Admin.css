@@ -16,6 +16,17 @@ body {
 }
 
 
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.action-buttons .btn-primary,
+.action-buttons .btn-danger {
+  flex: 1;
+  width: 100%;
+}
+
 .container {
     display: flex;
     max-width: 1400px;
