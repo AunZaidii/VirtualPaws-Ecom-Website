@@ -54,6 +54,8 @@ function populateProduct(p) {
   document.querySelector(".meta-item:nth-child(2) .meta-value").textContent = p.category;
   document.querySelector(".meta-item:nth-child(3) .meta-value").textContent = p.tags;
 
+  setupAddToCart(p);
+
   // Images
   const images = [
     { src: p.image, alt: p.imageAlt },
@@ -254,6 +256,48 @@ async function loadReviews(productId) {
   });
 }
 
+function setupAddToCart(product) {
+  const addBtn = document.querySelector(".btn.btn-primary"); 
+
+  addBtn.addEventListener("click", async () => {
+    const qty = parseInt(document.getElementById("quantity").textContent);
+
+    // Check if user is logged in
+    // const { data: { user } } = await supabase.auth.getUser();
+    // if (!user) {
+    //   alert("Please login to add items to cart.");
+    //   return;
+    // }
+
+    const userId = "fa69cf92-7fca-4b43-ab90-d18e1b989f42";
+
+    // const { error } = await supabase.from("cart").insert({
+    //   user_id: user.id,
+    //   product_id: product.product_id,
+    //   title: product.name,
+    //   price: product.price,
+    //   quantity: qty,
+    //   image: product.image
+    // });
+
+    const { error } = await supabase.from("cart").insert({
+    user_id: userId,
+    product_id: product.product_id,
+    title: product.name,
+    price: product.price,
+    quantity: qty,
+    image: product.image
+});
+
+    if (error) {
+      console.error("Add to cart error:", error);
+      alert("Failed to add item to cart!");
+      return;
+    }
+
+    alert("Added to cart!");
+  });
+}
 
 // ---------------- Run Page ----------------
 setupCollapsibles();
