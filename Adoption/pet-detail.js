@@ -108,7 +108,7 @@ async function loadPetFromSupabase() {
         diet,
         vaccinations,
         fee,
-        adoption_required,
+        adoption_req,
         shelter_id,
         shelter_name,
         image1,

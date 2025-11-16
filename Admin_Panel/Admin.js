@@ -8,6 +8,8 @@ const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 let products = [];
 let vets = [];
 let pets = [];
+let shelters = [];
+
 
 const orders = {
   pending: 12,
@@ -59,6 +61,7 @@ function showSection(sectionName, evt) {
   if (sectionName === "view-products") renderProducts();
   if (sectionName === "view-vets") renderVets();
   if (sectionName === "view-pets") renderPets();
+  if (sectionName === "view-shelters") renderShelters();
   if (sectionName === "dashboard") updateDashboard();
 }
 
@@ -66,23 +69,31 @@ window.showSection = showSection;
 
 // ---------- Load supabase data ----------
 async function loadData() {
-  const [{ data: prodData, error: prodError },
-  { data: vetData, error: vetError },
-  { data: petData, error: petError }] = await Promise.all([
+  const [
+    { data: prodData, error: prodError },
+    { data: vetData, error: vetError },
+    { data: petData, error: petError },
+    { data: shelterData, error: shelterError }
+  ] = await Promise.all([
     db.from("product").select("*"),
     db.from("vet").select("*"),
-    db.from("pet").select("*")
+    db.from("pet").select("*"),
+    db.from("shelter").select("*")
   ]);
 
   if (prodError) console.error("Products load error:", prodError);
   if (vetError) console.error("Vets load error:", vetError);
   if (petError) console.error("Pets load error:", petError);
+  if (shelterError) console.error("Shelter load error:", shelterError);
 
   products = prodData || [];
   vets = vetData || [];
   pets = petData || [];
+  shelters = shelterData || [];
+
   updateDashboard();
 }
+
 
 // ---------- Product Form ----------
 document.getElementById("product-form").addEventListener("submit", async (e) => {
@@ -315,6 +326,45 @@ function renderPets() {
     "</div>";
 }
 
+// ---------- Render Shelters ----------
+function renderShelters() {
+  const container = document.getElementById("shelters-list");
+  const countSpan = document.getElementById("shelters-count");
+
+  countSpan.textContent = shelters.length;
+
+  if (shelters.length === 0) {
+    container.innerHTML = `<p>No shelters found.</p>`;
+    return;
+  }
+
+  container.innerHTML =
+    '<div class="items-grid">' +
+    shelters
+      .map(
+        (s) => `
+      <div class="item-card">
+        <div class="item-header">
+          <div class="item-title">${s.shelter_name} ${
+          s.verified ? "✔️" : ""
+        }</div>
+          <button class="btn-danger" onclick="deleteShelter('${
+            s.shelter_id
+          }')">✕</button>
+        </div>
+
+        <div class="item-details">
+          <div><strong>Phone:</strong> ${s.phone || "N/A"}</div>
+          <div><strong>Email:</strong> ${s.email || "N/A"}</div>
+          <div><strong>Address:</strong> ${s.address || "N/A"}</div>
+        </div>
+      </div>
+    `
+      )
+      .join("") +
+    "</div>";
+}
+
 // ---------- Delete ----------
 async function deleteProduct(id) {
   if (!confirm("Delete this product?")) return;
@@ -348,10 +398,24 @@ async function deletePet(id) {
   renderPets();
   updateDashboard();
 }
+async function deleteShelter(id) {
+  if (!confirm("Delete this shelter?")) return;
+
+  const { error } = await db.from("shelter").delete().eq("shelter_id", id);
+  if (error) return alert("Error deleting shelter.");
+
+  shelters = shelters.filter((s) => s.shelter_id !== id);
+
+  renderShelters();
+  updateDashboard();
+}
+
+
 
 window.deleteProduct = deleteProduct;
 window.deleteVet = deleteVet;
 window.deletePet = deletePet;
+window.deleteShelter = deleteShelter;
 
 // ---------- Dashboard ----------
 function updateDashboard() {

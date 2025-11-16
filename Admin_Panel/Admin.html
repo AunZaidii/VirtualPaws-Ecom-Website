@@ -100,6 +100,16 @@
             </svg>
             View Pets
           </button>
+          <button class="nav-btn" onclick="showSection('view-shelters', event)">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M6 20v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
+            </svg>
+              View Shelters
+          </button>
+
         </div>
       </nav>
     </aside>
@@ -510,6 +520,13 @@
       <div id="view-pets-section" class="section hidden">
         <h2 class="page-title">All Pets (<span id="pets-count">0</span>)</h2>
         <div id="pets-list"></div>
+      </div>
+
+      <div id="view-shelters-section" class="section hidden">
+        <h2 class="page-title">
+            All Shelters (<span id="shelters-count">0</span>)
+        </h2>
+        <div id="shelters-list"></div>
       </div>
     </main>
   </div>
