@@ -10,8 +10,16 @@ const SUPABASE_KEY =
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ---------- ID from localStorage ----------
-const petId = localStorage.getItem("selectedPet");
+// ---------- Get ID from URL first, then fallback to localStorage ----------
+const urlParams = new URLSearchParams(window.location.search);
+let petId = urlParams.get("id");
+
+if (!petId) {
+  petId = localStorage.getItem("selectedPet");
+}
+
 let currentPet = null;
+
 
 // ---------- DOM ----------
 const mainImage = document.getElementById("mainImage");
@@ -35,6 +43,58 @@ function debounce(fn, wait) {
     clearTimeout(t);
     t = setTimeout(() => fn.apply(this, args), wait);
   };
+}
+
+// ---------- UI error banner (debug) ----------
+function showErrorBanner(message, details) {
+  console.error("Pet detail error:", message, details || "");
+  // remove existing banner if present
+  const existing = document.getElementById("petErrorBanner");
+  if (existing) existing.remove();
+
+  const banner = document.createElement("div");
+  banner.id = "petErrorBanner";
+  banner.style.position = "fixed";
+  banner.style.left = "50%";
+  banner.style.top = "1rem";
+  banner.style.transform = "translateX(-50%)";
+  banner.style.zIndex = "9999";
+  banner.style.background = "#fff3f3";
+  banner.style.border = "1px solid #f5c2c2";
+  banner.style.color = "#721c24";
+  banner.style.padding = "12px 16px";
+  banner.style.borderRadius = "6px";
+  banner.style.boxShadow = "0 2px 8px rgba(0,0,0,0.08)";
+  banner.style.fontSize = "14px";
+
+  const text = document.createElement("div");
+  text.innerHTML = `<strong>${message}</strong>` + (details ? `<div style="margin-top:6px;color:#555;">${details}</div>` : "");
+  banner.appendChild(text);
+
+  const actions = document.createElement("div");
+  actions.style.marginTop = "8px";
+  actions.style.display = "flex";
+  actions.style.gap = "8px";
+
+  const backBtn = document.createElement("button");
+  backBtn.textContent = "Back to list";
+  backBtn.className = "btn btn-outline";
+  backBtn.onclick = () => {
+    window.location.href = "adoption.html";
+  };
+  actions.appendChild(backBtn);
+
+  const consoleBtn = document.createElement("button");
+  consoleBtn.textContent = "Show console details";
+  consoleBtn.className = "btn btn-outline";
+  consoleBtn.onclick = () => {
+    alert("Open the browser console to view debug logs (F12 / DevTools).");
+  };
+  actions.appendChild(consoleBtn);
+
+  banner.appendChild(actions);
+
+  document.body.appendChild(banner);
 }
 
 function syncInfoHeight() {
@@ -62,13 +122,23 @@ if (mainImage) {
 // ---------- Init ----------
 document.addEventListener("DOMContentLoaded", async () => {
   if (!petId) {
-    window.location.href = "adoption.html";
+    // no id in URL; try reading last-selected pet from localStorage
+    petId = localStorage.getItem("selectedPet");
+  }
+
+  if (!petId) {
+    showErrorBanner("No pet selected.", "No `id` query param and no `selectedPet` in localStorage.");
+    // do not auto-redirect; allow user to click back
     return;
   }
 
   await loadPetFromSupabase();
   if (!currentPet) {
-    window.location.href = "adoption.html";
+    showErrorBanner(
+      "Pet not found.",
+      `Requested pet id: ${petId}. If this was recently added, please refresh or try again.`
+    );
+    // keep page visible for debugging (no auto-redirect)
     return;
   }
 
@@ -79,7 +149,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 // ---------- Load one pet (+ shelter) from Supabase ----------
 async function loadPetFromSupabase() {
   try {
-    const { data: petRow, error: petError } = await supabase
+    // Try to load by given petId; if no results, try numeric coercion as a fallback
+    let petRow = null;
+    let petError = null;
+
+    console.debug("pet-detail: querying pet with petId:", petId);
+
+    let res = await supabase
       .from("pet")
       .select(
         `
@@ -109,10 +185,61 @@ async function loadPetFromSupabase() {
       `
       )
       .eq("pet_id", petId)
-      .single();
+      .maybeSingle();
+
+    console.debug("pet-detail: supabase response:", res);
+
+    if (res && res.data) {
+      petRow = res.data;
+    } else if (res && res.error) {
+      // record the error and attempt fallback by coercing to number if possible
+      petError = res.error;
+      console.warn("pet-detail: initial query error:", petError);
+      const numericId = Number(petId);
+      if (!isNaN(numericId)) {
+        const fallback = await supabase
+          .from("pet")
+          .select(
+            `
+        pet_id,
+        name,
+        species,
+        gender,
+        breed,
+        age,
+        size,
+        color,
+        location,
+        description,
+        temperament,
+        health_status,
+        tags,
+        last_vet_visit,
+        diet,
+        vaccinations,
+        fee,
+        adoption_required,
+        shelter_id,
+        shelter_name,
+        image1,
+        image2,
+        image3
+      `
+          )
+          .eq("pet_id", numericId)
+          .maybeSingle();
+
+        console.debug("pet-detail: fallback response:", fallback);
+        if (fallback && fallback.data) {
+          petRow = fallback.data;
+          petError = null;
+        }
+      }
+    }
 
     if (petError) {
       console.error("Error loading pet:", petError);
+      showErrorBanner("Error loading pet from server.", petError.message || JSON.stringify(petError));
       return;
     }
 

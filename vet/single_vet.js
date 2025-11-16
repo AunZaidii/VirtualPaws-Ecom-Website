@@ -1,38 +1,27 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-// ---------------- Supabase Setup ----------------
 const SUPABASE_URL = "https://oekreylufrqvuzgoyxye.supabase.co";
 const SUPABASE_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ---------------- Get Vet ID From URL ----------------
+// ------------------ Helpers ------------------
+
 function getVetId() {
-  const url = new URL(window.location.href);
-  return url.searchParams.get("id");
+  return new URL(window.location.href).searchParams.get("id");
 }
 
-// ---------------- TIME Conversion (12 → 24 Hour) ----------------
 function convertTo24Hour(timeStr) {
   if (!timeStr) return null;
-
-  const [time, modifier] = timeStr.split(" ");
-  let [hours, minutes] = time.split(":");
-
-  if (modifier === "PM" && hours !== "12") hours = String(Number(hours) + 12);
-  if (modifier === "AM" && hours === "12") hours = "00";
-
-  return `${hours}:${minutes}:00`;
+  return `${timeStr}:00`; // your input is already 24h format
 }
 
-// ---------------- Load Vet Details ----------------
+// ------------------ Load Vet ------------------
+
 async function loadVet() {
   const vetId = getVetId();
-  if (!vetId) {
-    console.error("No vet ID in URL");
-    return;
-  }
+  if (!vetId) return console.log("❌ No vet ID found");
 
   const { data, error } = await supabase
     .from("vet")
@@ -40,47 +29,56 @@ async function loadVet() {
     .eq("vet_id", vetId)
     .single();
 
-  if (error) {
-    console.error("Error loading vet:", error);
-    return;
-  }
+  if (error) return console.error("Load error:", error);
 
+  // Header
   document.querySelector(".name").textContent = data.name;
   document.querySelector(".specialty").textContent = data.category || "Veterinarian";
 
   document.querySelector(".contact-list").innerHTML = `
-    <li><strong>Phone:</strong> ${data.phone}</li>
-    <li><strong>Email:</strong> ${data.email}</li>
-    <li><strong>Clinic:</strong> ${data.clinicaddress}</li>
+    <li><strong>Phone:</strong> ${data.phone || "N/A"}</li>
+    <li><strong>Email:</strong> ${data.email || "N/A"}</li>
+    <li><strong>Clinic:</strong> ${data.clinicAddress || "Not provided"}</li>
   `;
 
+  // About
   document.querySelector(".lead").textContent =
     data.description || "No description provided.";
 
   // Education
-  const eduList = data.education?.split("\n") || [];
-  document.querySelector(".edu-col ul").innerHTML = eduList
-    .map((e) => `<li>${e}</li>`)
-    .join("");
+  document.querySelector(".edu-list").innerHTML =
+    (data.education?.split("\n") || ["No education added"]).map(
+      (e) => `<li>${e}</li>`
+    ).join("");
 
   // Experience
-  const expList = data.experience?.split("\n") || [];
-  document.querySelectorAll(".edu-col ul")[1].innerHTML = expList
-    .map((e) => `<li>${e}</li>`)
-    .join("");
+  document.querySelector(".exp-list").innerHTML =
+    (data.experience?.split("\n") || ["No experience added"]).map(
+      (e) => `<li>${e}</li>`
+    ).join("");
 
-  // Reviews (simple)
+  // Reviews
   const reviewBox = document.querySelector(".reviews-container");
-  if (reviewBox && data.reviews) {
-    const reviewList = data.reviews.split("\n");
-    reviewBox.innerHTML = reviewList
+  if (data.reviews) {
+    reviewBox.innerHTML = data.reviews
+      .split("\n")
       .map((r) => `<p class="review-text">⭐ ${r}</p>`)
       .join("");
   }
+
+  // Clinic Address Text
+  document.querySelector(".clinic-address").textContent =
+    data.clinicAddress || "Not provided";
+
+  // Map
+  const mapFrame = document.querySelector(".map-frame");
+  const encoded = encodeURIComponent(data.clinicAddress || "Karachi");
+  mapFrame.src = `https://maps.google.com/maps?q=${encoded}&output=embed`;
 }
 
-// ---------------- Submit Appointment ----------------
-async function setupForm() {
+// ------------------ Appointment ------------------
+
+function setupForm() {
   const form = document.querySelector("#appointmentForm");
   const successMsg = document.querySelector("#successMsg");
   const errorMsg = document.querySelector("#errorMsg");
@@ -92,36 +90,28 @@ async function setupForm() {
     errorMsg.style.display = "none";
 
     const vetId = getVetId();
+
     const name = document.querySelector("#custName").value;
     const phone = document.querySelector("#custPhone").value;
     const date = document.querySelector("#custDate").value;
-    const timeRaw = document.querySelector("#custTime").value;
+    const time = convertTo24Hour(document.querySelector("#custTime").value);
     const notes = document.querySelector("#custNotes").value;
 
-    // Fix time
-    const time24 = convertTo24Hour(timeRaw);
-
-    // Combine name/phone into notes because table has no name/phone columns
-    const combinedNotes = `Name: ${name}\nPhone: ${phone}\nNotes: ${notes}`;
-
-    console.log("📤 Inserting appointment…");
-
-    const { data, error } = await supabase.from("appointment").insert([
+    const { error } = await supabase.from("appointment").insert([
       {
-    vet_id: vetId,
-    user_id: null,          // still null until you add login system
-    name: name,             // now stored separately
-    phone: phone,           // numeric column (int8)
-    date: date,
-    time: time24,
-    status: "pending",
-    notes: notes            // only the notes you typed
-  }
+        vet_id: vetId,
+        user_id: null,
+        name,
+        phone,
+        date,
+        time,
+        status: "pending",
+        notes,
+      },
     ]);
 
-    console.log("Insert error:", error); // DEBUG — SHOW ME ERROR IN CONSOLE
-
     if (error) {
+      console.error(error);
       errorMsg.style.display = "block";
       return;
     }
@@ -131,6 +121,7 @@ async function setupForm() {
   });
 }
 
-// ---------------- Initialize ----------------
+// ------------------ Init ------------------
+
 loadVet();
 setupForm();
