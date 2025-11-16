@@ -26,14 +26,14 @@
   overflow: visible;       /* allow the CTA shadow to show */
 }
 
-/* Responsive height with sane min/max so it never looks cropped weird */
 .hero-image-wrap{
   position: relative;
   width: 100%;
-  height: clamp(300px, 42vw, 560px);  /* <- main control for hero height */
+  height: clamp(18rem, 42vw, 35rem);
   overflow: hidden;
   z-index: 0;
 }
+
 
 /* Make image cover the box, and bias cropping slightly downward
    (so top isn’t over-cropped on tall screens) */
@@ -78,9 +78,9 @@
     height: clamp(260px, 60vw, 420px);
   }
   .hero-cta{
-    position: static;             /* takes it out of absolute layout */
+    position: static;             
     display: inline-block;
-    margin: 12px 16px 0;          /* spacing under the image */
+    margin: 12px 16px 0;          
   }
   .hero.hero-image{ text-align: center; }
 }
@@ -255,6 +255,8 @@
   box-shadow: 0 12px 28px rgba(0,0,0,0.14);
 }
 .pet-image-container{
+  padding: 0.75rem;
+  height: 14rem;   
   position: relative;
   overflow: hidden;
   background: #f5f5f5;
@@ -401,12 +403,20 @@
     padding: 0.625rem 1.25rem;
   }
 }
-@media (max-width: 768px){
-  .pets-grid{
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1rem;
-  }
+
+@media (max-width: 768px) {
+    .hero-image-wrap {
+        height: auto !important;
+    }
+
+    .hero-graphic {
+        width: 100%;
+        height: auto;
+        object-fit: contain !important; 
+    }
 }
+
+
 @media (max-width: 480px){
   .pets-grid{ grid-template-columns: 1fr; }
 }
@@ -415,7 +425,6 @@
    Modal (contact + success) — FIXED
    =========================== */
 .modal{
-  /* force hidden by default in case another stylesheet sets display:block */
   display: none !important;
   position: fixed;
   inset: 0;
@@ -541,7 +550,7 @@
 .verified-icon svg{
   width: 22px;
   height: 22px;
-  color: #16a34a;              /* green check */
+  color: #16a34a;              
 }
 
 /* Contact items inside the modal */
@@ -562,12 +571,11 @@
   flex: 0 0 18px;
 }
 
-/* Make sure generic SVGs inside .modal never auto-stretch */
+
 .modal svg{ max-width: none; }
 
-/* Contact links in the modal: green */
 .contact-list a{
-  color: #16a34a;          /* green */
+  color: #16a34a;        
   text-decoration: none;
   font-weight: 700;
 }
