@@ -56,13 +56,13 @@ function renderProducts(products) {
     const id = product.product_id;
 
     const html = `
-      <div class="product-div" data-id="${id}">
+      <div class="product-card" data-id="${id}">
         <div class="product-image-div">
-          <img class="product-image" src="${product.image}" alt="${product.imageAlt}">
-          <img class="product-image-hover" src="${product.hoverimage}" alt="${product.hoverimageAlt}">
+          <img class="product-image" src="${product.image}" alt="${product.imageAlt}" loading="lazy">
+          <img class="product-image-hover" src="${product.hoverimage}" alt="${product.hoverimageAlt}" loading="lazy">
         </div>
-        <div class="product-text-div">
-          <p class="product-text-title">${product.name}</p>
+        <div class="product-info">
+          <h3 class="product-text-title">${product.name}</h3>
           <p class="product-text-rating">${stars}</p>
           <p class="product-text-price">
             <span style="color: rgb(135, 218, 72); font-weight: bold;">
@@ -77,7 +77,7 @@ function renderProducts(products) {
   });
 
   // ⭐ Auto redirect to products page
-  document.querySelectorAll(".product-div").forEach((card) => {
+  document.querySelectorAll(".product-card").forEach((card) => {
     card.addEventListener("click", () => {
       const id = card.dataset.id;
       if (id) {
