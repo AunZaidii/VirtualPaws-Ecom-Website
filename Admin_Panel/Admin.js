@@ -225,6 +225,35 @@ document.getElementById("pet-form").addEventListener("submit", async (e) => {
 });
 
 
+document.getElementById("shelter-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+
+  const { data, error } = await db
+    .from("shelter")
+    .insert({
+      shelter_name: formData.get("shelter_name"),
+      phone: formData.get("phone"),
+      email: formData.get("email"),
+      address: formData.get("address"),
+      verified: formData.get("verified") === "true"
+    })
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Shelter insert error:", error);
+    alert("Error adding shelter.");
+    return;
+  }
+
+  shelters.push(data);
+  e.target.reset();
+  alert("Shelter added successfully!");
+  updateDashboard();
+});
+
+
 // ---------- Render Products ----------
 function renderProducts() {
   const container = document.getElementById("products-list");
@@ -422,6 +451,7 @@ function updateDashboard() {
   document.getElementById("total-products").textContent = products.length;
   document.getElementById("total-vets").textContent = vets.length;
   document.getElementById("total-pets").textContent = pets.length;
+  document.getElementById("total-shelters").textContent = shelters.length;
 
   document.getElementById("pending-orders").textContent = orders.pending;
   document.getElementById("completed-orders").textContent = orders.completed;
@@ -433,3 +463,4 @@ function updateDashboard() {
   await loadData();
   updateDashboard();
 })();
+

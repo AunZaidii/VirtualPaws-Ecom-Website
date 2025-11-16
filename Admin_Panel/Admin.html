@@ -75,6 +75,15 @@
             </svg>
             Add Pet
           </button>
+        
+
+        <button class="nav-btn" data-target="add-shelter" onclick="showSection('add-shelter', event)">
+          <svg class="house-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h4a1 1 0 001-1v-4h4v4a1 1 0 001 1h4a1 1 0 001-1V10" />
+          </svg>
+          Add Shelter
+        </button>
         </div>
 
         <div class="nav-section">
@@ -200,6 +209,22 @@
               </div>
             </div>
           </div>
+          
+          <div class="stat-card">
+            <div class="stat-info">
+              <div class="stat-icon primary">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h4a1 1 0 001-1v-4h4v4a1 1 0 001 1h4a1 1 0 001-1V10" />
+                </svg>
+              </div>
+              <div>
+                <p class="stat-title">Total Shelters</p>
+                <p class="stat-value" id="total-shelters">0</p>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -373,8 +398,60 @@
         </div>
       </div>
 
+          <!-- Add Shelter Section -->
+    <div id="add-shelter-section" class="section hidden">
+      <h2 class="page-title">Add New Shelter</h2>
+      <div class="form-container">
+        
+        <form id="shelter-form">
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Shelter Name *</label>
+              <input type="text" name="shelter_name" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Email *</label>
+              <input type="email" name="email" class="form-input" required>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Contact Number *</label>
+              <input type="tel" name="phone" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Verified *</label>
+              <select name="verified" class="form-input" required>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Address *</label>
+            <input type="text" name="address" class="form-input" required>
+          </div>
+
+          <button type="submit" class="btn-primary">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Add Shelter
+          </button>
+
+        </form>
+
+      </div>
+    </div>
+
+
       <!-- Add Pet Section -->
-<div id="add-pet-section" class="section hidden">
+  <div id="add-pet-section" class="section hidden">
     <h2 class="page-title">Add New Pet for Adoption</h2>
     <div class="form-container">
         <form id="pet-form">
@@ -501,7 +578,8 @@
             <button type="submit" class="btn-primary">Add Pet</button>
         </form>
     </div>
-</div>
+  </div>
+  
 
 
       <!-- View Products Section -->

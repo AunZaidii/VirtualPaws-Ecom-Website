@@ -341,3 +341,9 @@ body {
     color: #9ca3af;
     pointer-events: none;
 }
+.nav-btn svg {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
