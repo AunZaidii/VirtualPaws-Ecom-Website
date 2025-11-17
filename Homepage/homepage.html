@@ -42,7 +42,18 @@
     <div class="nav-items">
         <ul>
             <li><a style="color: rgb(135, 218, 72);" href="homepage.html">Home</a></li>
-            <li><a href="../Collection/Dog/dogfood.html">Shop <i class="fa-solid fa-angle-down" style="color: #000000;"></i></a></li>
+           <li class="dropdown">
+    <a href="">Shop 
+        <i class="fa-solid fa-angle-down" style="color: #000000;"></i>
+    </a>
+
+    <ul class="dropdown-menu">
+        <li><a href="../Collection/Cat/catfood.html">Cat Food</a></li>
+        <li><a href="../Collection/Dog/dogfood.html">Dog Food</a></li>
+        <li><a href="../Collection/Cat/cataccessories.html">Cat Accessories</a></li>
+        <li><a href="../Collection/Dog/dogaccessories.html">Dog Accessories</a></li>
+    </ul>
+</li>   
             <li><a href="../Adoption/adoption.html">Adoption</a></li>
             <li><a href="../vet/vet.html">Vet</a></li>
             <li><a href="../Contact/contact.html" target="_blank">Contact</a></li>
@@ -51,13 +62,36 @@
 
     <div class="nav-items-logo">
         <ul>
-            <li><a href="#"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a></li>
-            <li><a href="../Accounts/Accountpage.html"><i class="fa-regular fa-user" style="color: #000000;"></i></a></li>
+            <li class="search-icon-wrapper">
+            <a href="#" id="searchToggle"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a>
+            </li>
+            <li class="user-dropdown">
+                <a href="#"><i class="fa-regular fa-user" style="color: #000000;"></i></a>
+                <ul class="user-dropdown-menu">
+                    <li><a href="../Accounts/login.html">Login</a></li>
+                    <li><a href="../Accounts/signup.html">Signup</a></li>
+                    <li><a href="../Accounts/Accountpage.html">Account</a></li>
+                 </ul>
+            </li>
             <li><a href="../Accounts/Wishlist.html"><i class="fa-regular fa-heart" style="color: #000000;"></i></a></li>
             <li><a href="../cart-and-checkout/cart.html"><i class="fa-solid fa-bag-shopping" style="color: #000000;"></i></a></li>
         </ul>
     </div>
 </div>
+
+<div class="search-overlay" id="searchOverlay">
+    <div class="search-box-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search for products, categories...">
+        <button class="search-btn" id="searchBtn">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <button class="search-close" id="searchClose">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+</div>
+
+
 </section>
 </header>
 
@@ -538,6 +572,7 @@
 
 <script src="bestproducts-homepage.js" ></script>
 <script src="latestproducts-homepage.js"></script>
+<script src="search-box.js"></script>
 </main>
 
 

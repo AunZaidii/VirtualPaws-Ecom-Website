@@ -897,3 +897,472 @@ background-color: rgb(21, 11, 51);
     width: 2.383vw;
     margin: 0 0.260vw;
   }
+/* Dropdown wrapper */
+/* Dropdown wrapper */
+/* Dropdown wrapper */
+.dropdown {
+    position: relative;
+}
+
+/* Dropdown menu - Modern Modal Style */
+.dropdown-menu {
+    position: absolute;
+    background: white;
+    top: calc(100% + 0.3vw);
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    min-width: 15vw;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 
+                0 0 0 1px rgba(0, 0, 0, 0.05);
+    border-radius: 0.8vw;
+    padding: 1vw 0;
+    padding-top: 1.2vw;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+    transition-delay: 0s;
+    pointer-events: none;
+    list-style: none;
+    display: flex !important;
+    flex-direction: column !important;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.98);
+    gap: 0 !important;
+}
+
+/* Arrow pointer at top */
+.dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -0.5vw;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 0.6vw solid transparent;
+    border-right: 0.6vw solid transparent;
+    border-bottom: 0.6vw solid white;
+    filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.05));
+    z-index: 1000;
+}
+
+/* Menu Items - Each on separate row */
+.dropdown-menu li {
+    list-style: none !important;
+    padding: 0;
+    margin: 0.2vw 0.6vw;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    display: block !important;
+    width: calc(100% - 1.2vw) !important;
+    float: none !important;
+}
+
+.dropdown-menu li a {
+    color: #333 !important;
+    font-size: 1.05vw !important;
+    display: block !important;
+    font-weight: 600 !important;
+    text-decoration: none;
+    padding: 0.8vw 1.2vw !important;
+    border-radius: 0.5vw;
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Hover effect with slide-in background */
+.dropdown-menu li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #87da48 0%, #73c936 100%);
+    border-radius: 0.5vw;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1;
+}
+
+.dropdown-menu li:hover::before {
+    transform: translateX(0);
+}
+
+.dropdown-menu li:hover a {
+    color: white !important;
+    transform: translateX(0.3vw);
+}
+
+/* Add icons before text */
+.dropdown-menu li a::before {
+    content: '→';
+    opacity: 0;
+    margin-right: 0.5vw;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.dropdown-menu li:hover a::before {
+    opacity: 1;
+}
+
+/* Show dropdown on hover - FIXED pointer-events */
+.dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+    transition-delay: 0.1s;
+}
+
+/* Keep dropdown open when hovering over it */
+.dropdown-menu:hover {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Add padding area to bridge gap between Shop and dropdown */
+.dropdown::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 1.5vw;
+    background: transparent;
+    z-index: 998;
+}
+
+.dropdown:hover::after {
+    display: block;
+}
+
+/* Smooth arrow rotation */
+.dropdown > a .fa-angle-down {
+    transition: transform 0.3s ease;
+    display: inline-block;
+    margin-left: 0.3vw;
+}
+
+.dropdown:hover > a .fa-angle-down {
+    transform: rotate(180deg);
+}
+
+/* Shop link hover effect */
+.dropdown > a {
+    position: relative;
+}
+
+.dropdown:hover > a {
+    color: rgb(135, 218, 72) !important;
+}
+
+/* User Dropdown wrapper */
+.user-dropdown {
+    position: relative;
+}
+
+/* User Dropdown menu - Modern Modal Style */
+.user-dropdown-menu {
+    position: absolute;
+    background: white;
+    top: calc(100% + 0.3vw);
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    min-width: 10vw;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 
+                0 0 0 1px rgba(0, 0, 0, 0.05);
+    border-radius: 0.8vw;
+    padding: 1vw 0;
+    padding-top: 1.2vw;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+    transition-delay: 0s;
+    pointer-events: none;
+    list-style: none;
+    display: flex !important;
+    flex-direction: column !important;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.98);
+    gap: 0 !important;
+}
+
+/* Arrow pointer at top */
+.user-dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -0.5vw;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 0.6vw solid transparent;
+    border-right: 0.6vw solid transparent;
+    border-bottom: 0.6vw solid white;
+    filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.05));
+    z-index: 1000;
+}
+
+/* Menu Items - Each on separate row */
+.user-dropdown-menu li {
+    list-style: none !important;
+    padding: 0;
+    margin: 0.2vw 0.6vw;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    display: block !important;
+    width: calc(100% - 1.2vw) !important;
+    float: none !important;
+}
+
+.user-dropdown-menu li a {
+    color: #333 !important;
+    font-size: 1.05vw !important;
+    display: block !important;
+    font-weight: 600 !important;
+    text-decoration: none;
+    padding: 0.8vw 1.2vw !important;
+    border-radius: 0.5vw;
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Hover effect with slide-in background */
+.user-dropdown-menu li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #87da48 0%, #73c936 100%);
+    border-radius: 0.5vw;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1;
+}
+
+.user-dropdown-menu li:hover::before {
+    transform: translateX(0);
+}
+
+.user-dropdown-menu li:hover a {
+    color: white !important;
+    transform: translateX(0.3vw);
+}
+
+/* Add icons before text */
+.user-dropdown-menu li a::before {
+    content: '→';
+    opacity: 0;
+    margin-right: 0.5vw;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.user-dropdown-menu li:hover a::before {
+    opacity: 1;
+}
+
+/* Show dropdown on hover */
+.user-dropdown:hover .user-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+    transition-delay: 0.1s;
+}
+
+/* Keep dropdown open when hovering over it */
+.user-dropdown-menu:hover {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Add padding area to bridge gap between icon and dropdown */
+.user-dropdown::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 1.5vw;
+    background: transparent;
+    z-index: 998;
+}
+
+.user-dropdown:hover::after {
+    display: block;
+}
+
+/* User icon hover effect */
+.user-dropdown:hover > a i {
+    color: rgb(135, 218, 72) !important;
+    transform: scale(1.1);
+    transition: all 0.2s ease;
+}
+
+.user-dropdown > a i {
+    transition: all 0.2s ease;
+}
+
+/* Search Icon Wrapper */
+.search-icon-wrapper {
+    position: relative;
+}
+
+.search-icon-wrapper a i {
+    transition: all 0.3s ease;
+}
+
+.search-icon-wrapper a:hover i {
+    color: rgb(135, 218, 72) !important;
+    transform: scale(1.1);
+}
+
+/* Search Overlay */
+.search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 15vh;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.search-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Search Box Container */
+.search-box-container {
+    position: relative;
+    width: 50vw;
+    max-width: 600px;
+    background: white;
+    border-radius: 3vw;
+    padding: 1.5vw 2vw;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+    transform: translateY(-30px);
+    transition: transform 0.3s ease;
+}
+
+.search-overlay.active .search-box-container {
+    transform: translateY(0);
+}
+
+/* Search Input */
+.search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1.2vw;
+    padding: 0.8vw 1vw;
+    background: transparent;
+    color: #333;
+    font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+}
+
+.search-input::placeholder {
+    color: #999;
+}
+
+/* Search Button */
+.search-btn {
+    background: linear-gradient(135deg, #87da48 0%, #73c936 100%);
+    border: none;
+    width: 3.5vw;
+    height: 3.5vw;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-btn i {
+    color: white;
+    font-size: 1.2vw;
+}
+
+.search-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(135, 218, 72, 0.4);
+}
+
+/* Close Button */
+.search-close {
+    background: #f5f5f5;
+    border: none;
+    width: 3.5vw;
+    height: 3.5vw;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-close i {
+    color: #333;
+    font-size: 1.3vw;
+}
+
+.search-close:hover {
+    background: #e74c3c;
+    transform: rotate(90deg);
+}
+
+.search-close:hover i {
+    color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .search-box-container {
+        width: 85vw;
+        padding: 3vw 4vw;
+    }
+    
+    .search-input {
+        font-size: 3.5vw;
+    }
+    
+    .search-btn, .search-close {
+        width: 10vw;
+        height: 10vw;
+    }
+    
+    .search-btn i, .search-close i {
+        font-size: 4vw;
+    }
+}
