@@ -25,17 +25,17 @@ async function loadVets() {
     vetGrid.innerHTML = "";
 
     vets.forEach((vet) => {
-      const profilePic =
-        vet.image_url ||
-        `https://randomuser.me/api/portraits/men/${Math.floor(
-          Math.random() * 80
-        )}.jpg`;
+
+      // ⭐ Only show image if present
+      const imageSection = vet.image_url
+        ? `<img src="${vet.image_url}" class="vet-avatar" alt="${vet.name}">`
+        : "";
 
       const card = `
         <div class="vet-card">
 
           <div class="vet-header">
-            <img src="${profilePic}" class="vet-avatar" alt="${vet.name}">
+            ${imageSection}
             <div class="vet-heading">
               <h3>${vet.name}</h3>
               <p class="vet-specialty">${vet.category || "Veterinary Expert"}</p>
@@ -76,7 +76,7 @@ async function loadVets() {
 
 loadVets();
 
-// Utility — directions
+// ⭐ MAP FUNCTION — still here exactly like before
 window.getDirections = function () {
   window.open(
     "https://maps.google.com/?q=Virtual+Paws+Vet+Hospital+Karachi",
