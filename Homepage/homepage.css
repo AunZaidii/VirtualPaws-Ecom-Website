@@ -129,6 +129,58 @@ body {
     font-size: 1.3vw;
 }
 
+.nav-items-logo i {
+    font-size: 1.4vw;              /* SAME SIZE for all icons */
+    color: black;
+    transition: color 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+/* Hover effect for all icons */
+.nav-items-logo i:hover {
+    color: rgb(135, 218, 72);
+    transform: scale(1.12);
+}
+
+/* Search icon thickness fix */
+.search-icon i {
+    font-weight: 900;               /* makes magnifying glass bold like others */
+}
+
+/* Search bar container styling (doesn't affect icon) */
+.search-bar-container {
+    position: absolute;
+    top: 2.2vw;
+    right: 0;
+    display: none;
+    background: white;
+    border: 2px solid rgb(135, 218, 72);
+    border-radius: 0.6vw;
+    padding: 0.6vw;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.search-bar-container input {
+    width: 12vw;
+    padding: 0.4vw 0.8vw;
+    border: none;
+    outline: none;
+    font-size: 1vw;
+}
+.nav-items-logo ul li a i,
+.search-icon i {
+    font-size: 1.4vw;
+    color: black;
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+/* Hover color for all icons including heart + bag */
+.nav-items-logo ul li:hover a i,
+.search-icon:hover i {
+    color: rgb(135, 218, 72) !important;
+    transform: scale(1.12);
+}
+
 .nav-items-logo ul li a:hover{
     color: rgb(135, 218, 72);
 }
@@ -268,9 +320,7 @@ display: inline;
 a {
   text-decoration: none;
 }
-.product-text-rating{
 
-}
 .fa-star{
   color: rgb(240, 175, 22);
   font-size: 0.9vw;
@@ -413,9 +463,7 @@ display: flex;
 flex-direction: row;
 gap: 4.5vw;
 }
-.best-products{
 
-}
 .best-product-main-div{
   display: flex;
   flex-direction: column;
@@ -447,9 +495,7 @@ gap: 1vw;
 width: 22vw;
 cursor: pointer;
 }
-.best-product-image-div{
 
-}
 .best-product-text-title{
 color: black;
 }
@@ -509,9 +555,7 @@ margin-top: 2vw;
 width: 36.5vw;
 border-radius: 1vw;
 }
-.best-product-banner-text{
 
-} 
 .best-product-banner-text-desc{
 position: absolute;
 top: 4vw;
@@ -1218,4 +1262,43 @@ background-color: rgb(21, 11, 51);
 
 .user-dropdown > a i {
     transition: all 0.2s ease;
+}
+/* Search Icon Wrapper */
+.search-icon {
+    position: relative;
+    cursor: pointer;
+}
+
+/* Search Bar Hidden by Default */
+.search-bar-container {
+    position: absolute;
+    top: 2.5vw;
+    right: -2vw;
+    background: white;
+    padding: 0.8vw;
+    border-radius: 0.6vw;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+    display: none;
+    animation: fadeIn 0.2s ease-out;
+}
+
+/* Search Box Input */
+#search-input {
+    width: 14vw;
+    height: 2.4vw;
+    padding: 0.5vw 1vw;
+    border: 0.12vw solid #e4e4e4;
+    border-radius: 0.6vw;
+    font-size: 1vw;
+    outline: none;
+}
+
+#search-input:focus {
+    border-color: rgb(135, 218, 72);
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
 }

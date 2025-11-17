@@ -62,8 +62,13 @@
 
     <div class="nav-items-logo">
         <ul>
-            <li>
-            <a href="#"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a></li>
+            <li class="search-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <div class="search-bar-container">
+                    <input type="text" id="search-input" placeholder="Search products..." />
+                </div>
+            </li>
             <li class="user-dropdown">
                 <a href="#"><i class="fa-regular fa-user" style="color: #000000;"></i></a>
                 <ul class="user-dropdown-menu">
@@ -224,75 +229,6 @@
 </div>
 </section>
 
-<!-- <section class="top-cetegories-section">
-
-    <div class="top-cetegories-text">
-        <p style="color: rgb(135, 218, 72); font-size: 1.4vw; font-weight: 700; text-align: center;"><i>Top Categories</i></p>
-        <p style="font-size: 2.8vw; font-weight: 900; text-align: center ; padding-top: 1vw;">Shop By Cetegories</p>
-    </div>
-
-    <div class="top-cetegories-products">
-        <div class="top-cetegories-product">
-            <div class="top-cetegories-products-image">
-                <img class="top-cetegories-product-image" src="./product images/pets food bowl.png" alt="Leather Chew toy image">
-            </div>
-            <div class="top-product-text-div">
-                <p class="product-text-titles">Pets Food Bowl</p>
-                <p class="product-text-items">2 items</p>
-            </div>
-        </div>
-
-        <div class="top-cetegories-product">
-            <div class="top-cetegories-products-image">
-                <img class="top-cetegories-product-image" src="./product images/pets soft toys.png" alt="Leather Chew toy image">
-            </div>
-            <div class="top-product-text-div">
-                <p class="product-text-titles">Pets Soft Toys</p>
-                <p class="product-text-items">5 items</p>
-            </div>
-        </div>
-
-        <div class="top-cetegories-product">
-            <div class="top-cetegories-products-image">
-                <img class="top-cetegories-product-image" src="./product images/bedding & litter.png" alt="Leather Chew toy image">
-            </div>
-            <div class="top-product-text-div">
-                <p class="product-text-titles">Bedding & Litter</p>
-                <p class="product-text-items">6 items</p>
-            </div>
-        </div>
-
-        <div class="top-cetegories-product">
-            <div class="top-cetegories-products-image">
-                <img class="top-cetegories-product-image" src="./product images/pet backpack.png" alt="Leather Chew toy image">
-            </div>
-            <div class="top-product-text-div">
-                <p class="product-text-titles">Pet Backpack</p>
-                <p class="product-text-items">3 items</p>
-            </div>
-        </div>
-
-        <div class="top-cetegories-product">
-            <div class="top-cetegories-products-image">
-                <img class="top-cetegories-product-image" src="./product images/carrot dog food.png" alt="Leather Chew toy image">
-            </div>
-            <div class="top-product-text-div">
-                <p class="product-text-titles">Carrot Dog Food</p>
-                <p class="product-text-items">5 items</p>
-            </div>
-        </div>
-
-        <div class="top-cetegories-product">
-            <div class="top-cetegories-products-image">
-                <img class="top-cetegories-product-image" src="./product images/pets tent house.png" alt="Leather Chew toy image">
-            </div>
-            <div class="top-product-text-div">
-                <p class="product-text-titles">Pet Tent House</p>
-                <p class="product-text-items">1 items</p>
-            </div>
-        </div>  
-    </div>
-</section> -->
 
 <section class="best-products-section">
 
@@ -555,9 +491,6 @@
   </div>
 </section>
 
-
-<script src="bestproducts-homepage.js" ></script>
-<script src="latestproducts-homepage.js"></script>
 <script src="search-box.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </main>
