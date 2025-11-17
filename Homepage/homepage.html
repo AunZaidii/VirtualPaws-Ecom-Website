@@ -62,9 +62,8 @@
 
     <div class="nav-items-logo">
         <ul>
-            <li class="search-icon-wrapper">
-            <a href="#" id="searchToggle"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a>
-            </li>
+            <li>
+            <a href="#"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a></li>
             <li class="user-dropdown">
                 <a href="#"><i class="fa-regular fa-user" style="color: #000000;"></i></a>
                 <ul class="user-dropdown-menu">
@@ -78,19 +77,6 @@
         </ul>
     </div>
 </div>
-
-<div class="search-overlay" id="searchOverlay">
-    <div class="search-box-container">
-        <input type="text" id="searchInput" class="search-input" placeholder="Search for products, categories...">
-        <button class="search-btn" id="searchBtn">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-        <button class="search-close" id="searchClose">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-    </div>
-</div>
-
 
 </section>
 </header>
@@ -573,6 +559,7 @@
 <script src="bestproducts-homepage.js" ></script>
 <script src="latestproducts-homepage.js"></script>
 <script src="search-box.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </main>
 
 
