@@ -15,35 +15,75 @@
 
 <header>
 
+<section>
+<div class="header">
+
+    <div class="header-content">
+        <p style="color: white; font-size: 1.05vw;">Get 15% discount + free mysterious gifts for your first order</p>
+    </div>
+
+    <div class="header-items">
+        <ul>
+            <li><a href="/track-order/track-order.html">Track Order</a></li>
+            <li><a href="/help-center/helpcenter.html">Help Center</a></li>
+
+        </ul>
+    </div>
+</div>
+</section>
+
 <section class="navbar">
 
 <div class="nav">
 
     <div class="nav-logo">
-
-  <a href="../Homepage/homepage.html"><img class="logo" src="/Homepage//Logo/virtualpaws-logo.png" alt="Virtual Paws Logo"></a>
-
+    <a href="/Homepage/homepage.html"><img class="logo" src="/Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo"></a>
     </div>
 
     <div class="nav-items">
         <ul>
-            <li><a style="color: rgb(135, 218, 72);" href="../../Homepage/homepage.html">Home</a></li>
-            <li><a href="./dogfood.html">Shop <i class="fa-solid fa-angle-down" style="color: #000000;"></i></a></li>
-            <li><a href="../../Adoption/adoption.html">Adoption</a></li>
-            <li><a href="../../vet/vet.html">Vet</a></li>
-            <li><a href="../../Contact/contact.html">Contact</a></li>
+            <li><a style="color: rgb(135, 218, 72);" href="/Homepage/homepage.html">Home</a></li>
+           <li class="dropdown">
+    <a href="">Shop 
+        <i class="fa-solid fa-angle-down" style="color: #000000;"></i>
+    </a>
+
+    <ul class="dropdown-menu">
+        <li><a href="../Cat/catfood.html">Cat Food</a></li>
+        <li><a href="../Dog/dogfood.html">Dog Food</a></li>
+        <li><a href="../Cat/cataccessories.html">Cat Accessories</a></li>
+        <li><a href="../Dog/dogaccessories.html">Dog Accessories</a></li>
+    </ul>
+</li>   
+            <li><a href="/Adoption/adoption.html">Adoption</a></li>
+            <li><a href="/vet/vet.html">Vet</a></li>
+            <li><a href="/Contact/contact.html" target="_blank">Contact</a></li>
         </ul>
     </div>
 
     <div class="nav-items-logo">
         <ul>
-            <li><a href="#"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a></li>
-            <li><a href="../Accounts/Accountpage.html"><i class="fa-regular fa-user" style="color: #000000;"></i></a></li>
-            <li><a href="../Accounts/Wishlist.html"><i class="fa-regular fa-heart" style="color: #000000;"></i></a></li>
-            <li><a href="../cart-and-checkout/cart.html"><i class="fa-solid fa-bag-shopping" style="color: #000000;"></i></a></li>
+            <li class="search-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <div class="search-bar-container">
+                    <input type="text" id="search-input" placeholder="Search products..." />
+                </div>
+            </li>
+            <li class="user-dropdown">
+                <a href="#"><i class="fa-regular fa-user" style="color: #000000;"></i></a>
+                <ul class="user-dropdown-menu">
+                    <li><a href="/Authentication/login.html">Login</a></li>
+                    <li><a href="/Authentication/register.html">Signup</a></li>
+                    <li><a href="/Accounts/Accountpage.html">Account</a></li>
+                 </ul>
+            </li>
+            <li><a href="/Accounts/Wishlist.html"><i class="fa-regular fa-heart" style="color: #000000;"></i></a></li>
+            <li><a href="/cart-and-checkout/cart.html"><i class="fa-solid fa-bag-shopping" style="color: #000000;"></i></a></li>
         </ul>
     </div>
 </div>
+
 </section>
 
 </header> 
@@ -52,7 +92,7 @@
 
 <section class="latest-product-section">
   <div class="section-heading">
-    <h2><br>Dog Foods</h2>
+    <h2><br>Dog Food</h2>
     <hr>
   </div>
   <div class="filter-sidebar">
@@ -76,6 +116,7 @@
 </section>
 
 <script type="module" src="dogfood.js"></script>
+<script src="/Homepage/search-box.js"></script>
 
 </body>
 
