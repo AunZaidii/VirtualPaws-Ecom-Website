@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
     <link rel="stylesheet" href="/Homepage/homepage.css">
-    <link rel="stylesheet" href="cart.css">
     <title>Shopping Cart</title>
+    <link rel="stylesheet" href="cart.css">
 </head>
 
 <header>
+
 <section class="navbar">
+
 <div class="nav">
 
     <div class="nav-logo">
@@ -24,8 +24,8 @@
 
     <div class="nav-items">
         <ul>
-            <li><a href="../../Homepage/homepage.html">Home</a></li>
-            <li><a href="../Collection/Dog/dogfood.html">Shop</a></li>
+            <li><a style="color:rgb(135, 218, 72) ;" href="../../Homepage/homepage.html">Home</a></li>
+            <li><a href="../dog-products.html">Shop <i class="fa-solid fa-angle-down" style="color: #000000;"></i></a></li>
             <li><a href="../../Adoption/adoption.html">Adoption</a></li>
             <li><a href="../../vet/vet.html">Vet</a></li>
             <li><a href="../../Contact/contact.html">Contact</a></li>
@@ -34,20 +34,22 @@
 
     <div class="nav-items-logo">
         <ul>
-            <li><a href="#"><i class="fa-solid fa-magnifying-glass"></i></a></li>
-            <li><a href="../Accounts/Accountpage.html"><i class="fa-regular fa-user"></i></a></li>
-            <li><a href="../Accounts/Wishlist.html"><i class="fa-regular fa-heart"></i></a></li>
-            <li><a href="../cart-and-checkout/cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
+            <li><a href="#"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a></li>
+            <li><a href="../Accounts/Accountpage.html"><i class="fa-regular fa-user" style="color: #000000;"></i></a></li>
+            <li><a href="../Accounts/Wishlist.html"><i class="fa-regular fa-heart" style="color: #000000;"></i></a></li>
+            <li><a href="../cart-and-checkout/cart.html"><i class="fa-solid fa-bag-shopping" style="color: #000000;"></i></a></li>
         </ul>
     </div>
 </div>
 </section>
+
 </header>
 <body>
-
     <div class="container">
-        <h1>Your Shopping Cart</h1>
-
+        <div class="header">
+            <h1>Your Shopping Cart</h1>
+            <a href="#">Home</a>
+        </div>
         <div class="cart-card">
             <div class="table-header">
                 <div>PRODUCT</div>
@@ -56,20 +58,108 @@
             </div>
 
             <div id="cart-items"></div>
+            <div class="special-instructions">
+                <label for="instructions">Order special instructions</label>
+                <textarea 
+                    id="instructions" 
+                    rows="3" 
+                    placeholder="Add any special instructions for your order..."
+                ></textarea>
+            </div>
         </div>
 
         <div class="checkout-section">
             <div class="subtotal-section">
-                <span class="subtotal-label">Subtotal:</span>
-                <span id="subtotal" class="subtotal-amount">$0.00</span>
+                <div class="subtotal-row">
+                    <span class="subtotal-label">Subtotal</span>
+                    <span class="subtotal-amount" id="subtotal">$20.00 USD</span>
+                </div>
+                <p class="shipping-info">
+                    Taxes and <a href="#">shipping</a> calculated at checkout
+                </p>
             </div>
-
-            <button class="checkout-btn">Checkout</button>
+            <button class="checkout-btn" onclick="checkout()">Check Out</button>
         </div>
-
     </div>
 
-    <script src="cart.js"></script>
+    <script>
+        let cartItems = [
+            {
+                id: 1,
+                brand: 'DROOLS',
+                title: 'Pets Empire Stainless Steel Dog Bowl (Set of 2)',
+                price: 20.00,
+                quantity: 1,
+                image: 'https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=200&h=200&fit=crop'
+            }
+        ];
+        function renderCart() {
+            const cartContainer = document.getElementById('cart-items');
+            cartContainer.innerHTML = '';
+
+            cartItems.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'product-row';
+                row.innerHTML = `
+                    <div class="product-info">
+                        <div class="product-image">
+                            <img src="${item.image}" alt="${item.title}">
+                        </div>
+                        <div class="product-details">
+                            <p class="product-brand">${item.brand}</p>
+                            <p class="product-title">${item.title}</p>
+                            <p class="product-price">$${item.price.toFixed(2)}</p>
+                        </div>
+                    </div>
+                    <div class="quantity-controls">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
+                            <span class="quantity-number">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
+                        </div>
+                        <button class="delete-btn" onclick="removeItem(${item.id})">
+                            <svg class="icon icon-trash" viewBox="0 0 24 24">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="total-price">$${(item.price * item.quantity).toFixed(2)}</div>
+                `;
+                cartContainer.appendChild(row);
+            });
+
+            updateSubtotal();
+        }
+        function updateQuantity(id, change) {
+            const item = cartItems.find(item => item.id === id);
+            if (item) {
+                item.quantity = Math.max(1, item.quantity + change);
+                renderCart();
+            }
+        }
+        function removeItem(id) {
+            cartItems = cartItems.filter(item => item.id !== id);
+            renderCart();
+        }
+        function updateSubtotal() {
+            const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)} USD`;
+        }
+        function checkout() {
+            alert('Proceeding to checkout...');
+        }
+        renderCart();
+    </script>
 </body>
 <footer class="footer">
     <div class="footer-container">

@@ -9,21 +9,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="vet.css" />
 </head>
-
 <body>
-
 <header>
   <section class="navbar">
     <div class="nav">
-
       <div class="nav-logo">
         <a href="../Homepage/homepage.html">
-          <img class="logo" src="../Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo">
+          <img id="siteLogo" class="logo" src="../Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo">
         </a>
       </div>
-
       <div class="nav-items">
         <ul>
           <li><a href="../Homepage/homepage.html">Home</a></li>
@@ -33,7 +31,6 @@
           <li><a href="../Contact/contact.html">Contact</a></li>
         </ul>
       </div>
-
       <div class="nav-items-logo">
         <ul>
           <li><a href="#"><i class="fa-solid fa-magnifying-glass"></i></a></li>
@@ -42,96 +39,77 @@
           <li><a href="../cart-and-checkout/cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
         </ul>
       </div>
-
     </div>
   </section>
 </header>
 
-<!-- Banner -->
-<section class="page-title-section">
-  <img src="../Homepage/Images/vet-banner.png" class="hero-image" alt="Vet Banner">
+<section class="page-heading">
+  <div class="container">
+    <h2>Vet</h2>
+  </div>
 </section>
+
+<!-- HERO SECTION WITH BACKGROUND IMAGE -->
+<section class="page-title-section">
+  <img src="../Homepage/Images/vet-banner.png" alt="Our Veterinary Experts" class="hero-image">
+</section>
+
+
 
 <!-- Dynamic Vet Profiles -->
 <section class="vet-profiles-section" id="vet-profiles">
-  <div class="vet-grid" id="vetContainer"></div>
+  <div class="vet-grid" id="vetContainer">
+    <!-- Vets will load here dynamically -->
+  </div>
 </section>
 
-<!-- Emergency -->
+<!-- Emergency Section -->
 <section class="emergency-strip">
   <div class="emergency-text">
     24/7 Emergency Helpline: +92 345 7894561 | Virtual Paws Vet Hospital, Karachi
   </div>
-  <button class="directions-btn" onclick="getDirections()">Get Directions</button>
+  <button class="directions-btn" type="button" onclick="getDirections()">Get Directions</button>
 </section>
 
 <footer class="footer">
-    <div class="footer-container">
-
-        <div class="footer-column contact-us">
-            <h3>Contact Us</h3>
-            <p><i class="fa-solid fa-location-dot"></i> Virtual Paws - Pets Store<br>
-              Karachi, Pakistan<br>
-            </p>
-            <p><i class="fa-solid fa-envelope"></i> contact_virtualpaws@gmail.com</p>
-            <p><i class="fa-solid fa-phone"></i> (+91) 9876-543-210</p>
-          </div>
-          
-
-      <div class="footer-column">
-        <h3>Find Product</h3>
-        <ul>
-          <li><a href="../../Contact/contact.html">Privacy Policy</a></li>
-          <li><a href="../../Contact/contact.html">Refund Policy</a></li>
-          <li><a href="../../Contact/contact.html">Shipping Policy</a></li>
-          <li><a href="../../Contact/contact.html">Terms of Service</a></li>
-          <li><a href="../../Contact/contact.html">Policy for Buyers</a></li>
-          <li><a href="../../Contact/contact.html">Policy for Sellers</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h3>Useful Links</h3>
-        <ul>
-          <li><a href="../../Contact/contact.html">Shipping & Refund</a></li>
-          <li><a href="../../Contact/contact.html">FAQs</a></li>
-          <li><a href="../../Contact/contact.html">Delivery Information</a></li>
-          <li><a href="../../Contact/contact.html">Shipping</a></li>
-          <li><a href="../../Contact/contact.html">Size Chart</a></li>
-          <li><a href="../../Contact/contact.html">Sitemap</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column newsletter">
-        <h3>Our Newsletter</h3>
-        <p>Subscribe to our latest newsletter to get news about special discounts.</p>
-        <form>
-          <input type="email" class="email-placeholder" placeholder="Email">
-          <a href="../../Contact/contact.html" class="subscribe-btn" type="submit">Subscribe</a>
-        </form>
-      </div>
+  <div class="footer-container">
+    <div class="footer-column contact-us">
+      <h3>Contact Us</h3>
+      <p><i class="fa-solid fa-location-dot"></i> Virtual Paws - Pets Store<br/>Karachi, Pakistan<br/></p>
+      <p><i class="fa-solid fa-envelope"></i> contact_virtualpaws@gmail.com</p>
+      <p><i class="fa-solid fa-phone"></i> (+91) 9876-543-210</p>
     </div>
-
-    <div class="footer-bottom">
-      <div class="social-icons">
-        <a href="https://facebook.com"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="https://instagram.com"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://twitter.com"><i class="fa-brands fa-x-twitter"></i></a>
-        <a href="https://youtube.com"><i class="fa-brands fa-youtube"></i></a>
-      </div>
-      <p>© 2025, Virtual Paws - Pets Store </p>
-      <div class="payment-icons">
-        <img src="https://img.icons8.com/color/48/visa.png" alt="Visa">
-        <img src="https://img.icons8.com/color/48/mastercard.png" alt="Mastercard">
-        <img src="https://img.icons8.com/color/48/amex.png" alt="Amex">
-        <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal">
-        <img src="https://img.icons8.com/color/48/discover.png" alt="Discover">
-      </div>
+    <div class="footer-column">
+      <h3>Find Product</h3>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Refund Policy</a></li>
+        <li><a href="#">Shipping Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
     </div>
+    <div class="footer-column newsletter">
+      <h3>Our Newsletter</h3>
+      <p>Subscribe to our latest newsletter to get news about special discounts.</p>
+      <form>
+        <input type="email" class="email-placeholder" placeholder="Email" />
+        <a href="#" class="subscribe-btn" type="submit">Subscribe</a>
+      </form>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="social-icons">
+      <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+      <a href="#"><i class="fa-brands fa-instagram"></i></a>
+      <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="#"><i class="fa-brands fa-youtube"></i></a>
+    </div>
+    <p>© 2025, Virtual Paws - Pets Store</p>
+  </div>
 </footer>
 
-<!-- Load Vet Logic -->
-<script type="module" src="vet.js"></script>
-
+<!-- Import Supabase and vet logic -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="vet.js"></script>
 </body>
 </html>
