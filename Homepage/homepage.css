@@ -544,14 +544,13 @@ font-size: 1.1vw;
 .best-product-addtocart{
   font-weight: bold;
   font-size: 1.1vw;
-  color: #87da48;              
+  color: black;              
 }
 
 .best-product-addtocart:hover{
   text-decoration: underline;
-  color: black;
+  color: #87da48;
 }
-
 
 .best-products-banner{
 position: relative;
