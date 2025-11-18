@@ -31,9 +31,15 @@ async function loadVet() {
 
   if (error) return console.error("Load error:", error);
 
+  // --- Vet Image ---
+  const imgEl = document.querySelector(".vet-photo");
+  imgEl.src = data.image_url || "../placeholder.png";
+  imgEl.alt = data.name;
+
   // Header
   document.querySelector(".name").textContent = data.name;
-  document.querySelector(".specialty").textContent = data.category || "Veterinarian";
+  document.querySelector(".specialty").textContent =
+    data.category || "Veterinarian";
 
   document.querySelector(".contact-list").innerHTML = `
     <li><strong>Phone:</strong> ${data.phone || "N/A"}</li>
@@ -47,15 +53,15 @@ async function loadVet() {
 
   // Education
   document.querySelector(".edu-list").innerHTML =
-    (data.education?.split("\n") || ["No education added"]).map(
-      (e) => `<li>${e}</li>`
-    ).join("");
+    (data.education?.split("\n") || ["No education added"])
+      .map((e) => `<li>${e}</li>`)
+      .join("");
 
   // Experience
   document.querySelector(".exp-list").innerHTML =
-    (data.experience?.split("\n") || ["No experience added"]).map(
-      (e) => `<li>${e}</li>`
-    ).join("");
+    (data.experience?.split("\n") || ["No experience added"])
+      .map((e) => `<li>${e}</li>`)
+      .join("");
 
   // Reviews
   const reviewBox = document.querySelector(".reviews-container");
@@ -66,14 +72,14 @@ async function loadVet() {
       .join("");
   }
 
-  // Clinic Address Text
+  // Clinic Address
   document.querySelector(".clinic-address").textContent =
     data.clinicAddress || "Not provided";
 
   // Map
-  const mapFrame = document.querySelector(".map-frame");
   const encoded = encodeURIComponent(data.clinicAddress || "Karachi");
-  mapFrame.src = `https://maps.google.com/maps?q=${encoded}&output=embed`;
+  document.querySelector(".map-frame").src =
+    `https://maps.google.com/maps?q=${encoded}&output=embed`;
 }
 
 // ------------------ Appointment ------------------
