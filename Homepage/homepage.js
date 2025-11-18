@@ -5,15 +5,12 @@ const supabase = createClient(
   "https://oekreylufrqvuzgoyxye.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8"
 );
-let latestBox;
-let featuredBox;
-let dealsBox;
 
-document.addEventListener('DOMContentLoaded', () => {
+
   // --- TARGET DIVS ---
-  latestBox = document.getElementById("latestProducts");
-  featuredBox = document.getElementById("featuredProducts");
-  dealsBox = document.getElementById("dealsProducts");
+  const latestBox = document.getElementById("latestProducts");
+  const featuredBox = document.getElementById("featuredProducts");
+  const dealsBox = document.getElementById("dealsProducts");
 
   // ======================================================
   //  LOAD PRODUCTS
@@ -119,4 +116,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // RUN SCRIPT
   loadProducts();
-});
