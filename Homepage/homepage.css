@@ -542,8 +542,14 @@ margin-top: 0.3vw;
 font-size: 1.1vw;
 }
 .best-product-addtocart{
-font-weight: bold;
-font-size: 1.1vw;
+  font-weight: bold;
+  font-size: 1.1vw;
+  color: #87da48;              
+}
+
+.best-product-addtocart:hover{
+  text-decoration: underline;
+  color: black;
 }
 
 
@@ -1301,4 +1307,9 @@ background-color: rgb(21, 11, 51);
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-5px); }
     to { opacity: 1; transform: translateY(0); }
+}
+.green-price {
+    color: rgb(135, 218, 72);
+    font-weight: bold;
+    font-size: 1.1vw;
 }
