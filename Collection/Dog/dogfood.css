@@ -72,6 +72,21 @@
     background-color: #74c13f;
 }
 
+.reset-filter {
+    margin-top: 1vw; 
+    background-color: #ccc;
+    color: #000;
+    border: none;
+    border-radius: 5px; 
+    padding: 0.8vw 1vw; 
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.reset-filter:hover {
+    background-color: #b5b5b5;
+}
+
 .products {
     flex: 1;
     display: grid;
