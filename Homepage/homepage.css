@@ -76,8 +76,6 @@ body {
     margin: 0; /* Remove default body margin if any */
 }
 
-
-
 .logo{
     width: 16vw;
     padding-left: 2.604vw;
@@ -127,58 +125,6 @@ body {
     text-decoration: none;
     color: black;
     font-size: 1.3vw;
-}
-
-.nav-items-logo i {
-    font-size: 1.4vw;              /* SAME SIZE for all icons */
-    color: black;
-    transition: color 0.2s ease, transform 0.2s ease;
-    cursor: pointer;
-}
-
-/* Hover effect for all icons */
-.nav-items-logo i:hover {
-    color: rgb(135, 218, 72);
-    transform: scale(1.12);
-}
-
-/* Search icon thickness fix */
-.search-icon i {
-    font-weight: 900;               /* makes magnifying glass bold like others */
-}
-
-/* Search bar container styling (doesn't affect icon) */
-.search-bar-container {
-    position: absolute;
-    top: 2.2vw;
-    right: 0;
-    display: none;
-    background: white;
-    border: 2px solid rgb(135, 218, 72);
-    border-radius: 0.6vw;
-    padding: 0.6vw;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-}
-
-.search-bar-container input {
-    width: 12vw;
-    padding: 0.4vw 0.8vw;
-    border: none;
-    outline: none;
-    font-size: 1vw;
-}
-.nav-items-logo ul li a i,
-.search-icon i {
-    font-size: 1.4vw;
-    color: black;
-    transition: color 0.25s ease, transform 0.25s ease;
-}
-
-/* Hover color for all icons including heart + bag */
-.nav-items-logo ul li:hover a i,
-.search-icon:hover i {
-    color: rgb(135, 218, 72) !important;
-    transform: scale(1.12);
 }
 
 .nav-items-logo ul li a:hover{
@@ -410,49 +356,128 @@ font-weight: bolder;
 background-color: white;
 }
 
-.top-cetegories-section{
+.top-cetegories-section,
+.top-categories-section{
     background-color: #f0fee5;
     margin-bottom: 5vw;
 }
-.top-cetegories-text{
+.top-cetegories-text,
+.top-categories-text{
     padding-top: 5vw;
     padding-bottom:2vw ;
 }
-.top-cetegories-products{
+.top-cetegories-products,
+.top-categories-products{
     padding-left: 5vw;
     padding-right: 5vw;
     padding-bottom: 5vw;
     display: grid;
-    grid-template-columns: 12vw 12vw 12vw 12vw 12vw 12vw;
-    gap: 3vw;
-    
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4vw;
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
 }
-.top-cetegories-product{
-display: flex;
-flex-direction: column;
-justify-content: center;
-width: 12vw;
-cursor: pointer;
+.top-cetegories-product,
+.top-categories-product{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
 }
 
-.top-cetegories-product-image{
-width: 12vw;
-border-radius: 50vw;
+.top-cetegories-product a,
+.top-categories-product a{
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
+.top-categories-products-image,
+.top-cetegories-products-image{
+    width: 100%;
+    max-width: 12vw;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 1vw;
+    background-color: white;
+    padding: 1vw;
+}
+
+.top-cetegories-product-image,
+.top-categories-product-image{
+    width: 100%;
+    height: auto;
+    max-width: 10vw;
+    object-fit: contain;
+    border-radius: 0.5vw;
+}
+
 .product-text-titles{
-font-size: 1.2vw;
-font-weight:bold ;
-text-align: center;
+    font-size: 1vw;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 1vw;
+    line-height: 1.3;
+    max-width: 12vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 }
-.top-cetegories-product:hover .product-text-titles{
+
+.product-text-rating{
+    text-align: center;
+    margin-top: 0.5vw;
+    font-size: 0.9vw;
+}
+
+.top-cetegories-product:hover .product-text-titles,
+.top-categories-product:hover .product-text-titles{
     color: #87da48;
 }
 .product-text-items{
-font-size: 1.1vw;
-text-align: center;
+    font-size: 1.1vw;
+    text-align: center;
 }
-.top-cetegories-product:hover .product-text-items{
+.top-cetegories-product:hover .product-text-items,
+.top-categories-product:hover .product-text-items{
     color: #87da48;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 1024px) {
+    .top-categories-products,
+    .top-cetegories-products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 4vw;
+    }
+    .product-text-titles {
+        font-size: 1.5vw;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .top-categories-products,
+    .top-cetegories-products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5vw;
+    }
+    .product-text-titles {
+        font-size: 2vw;
+        max-width: 100%;
+    }
+    .product-text-rating {
+        font-size: 1.5vw;
+    }
 }
 
 .best-products-section{
@@ -546,7 +571,6 @@ font-weight: bold;
 font-size: 1.1vw;
 }
 
-
 .best-products-banner{
 position: relative;
 }
@@ -621,7 +645,6 @@ cursor: pointer;
 color: white;
 background-color: rgb(21, 11, 51);
 }
-
 
 .testimonial-section {
     font-family: Arial;
@@ -791,8 +814,6 @@ background-color: rgb(21, 11, 51);
   line-height: 1;
 }
 
-
-
 .footer {
     background: #fff;
     color: #333;
@@ -941,364 +962,5 @@ background-color: rgb(21, 11, 51);
     width: 2.383vw;
     margin: 0 0.260vw;
   }
-/* Dropdown wrapper */
-/* Dropdown wrapper */
-/* Dropdown wrapper */
-.dropdown {
-    position: relative;
-}
 
-/* Dropdown menu - Modern Modal Style */
-.dropdown-menu {
-    position: absolute;
-    background: white;
-    top: calc(100% + 0.3vw);
-    left: 50%;
-    transform: translateX(-50%) translateY(-10px);
-    min-width: 15vw;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 
-                0 0 0 1px rgba(0, 0, 0, 0.05);
-    border-radius: 0.8vw;
-    padding: 1vw 0;
-    padding-top: 1.2vw;
-    z-index: 999;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
-    transition-delay: 0s;
-    pointer-events: none;
-    list-style: none;
-    display: flex !important;
-    flex-direction: column !important;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.98);
-    gap: 0 !important;
-}
 
-/* Arrow pointer at top */
-.dropdown-menu::before {
-    content: '';
-    position: absolute;
-    top: -0.5vw;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 0.6vw solid transparent;
-    border-right: 0.6vw solid transparent;
-    border-bottom: 0.6vw solid white;
-    filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.05));
-    z-index: 1000;
-}
-
-/* Menu Items - Each on separate row */
-.dropdown-menu li {
-    list-style: none !important;
-    padding: 0;
-    margin: 0.2vw 0.6vw;
-    white-space: nowrap;
-    position: relative;
-    overflow: hidden;
-    display: block !important;
-    width: calc(100% - 1.2vw) !important;
-    float: none !important;
-}
-
-.dropdown-menu li a {
-    color: #333 !important;
-    font-size: 1.05vw !important;
-    display: block !important;
-    font-weight: 600 !important;
-    text-decoration: none;
-    padding: 0.8vw 1.2vw !important;
-    border-radius: 0.5vw;
-    transition: all 0.2s ease;
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-/* Hover effect with slide-in background */
-.dropdown-menu li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #87da48 0%, #73c936 100%);
-    border-radius: 0.5vw;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    z-index: 1;
-}
-
-.dropdown-menu li:hover::before {
-    transform: translateX(0);
-}
-
-.dropdown-menu li:hover a {
-    color: white !important;
-    transform: translateX(0.3vw);
-}
-
-/* Add icons before text */
-.dropdown-menu li a::before {
-    content: '→';
-    opacity: 0;
-    margin-right: 0.5vw;
-    transition: all 0.2s ease;
-    display: inline-block;
-}
-
-.dropdown-menu li:hover a::before {
-    opacity: 1;
-}
-
-/* Show dropdown on hover - FIXED pointer-events */
-.dropdown:hover .dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateX(-50%) translateY(0);
-    transition-delay: 0.1s;
-}
-
-/* Keep dropdown open when hovering over it */
-.dropdown-menu:hover {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
-
-/* Add padding area to bridge gap between Shop and dropdown */
-.dropdown::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    height: 1.5vw;
-    background: transparent;
-    z-index: 998;
-}
-
-.dropdown:hover::after {
-    display: block;
-}
-
-/* Smooth arrow rotation */
-.dropdown > a .fa-angle-down {
-    transition: transform 0.3s ease;
-    display: inline-block;
-    margin-left: 0.3vw;
-}
-
-.dropdown:hover > a .fa-angle-down {
-    transform: rotate(180deg);
-}
-
-/* Shop link hover effect */
-.dropdown > a {
-    position: relative;
-}
-
-.dropdown:hover > a {
-    color: rgb(135, 218, 72) !important;
-}
-
-/* User Dropdown wrapper */
-.user-dropdown {
-    position: relative;
-}
-
-/* User Dropdown menu - Modern Modal Style */
-.user-dropdown-menu {
-    position: absolute;
-    background: white;
-    top: calc(100% + 0.3vw);
-    left: 50%;
-    transform: translateX(-50%) translateY(-10px);
-    min-width: 10vw;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 
-                0 0 0 1px rgba(0, 0, 0, 0.05);
-    border-radius: 0.8vw;
-    padding: 1vw 0;
-    padding-top: 1.2vw;
-    z-index: 999;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
-    transition-delay: 0s;
-    pointer-events: none;
-    list-style: none;
-    display: flex !important;
-    flex-direction: column !important;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.98);
-    gap: 0 !important;
-}
-
-/* Arrow pointer at top */
-.user-dropdown-menu::before {
-    content: '';
-    position: absolute;
-    top: -0.5vw;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 0.6vw solid transparent;
-    border-right: 0.6vw solid transparent;
-    border-bottom: 0.6vw solid white;
-    filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.05));
-    z-index: 1000;
-}
-
-/* Menu Items - Each on separate row */
-.user-dropdown-menu li {
-    list-style: none !important;
-    padding: 0;
-    margin: 0.2vw 0.6vw;
-    white-space: nowrap;
-    position: relative;
-    overflow: hidden;
-    display: block !important;
-    width: calc(100% - 1.2vw) !important;
-    float: none !important;
-}
-
-.user-dropdown-menu li a {
-    color: #333 !important;
-    font-size: 1.05vw !important;
-    display: block !important;
-    font-weight: 600 !important;
-    text-decoration: none;
-    padding: 0.8vw 1.2vw !important;
-    border-radius: 0.5vw;
-    transition: all 0.2s ease;
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-/* Hover effect with slide-in background */
-.user-dropdown-menu li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #87da48 0%, #73c936 100%);
-    border-radius: 0.5vw;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    z-index: 1;
-}
-
-.user-dropdown-menu li:hover::before {
-    transform: translateX(0);
-}
-
-.user-dropdown-menu li:hover a {
-    color: white !important;
-    transform: translateX(0.3vw);
-}
-
-/* Add icons before text */
-.user-dropdown-menu li a::before {
-    content: '→';
-    opacity: 0;
-    margin-right: 0.5vw;
-    transition: all 0.2s ease;
-    display: inline-block;
-}
-
-.user-dropdown-menu li:hover a::before {
-    opacity: 1;
-}
-
-/* Show dropdown on hover */
-.user-dropdown:hover .user-dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateX(-50%) translateY(0);
-    transition-delay: 0.1s;
-}
-
-/* Keep dropdown open when hovering over it */
-.user-dropdown-menu:hover {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
-
-/* Add padding area to bridge gap between icon and dropdown */
-.user-dropdown::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    height: 1.5vw;
-    background: transparent;
-    z-index: 998;
-}
-
-.user-dropdown:hover::after {
-    display: block;
-}
-
-/* User icon hover effect */
-.user-dropdown:hover > a i {
-    color: rgb(135, 218, 72) !important;
-    transform: scale(1.1);
-    transition: all 0.2s ease;
-}
-
-.user-dropdown > a i {
-    transition: all 0.2s ease;
-}
-/* Search Icon Wrapper */
-.search-icon {
-    position: relative;
-    cursor: pointer;
-}
-
-/* Search Bar Hidden by Default */
-.search-bar-container {
-    position: absolute;
-    top: 2.5vw;
-    right: -2vw;
-    background: white;
-    padding: 0.8vw;
-    border-radius: 0.6vw;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.15);
-    display: none;
-    animation: fadeIn 0.2s ease-out;
-}
-
-/* Search Box Input */
-#search-input {
-    width: 14vw;
-    height: 2.4vw;
-    padding: 0.5vw 1vw;
-    border: 0.12vw solid #e4e4e4;
-    border-radius: 0.6vw;
-    font-size: 1vw;
-    outline: none;
-}
-
-#search-input:focus {
-    border-color: rgb(135, 218, 72);
-}
-
-/* Animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
-}

@@ -10,6 +10,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Paws</title>
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
@@ -42,18 +46,8 @@
     <div class="nav-items">
         <ul>
             <li><a style="color: rgb(135, 218, 72);" href="homepage.html">Home</a></li>
-           <li class="dropdown">
-    <a href="">Shop 
-        <i class="fa-solid fa-angle-down" style="color: #000000;"></i>
-    </a>
-
-    <ul class="dropdown-menu">
-        <li><a href="../Collection/Cat/catfood.html">Cat Food</a></li>
-        <li><a href="../Collection/Dog/dogfood.html">Dog Food</a></li>
-        <li><a href="../Collection/Cat/cataccessories.html">Cat Accessories</a></li>
-        <li><a href="../Collection/Dog/dogaccessories.html">Dog Accessories</a></li>
-    </ul>
-</li>   
+            <li><a href="../Collection/Dog/dogfood.html">Shop <i class="fa-solid fa-angle-down" style="color: #000000;"></i></a></li>
+            <li><a href="../Collection/Dog/dogfood.html">Shop <i class="fa-solid fa-angle-down" style="color: #000000;"></i></a></li>
             <li><a href="../Adoption/adoption.html">Adoption</a></li>
             <li><a href="../vet/vet.html">Vet</a></li>
             <li><a href="../Contact/contact.html" target="_blank">Contact</a></li>
@@ -62,27 +56,15 @@
 
     <div class="nav-items-logo">
         <ul>
-            <li class="search-icon">
-                <i class="fa-solid fa-magnifying-glass"></i>
-
-                <div class="search-bar-container">
-                    <input type="text" id="search-input" placeholder="Search products..." />
-                </div>
-            </li>
-            <li class="user-dropdown">
-                <a href="#"><i class="fa-regular fa-user" style="color: #000000;"></i></a>
-                <ul class="user-dropdown-menu">
-                    <li><a href="../Authentication/login.html">Login</a></li>
-                    <li><a href="../Authentication/register.html">Signup</a></li>
-                    <li><a href="../Accounts/Accountpage.html">Account</a></li>
-                 </ul>
-            </li>
+            <li><a href="#"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a></li>
+            <li><a href="../Accounts/Accountpage.html"><i class="fa-regular fa-user" style="color: #000000;"></i></a></li>
+            <li><a href="#"><i class="fa-solid fa-magnifying-glass" style="color: #000000;"></i></a></li>
+            <li><a href="../Accounts/Accountpage.html"><i class="fa-regular fa-user" style="color: #000000;"></i></a></li>
             <li><a href="../Accounts/Wishlist.html"><i class="fa-regular fa-heart" style="color: #000000;"></i></a></li>
             <li><a href="../cart-and-checkout/cart.html"><i class="fa-solid fa-bag-shopping" style="color: #000000;"></i></a></li>
         </ul>
     </div>
 </div>
-
 </section>
 </header>
 
@@ -132,70 +114,10 @@
     </div>
 
 <div class="products">
-
-    <a href="#"><div class="product-div">
-            <div class="product-image-div">
-                <img class="product-image" src="./product images/leather-chew-toy.jpg" alt="Leather Chew toy image">
-                <img class="product-image-hover" src="./product images/leather-chew-toy-2.jpg" alt="Leather Chew toy image Hover">
-            </div>
-            <div class="product-text-div">
-                <p class="product-text-title">Pawpourri Premium Natural Suede Leather Chew Toy</p>
-                <p class="product-text-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></p>
-                <p class="product-text-price"><span style="text-decoration: line-through; color: rgb(101, 100, 100);">$12.00</span> <span style="color: rgb(135, 218, 72); font-weight: bold;">$9.00</span></p>
-            </div>
-    </div></a>
-
-
-    <a href="#"><div class="product-div">
-            <div class="product-image-div">
-                <img class="product-image" src="./product images/dog bowl.jpg" alt="DOg Bowl">
-                <img class="product-image-hover" src="./product images/dog bowl 2.jpg" alt="Dog bowl hover">
-            </div>
-            <div class="product-text-div">
-                <p class="product-text-title">Pets Empire Stainless Steel Dog Bowl</p>
-                <p class="product-text-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i><i class="fa-regular fa-star"></i></p>
-                <p class="product-text-price"><span style="text-decoration: line-through; color: rgb(101, 100, 100);">$24.00</span> <span style="color: rgb(135, 218, 72); font-weight: bold;">$20.00</span></p>
-            </div>
-    </div></a>
-
-
-    <a href="#"><div class="product-div">
-            <div class="product-image-div">
-                <img class="product-image" src="./product images/cake treat.jpg" alt="Cake Treat">
-                <img class="product-image-hover" src="./product images/cake treat 2.jpg" alt="Cake Treat Hover">
-            </div>
-            <div class="product-text-div">
-                <p class="product-text-title">Dentastix Oral Care Treats For Samll Breeds Adult Dogs</p>
-                <p class="product-text-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></p>
-                <p class="product-text-price"><span style=" color: rgb(101, 100, 100);"><span style="color: rgb(135, 218, 72); font-weight: bold;">$21.00</span></p>
-            </div>
-    </div></a>
-
-
-    <a href="#"><div class="product-div">
-            <div class="product-image-div">
-                <img class="product-image" src="./product images/stainless steel bowl.jpg" alt="Stainless Steel Bowl">
-                <img class="product-image-hover" src="./product images/stainless steel bowl 2.jpg" alt="Stainless Steel Bowl 2">
-            </div>
-            <div class="product-text-div">
-                <p class="product-text-title">Food-Grade Melamine Base And Stainless Steel Bowl</p>
-                <p class="product-text-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i><i class="fa-regular fa-star"></i></p>
-                <p class="product-text-price"><span style=" color: rgb(101, 100, 100);"><span style="color: rgb(135, 218, 72); font-weight: bold;">$35.00</span></p>
-            </div>
-    </div></a>
-
-
-    <a href="#"><div class="product-div">
-            <div class="product-image-div">
-                <img class="product-image" src="./product images/soft velvet house.jpg" alt="Soft velvet house">
-                <img class="product-image-hover" src="./product images/soft velvet house 2.jpg" alt="Soft velvet house hover">
-            </div>
-            <div class="product-text-div">
-                <p class="product-text-title">Foodie Puppies Foldable Softy Velvet House</p>
-                <p class="product-text-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></p>
-                <p class="product-text-price"><span style="text-decoration: line-through; color: rgb(101, 100, 100);">$120.00</span> <span style="color: rgb(135, 218, 72); font-weight: bold;">$99.00</span></p>
-            </div>
-    </div></a>
+    <!-- Products will be loaded dynamically from Supabase -->
+    <p style="text-align: center; width: 100%; padding: 2rem;">Loading products...</p>
+    <!-- Products will be loaded dynamically from Supabase -->
+    <p style="text-align: center; width: 100%; padding: 2rem;">Loading products...</p>
 </div>
 
     
@@ -229,6 +151,19 @@
 </div>
 </section>
 
+<section class="top-categories-section">
+
+    <div class="top-categories-text">
+        <p style="color: rgb(135, 218, 72); font-size: 1.4vw; font-weight: 700; text-align: center;"><i>Top Categories</i></p>
+        <p style="font-size: 2.8vw; font-weight: 900; text-align: center ; padding-top: 1vw;">Shop By Categories</p>
+    </div>
+
+    <div class="top-categories-products">
+        <!-- Top Categories will be loaded dynamically from Supabase -->
+        
+    </div>
+</section>
+
 
 <section class="best-products-section">
 
@@ -242,65 +177,13 @@
             </div>
 
             <div class="best-products-grid">
-                <a href="#"><div class="best-product-flexbox">
-                    <div class="best-product-image-div">
-                        <img class="best-product-image" src="./product images/meat and rice healthy food.jpg" alt="meat and rice healthy food">
-                        <img class="best-product-image-hover" src="./product images/meat and rice healthy food hover.jpg" alt="meat and rice healthy food hover">
-                    </div>
-                    <div class="best-product-text-div">
-                        <p class="best-product-text-title">Himaliya Adult Meat & Rice Healthy Pet Food</p>
-                        <p class="best-product-text-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i><i class="fa-regular fa-star"></i></p>
-                        <p class="best-product-text-price"><span style="text-decoration: line-through; color: rgb(101, 100, 100); padding-right: 0.6vw;">$19.00</span><span style="color: rgb(135, 218, 72); font-weight: bolder;">$15.00</span></p>
-                        <p class="best-product-addtocart" style="color: black ;">Add To Cart</p>
-                    </div>
-                </div></a>
-
-
-                <a href="#"><div class="best-product-flexbox">
-                    <div class="best-product-image-div">
-                        <img class="best-product-image" src="./product images/leather-chew-toy.jpg" alt="Leather chew toy">
-                        <img class="best-product-image-hover" src="./product images/leather-chew-toy-2.jpg" alt="Leather chew toy hover">
-                    </div>
-                    <div class="best-product-text-div">
-                        <p class="best-product-text-title";>Pawpiurri Permium Leather Chew Toy</p>
-                        <p class="best-product-text-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></p>
-                        <p class="best-product-text-price"><span style="text-decoration: line-through; color: rgb(101, 100, 100); padding-right: 0.6vw;">$12.00</span><span style="color: rgb(135, 218, 72); font-weight: bolder;">$9.00</span></p>
-                            <p class="best-product-addtocart" style="color: black ;">Add To Cart</p>                
-                        </div>
-                </div></a>
-
-
-                <a href="#"><div class="best-product-flexbox">
-                    <div class="best-product-image-div">
-                        <img class="best-product-image" src="./product images/dry dog food chicken.jpg" alt="dry dog food chicken">
-                        <img class="best-product-image-hover" src="./product images/dry dog food chicken hover.jpg" alt="dry dog food chicken hover">
-                    </div>
-                    <div class="best-product-text-div">
-                        <p class="best-product-text-title">Meat Up Puppy Dry Dog Food, Chicken</p>
-                        <p class="best-product-text-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i><i class="fa-regular fa-star"></i></p>
-                        <p class="best-product-text-price"><span style="color: rgb(135, 218, 72); font-weight: bolder;">$24.00</span></p>
-                        <p class="best-product-addtocart" style="color: black ;">Add To Cart</p>
-                    </div>
-                </div></a>
-
-
-                <a href="#"><div class="best-product-flexbox">
-                    <div class="best-product-image-div">
-                        <img class="best-product-image" src="./product images/dog bowl.jpg" alt="dog bowl">
-                        <img class="best-product-image-hover" src="./product images/dog bowl 2.jpg" alt="dog bowl hover">
-                    </div>
-                    <div class="best-product-text-div">
-                        <p class="best-product-text-title";>Pets Empire Stainless Steel Dog Bowl</p>
-                        <p class="best-product-text-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></p>
-                        <p class="best-product-text-price"><span style="text-decoration: line-through; color: rgb(101, 100, 100); padding-right: 0.6vw;">$24.00</span><span style="color: rgb(135, 218, 72); font-weight: bolder;">$20.00</span></p>
-                        <p class="best-product-addtocart" style="color: black ;">Add To Cart</p>
-                    </div>
-                </div></a>
-            
+                <!-- Featured Products will be loaded dynamically from Supabase -->
+                <p style="text-align: center; width: 100%; padding: 2rem;">Loading featured products...</p>
+                <!-- Featured Products will be loaded dynamically from Supabase -->
+                <p style="text-align: center; width: 100%; padding: 2rem;">Loading featured products...</p>
             </div>
         
         </div>    
-
 
         <div class="best-products-banner">
             <img class="best-products-banner-image" src="./Images/best products image.jpg" alt="best product banner">
@@ -311,11 +194,9 @@
             </div>
         </div>
 
-
     </div>
 
 </section>
-
 
 <section class="summer-sale-banner">
     <div class="summer-sale-banner-div">
@@ -324,80 +205,6 @@
             <p class="summer-sale-banner-heading">Carniwel With Ocean <br> Cat Food, Adult</p>
             <a href="#"><button class="summer-sale-banner-button">Shop Now</button></a>
     </div>
-</section>
-
-<section class="latest-product-section">
-    <div>
-        <p style="color: rgb(135, 218, 72); font-size: 1.4vw; font-weight: 700; text-align: center;"><i>Special Products</i></p>
-        <p style="font-size: 2.8vw; font-weight: 900; text-align: center ; margin-bottom: 3vw;">Deals Of The Week</p>
-    </div>
-
-<div class="products">
-
-    <a href="#"><div class="product-div">
-            <div class="product-image-div">
-                <img class="product-image" src="/Homepage/product images/leather-chew-toy.jpg" alt="Leather Chew toy image">
-                <img class="product-image-hover" src="/Homepage/product images/leather-chew-toy-2.jpg" alt="Leather Chew toy image Hover">
-            </div>
-            <div class="product-text-div">
-                <p class="product-text-title">Pawpourri Premium Natural Suede Leather Chew Toy</p>
-                <p class="product-text-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></p>
-                <p class="product-text-price"><span style="text-decoration: line-through; color: rgb(101, 100, 100);">$12.00</span> <span style="color: rgb(135, 218, 72); font-weight: bold;">$9.00</span></p>
-            </div>
-    </div></a>
-
-
-    <a href="#"><div class="product-div">
-            <div class="product-image-div">
-                <img class="product-image" src="/Homepage/product images/dog bowl.jpg" alt="DOg Bowl">
-                <img class="product-image-hover" src="/Homepage/product images/dog bowl 2.jpg" alt="Dog bowl hover">
-            </div>
-            <div class="product-text-div">
-                <p class="product-text-title">Pets Empire Stainless Steel Dog Bowl</p>
-                <p class="product-text-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i><i class="fa-regular fa-star"></i></p>
-                <p class="product-text-price"><span style="text-decoration: line-through; color: rgb(101, 100, 100);">$24.00</span> <span style="color: rgb(135, 218, 72); font-weight: bold;">$20.00</span></p>
-            </div>
-    </div></a>
-
-
-    <a href="#"><div class="product-div">
-            <div class="product-image-div">
-                <img class="product-image" src="/Homepage/product images/cake treat.jpg" alt="Cake Treat">
-                <img class="product-image-hover" src="/Homepage/product images/cake treat 2.jpg" alt="Cake Treat Hover">
-            </div>
-            <div class="product-text-div">
-                <p class="product-text-title">Dentastix Oral Care Treats For Samll Breeds Adult Dogs</p>
-                <p class="product-text-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></p>
-                <p class="product-text-price"><span style=" color: rgb(101, 100, 100);"><span style="color: rgb(135, 218, 72); font-weight: bold;">$21.00</span></p>
-            </div>
-    </div></a>
-
-
-    <a href="#"><div class="product-div">
-            <div class="product-image-div">
-                <img class="product-image" src="/Homepage/product images/stainless steel bowl.jpg" alt="Stainless Steel Bowl">
-                <img class="product-image-hover" src="/Homepage/product images/stainless steel bowl 2.jpg" alt="Stainless Steel Bowl 2">
-            </div>
-            <div class="product-text-div">
-                <p class="product-text-title">Food-Grade Melamine Base And Stainless Steel Bowl</p>
-                <p class="product-text-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i><i class="fa-regular fa-star"></i></p>
-                <p class="product-text-price"><span style=" color: rgb(101, 100, 100);"><span style="color: rgb(135, 218, 72); font-weight: bold;">$35.00</span></p>
-            </div>
-    </div></a>
-
-
-    <a href="#"><div class="product-div">
-            <div class="product-image-div">
-                <img class="product-image" src="/Homepage/product images/soft velvet house.jpg" alt="Soft velvet house">
-                <img class="product-image-hover" src="./product images/soft velvet house 2.jpg" alt="Soft velvet house hover">
-            </div>
-            <div class="product-text-div">
-                <p class="product-text-title">Foodie Puppies Foldable Softy Velvet House</p>
-                <p class="product-text-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></p>
-                <p class="product-text-price"><span style="text-decoration: line-through; color: rgb(101, 100, 100);">$120.00</span> <span style="color: rgb(135, 218, 72); font-weight: bold;">$99.00</span></p>
-            </div>
-    </div></a>
-</div> 
 </section>
 
 <section class=testimonial-section>
@@ -445,7 +252,6 @@
     </div>
   </section>
 
-
 <section class="feature-bar">
   <div class="feature-bar-inner">
     <div class="feature">
@@ -491,11 +297,10 @@
   </div>
 </section>
 
-<script src="search-box.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase Configuration and Homepage Dynamic Scripts -->
+<script src="./supabase.js"></script>
+<script src="./homepage.js"></script>
 </main>
-
-
 
 
 <footer class="footer">
