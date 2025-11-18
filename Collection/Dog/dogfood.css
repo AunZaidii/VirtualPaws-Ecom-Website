@@ -74,17 +74,17 @@
 
 .reset-filter {
     margin-top: 1vw; 
-    background-color: #ccc;
-    color: #000;
+    background-color:#87da48;
+    color:#fff;
     border: none;
     border-radius: 5px; 
-    padding: 0.8vw 1vw; 
+    padding: 0.55vw 1vw; 
     cursor: pointer;
     font-weight: 600;
 }
 
 .reset-filter:hover {
-    background-color: #b5b5b5;
+    background-color:  #74c13f;
 }
 
 .products {

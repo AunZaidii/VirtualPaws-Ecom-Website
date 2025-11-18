@@ -98,3 +98,11 @@ function applyPriceFilter() {
 // 🚀 Init
 fetchDogAccessories();
 document.getElementById("apply-filter").addEventListener("click", applyPriceFilter);
+
+document.getElementById("reset-filter").addEventListener("click", () => {
+
+  document.getElementById("price-min").value = "";
+  document.getElementById("price-max").value = "";
+
+  renderProducts(allProducts);
+});
