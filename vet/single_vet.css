@@ -459,4 +459,10 @@ body {
     grid-template-columns:1fr 1fr;
   }
 }
-
+.vet-photo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #8ddf54;
+}
