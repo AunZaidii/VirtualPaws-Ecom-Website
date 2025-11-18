@@ -4,6 +4,23 @@ const SUPABASE_ANON_KEY =
 
 let supabaseClient;
 
+document.getElementById("logout-btn").addEventListener("click", async () => {
+    if (!supabaseClient) return;
+
+    const { error } = await supabaseClient.auth.signOut();
+
+    if (error) {
+        console.error("Logout failed:", error);
+        showToast("Logout failed!", "error");
+    } else {
+        showToast("Logged out successfully!", "success");
+        setTimeout(() => {
+            window.location.href = "../Authentication/login.html"; // Redirect after logout
+        }, 1000);
+    }
+});
+
+
 if (typeof supabase !== "undefined") {
   supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 } else {
@@ -30,13 +47,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Get authenticated user
   const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
-  if (authError || !user) {
-    console.error("User not logged in:", authError);
-    window.location.href = "./login.html";
-    return;
-  }
-
-  const userId = user.id;
+    let userId = null;
+    if (authError || !user) {
+        console.log("User not logged in. Showing empty account info.");
+    } else {
+        userId = user.id;
+    }
 
   // Fetch profile from table editor's user table
   const { data: userData, error: userError } = await supabaseClient
