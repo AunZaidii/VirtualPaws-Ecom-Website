@@ -12,186 +12,116 @@
   <title>Register</title>
 </head>
 
-<header>
-
-<section>
-<div class="header">
-
-    <div class="header-content">
-        <p style="color: white; font-size: 1.05vw;">Get 15% discount + free mysterious gifts for your first order</p>
-    </div>
-
-    <div class="header-items">
-        <ul>
-            <li><a href="../track-order/track-order.html">Track Order</a></li>
-            <li><a href="../help-center/helpcenter.html">Help Center</a></li>
-
-        </ul>
-    </div>
-</div>
-</section>
-
-<section class="navbar">
-
-<div class="nav">
-
-    <div class="nav-logo">
-    <a href="../Homepage/homepage.html"><img class="logo" src="../Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo"></a>
-    </div>
-
-    <div class="nav-items">
-        <ul>
-            <li><a style="color: rgb(135, 218, 72);" href="../Homepage/homepage.html">Home</a></li>
-           <li class="dropdown">
-    <a href="">Shop 
-        <i class="fa-solid fa-angle-down" style="color: #000000;"></i>
-    </a>
-
-    <ul class="dropdown-menu">
-        <li><a href="../Collection/Cat/catfood.html">Cat Food</a></li>
-        <li><a href="../Collection/Dog/dogfood.html">Dog Food</a></li>
-        <li><a href="../Collection/Cat/cataccessories.html">Cat Accessories</a></li>
-        <li><a href="../Collection/Dog/dogaccessories.html">Dog Accessories</a></li>
-    </ul>
-</li>   
-            <li><a href="../Adoption/adoption.html">Adoption</a></li>
-            <li><a href="../vet/vet.html">Vet</a></li>
-            <li><a href="../Contact/contact.html">Contact</a></li>
-        </ul>
-    </div>
-
-    <div class="nav-items-logo">
-        <ul>
-            <li class="search-icon">
-                <i class="fa-solid fa-magnifying-glass"></i>
-
-                <div class="search-bar-container">
-                    <input type="text" id="search-input" placeholder="Search products..." />
-                </div>
-            </li>
-            <li class="user-dropdown">
-                <a href="#"><i class="fa-regular fa-user" style="color: #000000;"></i></a>
-                <ul class="user-dropdown-menu">
-                    <li><a href="../Authentication/login.html">Login</a></li>
-                    <li><a href="../Authentication/register.html">Signup</a></li>
-                    <li><a href="../Accounts/Accountpage.html">Account</a></li>
-                 </ul>
-            </li>
-            <li><a href="../Accounts/Wishlist.html"><i class="fa-regular fa-heart" style="color: #000000;"></i></a></li>
-            <li><a href="../cart-and-checkout/cart.html"><i class="fa-solid fa-bag-shopping" style="color: #000000;"></i></a></li>
-        </ul>
-    </div>
-</div>
-
-</section>
-
-</header>
-
-  
 <body>
 
-  <section class="account-header">
-    <h1>Account</h1>
-  </section>
-
-  <section class="login-section">
-    <div class="login-box">
-      <h2>Create account</h2>
-
-      <form class="login-form">
-        <input type="text" name="first_name" placeholder="First name" required>
-        <input type="text" name="last_name" placeholder="Last name" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <div class="password-wrapper">
-        <input type="password" name="password" placeholder="Password" required>
-         <i class="fa-solid fa-eye toggle-password"></i>
-        </div>
-
-
-        <button type="submit" class="login-btn">Create</button>
-      </form>
-
-      <p class="has-account" style="margin-top: 2vw;">
-        Already have an account? <a href="/Authentication/login.html">Sign in</a>
-      </p>
+<header>
+  <section>
+    <div class="header">
+      <div class="header-content">
+        <p style="color: white; font-size: 1.05vw;">Get 15% discount + free mysterious gifts for your first order</p>
+      </div>
+      <div class="header-items">
+        <ul>
+          <li><a href="../track-order/track-order.html">Track Order</a></li>
+          <li><a href="../help-center/helpcenter.html">Help Center</a></li>
+        </ul>
+      </div>
     </div>
   </section>
 
+  <section class="navbar">
+    <div class="nav">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="register.js"></script>
+      <div class="nav-logo">
+        <a href="../Homepage/homepage.html">
+          <img class="logo" src="../Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo">
+        </a>
+      </div>
+
+      <div class="nav-items">
+        <ul>
+          <li><a style="color: rgb(135, 218, 72);" href="../Homepage/homepage.html">Home</a></li>
+
+          <li class="dropdown">
+            <a href="#">Shop<i class="fa-solid fa-angle-down"></i></a>
+
+            <ul class="dropdown-menu">
+              <li><a href="../Collection/Cat/catfood.html">Cat Food</a></li>
+              <li><a href="../Collection/Dog/dogfood.html">Dog Food</a></li>
+              <li><a href="../Collection/Cat/cataccessories.html">Cat Accessories</a></li>
+              <li><a href="../Collection/Dog/dogaccessories.html">Dog Accessories</a></li>
+            </ul>
+          </li>
+
+          <li><a href="../Adoption/adoption.html">Adoption</a></li>
+          <li><a href="../vet/vet.html">Vet</a></li>
+          <li><a href="../Contact/contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-items-logo">
+        <ul>
+          <li class="search-icon">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <div class="search-bar-container">
+              <input type="text" id="search-input" placeholder="Search products..." />
+            </div>
+          </li>
+
+          <li class="user-dropdown">
+            <a href="#"><i class="fa-regular fa-user"></i></a>
+            <ul class="user-dropdown-menu">
+              <li><a href="../Authentication/login.html">Login</a></li>
+              <li><a href="../Authentication/register.html">Signup</a></li>
+              <li><a href="../Accounts/Accountpage.html">Account</a></li>
+            </ul>
+          </li>
+
+          <li><a href="../Accounts/Wishlist.html"><i class="fa-regular fa-heart"></i></a></li>
+          <li><a href="../cart-and-checkout/cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+</header>
+
+<section class="account-header">
+  <h1>Account</h1>
+</section>
+
+<section class="login-section">
+  <div class="login-box">
+    <h2>Create account</h2>
+
+    <!-- FIXED FORM → no refresh -->
+    <form class="login-form">
+
+      <input type="text" name="first_name" placeholder="First name" required>
+      <input type="text" name="last_name" placeholder="Last name" required>
+      <input type="email" name="email" placeholder="Email" required>
+
+      <div class="password-wrapper">
+        <input type="password" name="password" placeholder="Password" required>
+        <i class="fa-solid fa-eye toggle-password"></i>
+      </div>
+
+      <!-- FIXED BUTTON -->
+      <button type="button" class="login-btn">Create</button>
+
+    </form>
+
+    <p class="has-account">
+      Already have an account? <a href="./login.html">Sign in</a>
+    </p>
+  </div>
+</section>
+
+<!-- Proper module imports -->
+<script type="module" src="../SupabaseClient/supabaseClient.js"></script>
+<script type="module" src="register.js"></script>
 <script src="../Homepage/search-box.js"></script>
 
-
 </body>
-
-  
-
-
-<footer class="footer">
-    <div class="footer-container">
-
-        <div class="footer-column contact-us">
-            <h3>Contact Us</h3>
-            <p><i class="fa-solid fa-location-dot"></i> Virtual Paws - Pets Store<br>
-              Karachi, Pakistan<br>
-            </p>
-            <p><i class="fa-solid fa-envelope"></i> contact_virtualpaws@gmail.com</p>
-            <p><i class="fa-solid fa-phone"></i> (+91) 9876-543-210</p>
-          </div>
-          
-
-      <div class="footer-column">
-        <h3>Find Product</h3>
-        <ul>
-          <li><a href="../Contact/contact.html">Privacy Policy</a></li>
-          <li><a href="../Contact/contact.html">Refund Policy</a></li>
-          <li><a href="../Contact/contact.html">Shipping Policy</a></li>
-          <li><a href="../Contact/contact.html">Terms of Service</a></li>
-          <li><a href="../Contact/contact.html">Policy for Buyers</a></li>
-          <li><a href="../Contact/contact.html">Policy for Sellers</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h3>Useful Links</h3>
-        <ul>
-          <li><a href="../Contact/contact.html">Shipping & Refund</a></li>
-          <li><a href="../Contact/contact.html">FAQs</a></li>
-          <li><a href="../Contact/contact.html">Delivery Information</a></li>
-          <li><a href="../Contact/contact.html">Shipping</a></li>
-          <li><a href="../Contact/contact.html">Size Chart</a></li>
-          <li><a href="../Contact/contact.html">Sitemap</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column newsletter">
-        <h3>Our Newsletter</h3>
-        <p>Subscribe to our latest newsletter to get news about special discounts.</p>
-        <form>
-          <input type="email" class="email-placeholder" placeholder="Email">
-          <a href="../Contact/contact.html" class="subscribe-btn" type="submit">Subscribe</a>
-        </form>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <div class="social-icons">
-        <a href="https://facebook.com"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="https://instagram.com"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://twitter.com"><i class="fa-brands fa-x-twitter"></i></a>
-        <a href="https://youtube.com"><i class="fa-brands fa-youtube"></i></a>
-      </div>
-      <p>© 2025, Virtual Paws - Pets Store </p>
-      <div class="payment-icons">
-        <img src="https://img.icons8.com/color/48/visa.png" alt="Visa">
-        <img src="https://img.icons8.com/color/48/mastercard.png" alt="Mastercard">
-        <img src="https://img.icons8.com/color/48/amex.png" alt="Amex">
-        <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal">
-        <img src="https://img.icons8.com/color/48/discover.png" alt="Discover">
-      </div>
-    </div>
-</footer>
-
 
 </html>
