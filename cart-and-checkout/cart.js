@@ -1,42 +1,48 @@
-// --- Supabase Setup ---
-const SUPABASE_URL = "https://oekreylufrqvuzgoyxye.supabase.co";
-const SUPABASE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
-
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+import { supabaseClient } from "../SupabaseClient/supabaseClient.js";
 
 
-// --- Load Cart ---
+// -----------------------------------------------------
+// LOAD CART ITEMS
+// -----------------------------------------------------
 async function loadCart() {
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user }, error } = await supabaseClient.auth.getUser();
 
-    if (!user) {
-        alert("You must login to view your cart.");
+    if (error || !user) {
+        document.getElementById("cart-items").innerHTML =
+            "<p>Your cart is empty.</p>";
         return;
     }
 
-    const { data, error } = await supabase
+    const { data: items, error: cartError } = await supabaseClient
         .from("cart")
         .select("*")
         .eq("user_id", user.id);
 
-    if (error) {
-        console.error(error);
+    if (cartError) {
+        console.error(cartError);
         return;
     }
 
-    renderCart(data);
+    renderCart(items);
 }
 
 
-// --- Render Cart UI ---
-function renderCart(data) {
+// -----------------------------------------------------
+// RENDER ITEMS (MATCHES YOUR CSS EXACTLY)
+// -----------------------------------------------------
+function renderCart(items) {
     const container = document.getElementById("cart-items");
     container.innerHTML = "";
 
+    if (!items || items.length === 0) {
+        container.innerHTML = "<p>Your cart is empty.</p>";
+        document.getElementById("subtotal").textContent = "$0.00";
+        return;
+    }
+
     let subtotal = 0;
 
-    data.forEach(item => {
+    items.forEach(item => {
         subtotal += item.price * item.quantity;
 
         const row = document.createElement("div");
@@ -44,22 +50,39 @@ function renderCart(data) {
 
         row.innerHTML = `
             <div class="product-info">
-                <img src="${item.image}" class="cart-img">
-                <div>
+                <div class="product-image">
+                    <img src="${item.image}" alt="Product">
+                </div>
+
+                <div class="product-details">
                     <p class="product-title">${item.title}</p>
                     <p class="product-price">$${item.price}</p>
                 </div>
             </div>
 
             <div class="quantity-controls">
-                <button onclick="updateQuantity('${item.cart_id}', ${item.quantity - 1})">-</button>
-                <span>${item.quantity}</span>
-                <button onclick="updateQuantity('${item.cart_id}', ${item.quantity + 1})">+</button>
+                <div class="quantity-selector">
+                    <button class="quantity-btn" onclick="updateQuantity('${item.cart_id}', ${item.quantity - 1})">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M20 12H4"/></svg>
+                    </button>
 
-                <button class="delete-btn" onclick="deleteItem('${item.cart_id}')">🗑</button>
+                    <span class="quantity-number">${item.quantity}</span>
+
+                    <button class="quantity-btn" onclick="updateQuantity('${item.cart_id}', ${item.quantity + 1})">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
+                    </button>
+                </div>
+
+                <button class="delete-btn" onclick="deleteItem('${item.cart_id}')">
+                    <svg class="icon-trash" viewBox="0 0 24 24">
+                        <path d="M19 7l-1 12H6L5 7m5 4v6m4-6v6M9 7V4h6v3M4 7h16"/>
+                    </svg>
+                </button>
             </div>
 
-            <div class="total-price">$${(item.price * item.quantity).toFixed(2)}</div>
+            <div class="total-price">
+                $${(item.price * item.quantity).toFixed(2)}
+            </div>
         `;
 
         container.appendChild(row);
@@ -69,11 +92,13 @@ function renderCart(data) {
 }
 
 
-// --- Update Quantity ---
+// -----------------------------------------------------
+// UPDATE QUANTITY
+// -----------------------------------------------------
 async function updateQuantity(cart_id, qty) {
     if (qty < 1) qty = 1;
 
-    await supabase
+    await supabaseClient
         .from("cart")
         .update({ quantity: qty })
         .eq("cart_id", cart_id);
@@ -82,9 +107,11 @@ async function updateQuantity(cart_id, qty) {
 }
 
 
-// --- Delete Item ---
+// -----------------------------------------------------
+// DELETE ITEM
+// -----------------------------------------------------
 async function deleteItem(cart_id) {
-    await supabase
+    await supabaseClient
         .from("cart")
         .delete()
         .eq("cart_id", cart_id);
@@ -93,5 +120,10 @@ async function deleteItem(cart_id) {
 }
 
 
-// --- Init ---
+// -----------------------------------------------------
+// INITIALIZE
+// -----------------------------------------------------
 loadCart();
+
+window.updateQuantity = updateQuantity;
+window.deleteItem = deleteItem;

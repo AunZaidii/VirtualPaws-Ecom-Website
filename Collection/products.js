@@ -262,35 +262,26 @@ function setupAddToCart(product) {
   addBtn.addEventListener("click", async () => {
     const qty = parseInt(document.getElementById("quantity").textContent);
 
-    // Check if user is logged in
-    // const { data: { user } } = await supabase.auth.getUser();
-    // if (!user) {
-    //   alert("Please login to add items to cart.");
-    //   return;
-    // }
+    // Fetch logged-in user
+    const { data: { user }, error } = await supabase.auth.getUser();
 
-    const userId = "fa69cf92-7fca-4b43-ab90-d18e1b989f42";
+    if (error || !user) {
+      alert("Please login to add items to cart.");
+      return;
+    }
 
-    // const { error } = await supabase.from("cart").insert({
-    //   user_id: user.id,
-    //   product_id: product.product_id,
-    //   title: product.name,
-    //   price: product.price,
-    //   quantity: qty,
-    //   image: product.image
-    // });
+    // Insert real authenticated user
+    const { error: insertError } = await supabase.from("cart").insert({
+      user_id: user.id,
+      product_id: product.product_id,
+      title: product.name,
+      price: product.price,
+      quantity: qty,
+      image: product.image
+    });
 
-    const { error } = await supabase.from("cart").insert({
-    user_id: userId,
-    product_id: product.product_id,
-    title: product.name,
-    price: product.price,
-    quantity: qty,
-    image: product.image
-});
-
-    if (error) {
-      console.error("Add to cart error:", error);
+    if (insertError) {
+      console.error("Add to cart error:", insertError);
       alert("Failed to add item to cart!");
       return;
     }
@@ -298,6 +289,7 @@ function setupAddToCart(product) {
     alert("Added to cart!");
   });
 }
+
 
 // ---------------- Run Page ----------------
 setupCollapsibles();
