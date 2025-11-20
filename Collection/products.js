@@ -45,27 +45,26 @@ function getProductId() {
 
 // ---------------- Load Product ----------------
 async function loadProduct() {
-  const id = getProductId();
-
+  const id = getProductId(); 
   if (!id) {
     alert("Missing product id in URL");
     return;
   }
-
-  const { data, error } = await supabase
-    .from("product")
-    .select("*")
-    .eq("product_id", id)
-    .single();
-
-  if (error || !data) {
+  try {
+    const response = await fetch(`/.netlify/functions/getSingleProduct?id=${id}`);
+    const data = await response.json();
+    if (!data) {
+      console.error("Product not found");
+      alert("Product not found");
+      return;
+    }
+    populateProduct(data);
+  } catch (error) {
     console.error("Error loading product:", error);
-    alert("Product not found");
-    return;
+    alert("Error loading product");
   }
-
-  populateProduct(data);
 }
+
 
 
 // ---------------- Populate Product ----------------
