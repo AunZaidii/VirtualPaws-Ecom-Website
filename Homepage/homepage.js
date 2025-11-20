@@ -1,8 +1,5 @@
-// IMPORT SHARED CLIENT
-import { supabaseClient } from "../SupabaseClient/supabaseClient.js";
-
-// (optional) expose to console
-window.supabaseClient = supabaseClient;
+// IMPORT API CLIENT
+import { apiClient } from "../utils/apiClient.js";
 
 // DOM TARGETS
 const latestBox = document.getElementById("latestProducts");
@@ -11,25 +8,22 @@ const dealsBox = document.getElementById("dealsProducts");
 
 // LOAD PRODUCTS
 async function loadProducts() {
-  const { data: products, error } = await supabaseClient
-    .from("product")
-    .select("*");
+  try {
+    const products = await apiClient.get("getProducts");
 
-  if (error) {
-    console.error("SUPABASE ERROR:", error);
-    return;
+    if (!products?.length) {
+      console.warn("No products found");
+      return;
+    }
+
+    const shuffled = [...products].sort(() => 0.5 - Math.random());
+
+    renderLatest(shuffled.slice(0, 5));
+    renderFeatured(shuffled.slice(5, 9));
+    renderDeals(shuffled.slice(9, 14));
+  } catch (error) {
+    console.error("ERROR LOADING PRODUCTS:", error);
   }
-
-  if (!products?.length) {
-    console.warn("No products found");
-    return;
-  }
-
-  const shuffled = [...products].sort(() => 0.5 - Math.random());
-
-  renderLatest(shuffled.slice(0, 5));
-  renderFeatured(shuffled.slice(5, 9));
-  renderDeals(shuffled.slice(9, 14));
 }
 
 // PRODUCT CARDS

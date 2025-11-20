@@ -1,9 +1,4 @@
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
-const SUPABASE_URL = "https://oekreylufrqvuzgoyxye.supabase.co";
-const SUPABASE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+import { apiClient } from "../../utils/apiClient.js";
 
 let allProducts = [];
 
@@ -26,18 +21,13 @@ function renderStars(rating) {
 
 // 🦴 Fetch dog food
 async function fetchDogFood() {
-  const { data, error } = await supabase
-    .from("product")
-    .select("*")
-    .ilike("category", "dog food");
-
-  if (error) {
+  try {
+    const data = await apiClient.get("getProducts", { category: "dog food" });
+    allProducts = data || [];
+    renderProducts(allProducts);
+  } catch (error) {
     console.error("Error fetching products:", error);
-    return;
   }
-
-  allProducts = data;
-  renderProducts(allProducts);
 }
 
 // 🧩 Render products

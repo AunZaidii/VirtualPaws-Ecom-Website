@@ -1,4 +1,4 @@
-import { supabaseClient } from "../SupabaseClient/supabaseClient.js";
+import { apiClient } from "../utils/apiClient.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector(".login-form");
@@ -20,15 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
     loginMessage.style.color = "#333";
 
     try {
-      const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const data = await apiClient.post("authLogin", { email, password });
 
-      if (error) {
-        loginMessage.textContent = error.message;
-        loginMessage.style.color = "red";
-        return;
+      if (data.access_token) {
+        apiClient.setAuthSession(data);
       }
 
       loginMessage.textContent = "Login successful!";
@@ -40,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     } catch (err) {
       console.error(err);
-      loginMessage.textContent = "Unexpected error. Try again.";
+      loginMessage.textContent = err.message || "Unexpected error. Try again.";
       loginMessage.style.color = "red";
     }
   });
@@ -78,16 +73,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const redirectURL = `${window.location.origin}/Authentication/reset-password.html`;
 
-    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-      redirectTo: redirectURL,
-    });
+    try {
+      await apiClient.post("authResetPassword", {
+        email,
+        redirectTo: redirectURL,
+      });
 
-    if (error) {
-      resetMessage.textContent = error.message;
-      resetMessage.style.color = "red";
-    } else {
       resetMessage.textContent = "Reset email sent!";
       resetMessage.style.color = "green";
+    } catch (err) {
+      resetMessage.textContent = err.message || "Error sending reset email";
+      resetMessage.style.color = "red";
     }
   });
 });

@@ -1,10 +1,10 @@
-import { supabaseClient } from "../SupabaseClient/supabaseClient.js";
+import { apiClient } from "../utils/apiClient.js";
 
 // ===============================
 // REDIRECT IF USER NOT LOGGED IN
 // ===============================
 (async () => {
-  const { data: { user } } = await supabaseClient.auth.getUser();
+  const user = apiClient.getUser();
 
   if (!user) {
     window.location.href = "../Authentication/login.html";
@@ -15,18 +15,17 @@ import { supabaseClient } from "../SupabaseClient/supabaseClient.js";
 // LOGOUT
 // ===============================
 document.getElementById("logout-btn").addEventListener("click", async () => {
-  const { error } = await supabaseClient.auth.signOut();
+  try {
+    await apiClient.post("authSignOut");
+    apiClient.setAuthSession(null);
+    showToast("Logged out successfully!", "success");
 
-  if (error) {
-    showToast("Logout failed!", "error");
-    return;
+    setTimeout(() => {
+      window.location.href = "../Authentication/login.html";
+    }, 1000);
+  } catch (error) {
+    showToast(error.message || "Logout failed!", "error");
   }
-
-  showToast("Logged out successfully!", "success");
-
-  setTimeout(() => {
-    window.location.href = "../Authentication/login.html";
-  }, 1000);
 });
 
 // ===============================
@@ -44,99 +43,101 @@ document.addEventListener("DOMContentLoaded", async () => {
   const editActions = document.getElementById("edit-actions");
 
   // GET AUTH USER
-  const { data: { user }, error } = await supabaseClient.auth.getUser();
+  const user = apiClient.getUser();
   if (!user) return;
 
   // FETCH FROM custom `user` TABLE
-  const { data: profile, error: profileErr } = await supabaseClient
-    .from("user")
-    .select("*")
-    .eq("user_id", user.id)
-    .single();
+  try {
+    const profile = await apiClient.get("getUserProfile");
 
-  if (profileErr || !profile) {
-    console.error("Profile fetch error:", profileErr);
-    return;
-  }
+    if (!profile) {
+      console.error("Profile not found");
+      return;
+    }
 
-  let firstName = profile.first_name;
-  let lastName = profile.last_name;
-  let emailValue = profile.email;
-  let phoneValue = profile.phone_no || "";
+    let firstName = profile.first_name;
+    let lastName = profile.last_name;
+    let emailValue = profile.email;
+    let phoneValue = profile.phone_no || "";
 
-  // SET INPUT VALUES
-  fullNameInput.value = `${firstName} ${lastName}`.trim();
-  emailInput.value = emailValue;
-  phoneInput.value = phoneValue;
-
-  // ===============================
-  // ENABLE EDIT MODE
-  // ===============================
-  function toggleEditMode() {
-    fullNameInput.disabled = false;
-    emailInput.disabled = false;
-    phoneInput.disabled = false;
-
-    editBtn.style.display = "none";
-    editActions.classList.remove("hidden");
-  }
-
-  // ===============================
-  // CANCEL EDIT MODE
-  // ===============================
-  function cancelEdit() {
+    // SET INPUT VALUES
     fullNameInput.value = `${firstName} ${lastName}`.trim();
     emailInput.value = emailValue;
     phoneInput.value = phoneValue;
 
-    fullNameInput.disabled = true;
-    emailInput.disabled = true;
-    phoneInput.disabled = true;
+    // ===============================
+    // ENABLE EDIT MODE
+    // ===============================
+    function toggleEditMode() {
+      fullNameInput.disabled = false;
+      emailInput.disabled = false;
+      phoneInput.disabled = false;
 
-    editActions.classList.add("hidden");
-    editBtn.style.display = "inline-flex";
-  }
-
-  // ===============================
-  // SAVE PROFILE
-  // ===============================
-  async function saveProfile() {
-    const fullName = fullNameInput.value.trim();
-    const email = emailInput.value.trim();
-    const phone = phoneInput.value.trim();
-
-    if (!fullName || !email) {
-      alert("Full name and email are required.");
-      return;
+      editBtn.style.display = "none";
+      editActions.classList.remove("hidden");
     }
 
-    const nameParts = fullName.split(" ");
-    const updatedFirst = nameParts[0];
-    const updatedLast = nameParts.slice(1).join(" ");
+    // ===============================
+    // CANCEL EDIT MODE
+    // ===============================
+    function cancelEdit() {
+      fullNameInput.value = `${firstName} ${lastName}`.trim();
+      emailInput.value = emailValue;
+      phoneInput.value = phoneValue;
 
-    const { error: updateErr } = await supabaseClient
-      .from("user")
-      .update({
-        first_name: updatedFirst,
-        last_name: updatedLast,
-        email,
-        phone_no: phone
-      })
-      .eq("user_id", user.id);
+      fullNameInput.disabled = true;
+      emailInput.disabled = true;
+      phoneInput.disabled = true;
 
-    if (updateErr) {
-      alert("Failed to update profile.");
-      return;
+      editActions.classList.add("hidden");
+      editBtn.style.display = "inline-flex";
     }
 
-    // Update local values
-    firstName = updatedFirst;
-    lastName = updatedLast;
-    emailValue = email;
-    phoneValue = phone;
+    // ===============================
+    // SAVE PROFILE
+    // ===============================
+    async function saveProfile() {
+      const fullName = fullNameInput.value.trim();
+      const email = emailInput.value.trim();
+      const phone = phoneInput.value.trim();
 
-    cancelEdit();
-    showToast("Profile updated!", "success");
+      if (!fullName || !email) {
+        alert("Full name and email are required.");
+        return;
+      }
+
+      const nameParts = fullName.split(" ");
+      const updatedFirst = nameParts[0];
+      const updatedLast = nameParts.slice(1).join(" ");
+
+      try {
+        await apiClient.put("updateUserProfile", {
+          first_name: updatedFirst,
+          last_name: updatedLast,
+          email,
+          phone_no: phone
+        });
+
+        // Update local values
+        firstName = updatedFirst;
+        lastName = updatedLast;
+        emailValue = email;
+        phoneValue = phone;
+
+        cancelEdit();
+        showToast("Profile updated!", "success");
+      } catch (updateErr) {
+        alert("Failed to update profile.");
+        console.error(updateErr);
+      }
+    }
+
+    // Add event listeners
+    editBtn.addEventListener("click", toggleEditMode);
+    cancelBtn.addEventListener("click", cancelEdit);
+    saveBtn.addEventListener("click", saveProfile);
+  } catch (err) {
+    console.error("Error loading profile:", err);
   }
 
   // Add event listeners
@@ -158,8 +159,37 @@ function showToast(message, type = "success") {
   }, 3000);
 }
 
+// ===============================
+// TAB SWITCHING FUNCTION
+// ===============================
+function switchTab(tabName) {
+  // Remove active class from all tab buttons
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.classList.remove("active");
+  });
 
-// Your existing orders, addresses, modals, etc. remain unchanged...
+  // Remove active class from all tab contents
+  document.querySelectorAll(".tab-content").forEach(content => {
+    content.classList.remove("active");
+  });
+
+  // Add active class to selected tab button
+  const tabButtons = document.querySelectorAll(".tab-btn");
+  tabButtons.forEach(btn => {
+    if (btn.getAttribute("onclick")?.includes(`'${tabName}'`)) {
+      btn.classList.add("active");
+    }
+  });
+
+  // Add active class to selected tab content
+  const selectedTab = document.getElementById(`${tabName}-tab`);
+  if (selectedTab) {
+    selectedTab.classList.add("active");
+  }
+}
+
+// Make switchTab available globally
+window.switchTab = switchTab;
 
 
             // Render Orders

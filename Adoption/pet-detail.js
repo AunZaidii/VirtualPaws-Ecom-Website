@@ -1,13 +1,6 @@
 // pet-detail.js  (use with: <script type="module" src="pet-detail.js"></script>)
 
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
-// ---------- Supabase setup ----------
-const SUPABASE_URL = "https://oekreylufrqvuzgoyxye.supabase.co";
-const SUPABASE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+import { apiClient } from "../utils/apiClient.js";
 
 // ---------- ID from localStorage ----------
 // ---------- Get ID from URL first, then fallback to localStorage ----------
@@ -84,59 +77,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   attachEventListeners();
 });
 
-// ---------- Load one pet (+ shelter) from Supabase ----------
+// ---------- Load one pet (+ shelter) from API ----------
 async function loadPetFromSupabase() {
   try {
-    const { data: petRow, error: petError } = await supabase
-      .from("pet")
-      .select(
-        `
-        pet_id,
-        name,
-        species,
-        gender,
-        breed,
-        age,
-        size,
-        color,
-        location,
-        description,
-        temperament,
-        health_status,
-        tags,
-        last_vet_visit,
-        diet,
-        vaccinations,
-        fee,
-        adoption_req,
-        shelter_id,
-        shelter_name,
-        image1,
-        image2,
-        image3
-      `
-      )
-      .eq("pet_id", petId)
-      .single();
+    const { pet: petRow, shelter: shelterRow } = await apiClient.get("getPet", { id: petId });
 
-    if (petError) {
-      console.error("Error loading pet:", petError);
+    if (!petRow) {
+      console.error("Error loading pet");
       return;
-    }
-
-    let shelterRow = null;
-    if (petRow.shelter_id) {
-      const { data: sRow, error: sError } = await supabase
-        .from("shelter")
-        .select("shelter_id, shelter_name, address, phone, email, verified")
-        .eq("shelter_id", petRow.shelter_id)
-        .single();
-
-      if (sError) {
-        console.warn("Error loading shelter (using fallback):", sError);
-      } else {
-        shelterRow = sRow;
-      }
     }
 
     currentPet = mapPetRow(petRow, shelterRow);
@@ -461,23 +409,14 @@ async function submitAdoptionForm(e) {
   }
 
   try {
-    const { data, error } = await supabase.from("adoption").insert({
+    await apiClient.post("createAdoption", {
       pet_id: currentPet.id,
-      shelter_id: currentPet.shelter.id,
+      shelter_id: currentPet.shelter?.id || null,
       name,
       email,
       phone,
-      message,
-      status: "Pending"
+      message
     });
-
-    if (error) {
-      console.error("Error inserting adoption:", error);
-      alert(
-        "❌ Failed: Could not save your adoption request. " + error.message
-      );
-      return;
-    }
 
     closeContactModal();
 

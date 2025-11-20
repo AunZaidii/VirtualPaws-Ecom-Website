@@ -1,10 +1,4 @@
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
-const SUPABASE_URL = "https://oekreylufrqvuzgoyxye.supabase.co";
-const SUPABASE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+import { apiClient } from "../utils/apiClient.js";
 
 // ------------------ Helpers ------------------
 
@@ -23,13 +17,8 @@ async function loadVet() {
   const vetId = getVetId();
   if (!vetId) return console.log("❌ No vet ID found");
 
-  const { data, error } = await supabase
-    .from("vet")
-    .select("*")
-    .eq("vet_id", vetId)
-    .single();
-
-  if (error) return console.error("Load error:", error);
+  try {
+    const data = await apiClient.get("getVet", { id: vetId });
 
   // --- Vet Image ---
   const imgEl = document.querySelector(".vet-photo");
@@ -80,6 +69,9 @@ async function loadVet() {
   const encoded = encodeURIComponent(data.clinicAddress || "Karachi");
   document.querySelector(".map-frame").src =
     `https://maps.google.com/maps?q=${encoded}&output=embed`;
+  } catch (error) {
+    console.error("Load error:", error);
+  }
 }
 
 // ------------------ Appointment ------------------
@@ -103,27 +95,22 @@ function setupForm() {
     const time = convertTo24Hour(document.querySelector("#custTime").value);
     const notes = document.querySelector("#custNotes").value;
 
-    const { error } = await supabase.from("appointment").insert([
-      {
+    try {
+      await apiClient.post("createAppointment", {
         vet_id: vetId,
-        user_id: null,
         name,
         phone,
         date,
         time,
-        status: "pending",
         notes,
-      },
-    ]);
-
-    if (error) {
-      console.error(error);
-      errorMsg.style.display = "block";
-      return;
-    }
+      });
 
     successMsg.style.display = "block";
     form.reset();
+    } catch (error) {
+      console.error(error);
+      errorMsg.style.display = "block";
+    }
   });
 }
 

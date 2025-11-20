@@ -1,9 +1,4 @@
-const SUPABASE_URL = "https://oekreylufrqvuzgoyxye.supabase.co";
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
-
-const { createClient } = supabase;
-const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+import { apiClient } from "../utils/apiClient.js";
 
 const form = document.getElementById("resetForm");
 const newPassword = document.getElementById("newPassword");
@@ -40,11 +35,7 @@ form.addEventListener("submit", async (e) => {
   }
 
   try {
-    const { data, error } = await supabaseClient.auth.updateUser({
-      password: password,
-    });
-
-    if (error) throw error;
+    await apiClient.put("authResetPassword", { password });
 
     message.style.color = "green";
     message.textContent = "Password updated successfully! Redirecting...";
@@ -54,6 +45,6 @@ form.addEventListener("submit", async (e) => {
   } catch (err) {
     console.error("Error resetting password:", err);
     message.style.color = "red";
-    message.textContent = "Failed to reset password. Try again.";
+    message.textContent = err.message || "Failed to reset password. Try again.";
   }
 });

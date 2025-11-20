@@ -1,9 +1,5 @@
-// ---------- Supabase Init ----------
-const SUPABASE_URL = "https://oekreylufrqvuzgoyxye.supabase.co";
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
-
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// ---------- API Client Init ----------
+import { apiClient } from "../utils/apiClient.js";
 
 // ---------- Local state ----------
 let products = [];
@@ -20,31 +16,13 @@ const orders = {
 };
 
 // ---------- Upload helper ----------
+// Note: Image uploads still need Supabase storage access
+// For now, using a simplified approach - you may need to create a storage upload function
 async function uploadImages(fileList, bucketName) {
-  const files = Array.from(fileList).slice(0, 3);
-  const urls = [];
-
-  for (const file of files) {
-    const ext = file.name.split(".").pop();
-    const fileName = `${Date.now()}-${Math.random()
-      .toString(36)
-      .slice(2)}.${ext}`;
-
-    const { error } = await db.storage.from(bucketName).upload(fileName, file);
-    if (error) {
-      console.error("Upload error:", error);
-      alert("Error uploading image(s).");
-      continue;
-    }
-
-    const { data: publicData } = db.storage
-      .from(bucketName)
-      .getPublicUrl(fileName);
-
-    urls.push(publicData.publicUrl);
-  }
-
-  return urls;
+  // TODO: Create a Netlify function for image uploads or use a different storage solution
+  // For now, returning empty array - you'll need to implement storage upload function
+  console.warn("Image upload not yet implemented with Netlify functions");
+  return [];
 }
 
 // ---------- Navigation ----------
@@ -71,30 +49,20 @@ window.showSection = showSection;
 
 // ---------- Load Data ----------
 async function loadData() {
-  const [
-    { data: prodData },
-    { data: vetData },
-    { data: petData },
-    { data: shelterData },
-    { data: adoptionData },
-    { data: appointmentData }
-  ] = await Promise.all([
-      db.from("product").select("*"),
-      db.from("vet").select("*"),
-      db.from("pet").select("*"),
-      db.from("shelter").select("*"),
-      db.from("adoption").select("*"),
-      db.from("appointment").select("*")   // NEW
-  ]);
+  try {
+    const allData = await apiClient.get("adminGetAllData");
+    
+    products = allData.products || [];
+    vets = allData.vets || [];
+    pets = allData.pets || [];
+    shelters = allData.shelters || [];
+    adoptions = allData.adoptions || [];
+    appointments = allData.appointments || [];
 
-  products = prodData || [];
-  vets = vetData || [];
-  pets = petData || [];
-  shelters = shelterData || [];
-  adoptions = adoptionData || []; // NEW
-  appointments = appointmentData || [];
-
-  updateDashboard();
+    updateDashboard();
+  } catch (error) {
+    console.error("Error loading data:", error);
+  }
 }
 
 // ---------- Product Form ----------
@@ -105,9 +73,8 @@ document.getElementById("product-form").addEventListener("submit", async (e) => 
   const imageInput = document.getElementById("product-images");
   const imageUrls = await uploadImages(imageInput.files, "product-images");
 
-  const { data, error } = await db
-    .from("product")
-    .insert({
+  try {
+    const data = await apiClient.post("adminAddProduct", {
       name: formData.get("name"),
       price: parseFloat(formData.get("price")),
       stock: parseInt(formData.get("stock")),
@@ -121,21 +88,17 @@ document.getElementById("product-form").addEventListener("submit", async (e) => 
       material: formData.get("material"),
       size: formData.get("size"),
       review: formData.get("review"),
-    })
-    .select()
-    .single();
+    });
 
-  if (error) {
+    products.push(data);
+    e.target.reset();
+    imageInput.value = "";
+    alert("Product added successfully!");
+    updateDashboard();
+  } catch (error) {
     console.error("Product insert error:", error);
-    alert("Error adding product.");
-    return;
+    alert(error.message || "Error adding product.");
   }
-
-  products.push(data);
-  e.target.reset();
-  imageInput.value = "";
-  alert("Product added successfully!");
-  updateDashboard();
 });
 
 // ---------- Vet Form ----------
@@ -146,9 +109,8 @@ document.getElementById("vet-form").addEventListener("submit", async (e) => {
   const imageInput = document.getElementById("vet-images");
   const imageUrls = await uploadImages(imageInput.files, "vet-images");
 
-  const { data, error } = await db
-    .from("vet")
-    .insert({
+  try {
+    const data = await apiClient.post("adminAddVet", {
       name: formData.get("name"),
       category: formData.get("expertise"),
       phone: formData.get("contact"),
@@ -160,21 +122,17 @@ document.getElementById("vet-form").addEventListener("submit", async (e) => {
       education: formData.get("education"),
       reviews: formData.get("reviews"),
       image_url: imageUrls[0] || null,
-    })
-    .select()
-    .single();
+    });
 
-  if (error) {
+    vets.push(data);
+    e.target.reset();
+    imageInput.value = "";
+    alert("Vet added successfully!");
+    updateDashboard();
+  } catch (error) {
     console.error("Vet insert error:", error);
-    alert("Error adding vet.");
-    return;
+    alert(error.message || "Error adding vet.");
   }
-
-  vets.push(data);
-  e.target.reset();
-  imageInput.value = "";
-  alert("Vet added successfully!");
-  updateDashboard();
 });
 
 // ---------- Pet Form ----------
@@ -185,47 +143,40 @@ document.getElementById("pet-form").addEventListener("submit", async (e) => {
   const imgInput = document.getElementById("pet-images");
   const imageUrls = await uploadImages(imgInput.files, "pet-images");
 
-  const { data, error } = await db
-    .from("pet")
-    .insert([
-      {
-        name: formData.get("name"),
-        breed: formData.get("breed"),
-        species: formData.get("species"),
-        gender: formData.get("gender"),
-        age: parseInt(formData.get("age")),
-        size: formData.get("size"),
-        color: formData.get("color"),
-        temperament: formData.get("temperament"),
-        tags: formData.get("tags"),
-        health_status: formData.get("health_status"),
-        location: formData.get("location"),
-        description: formData.get("description"),
-        last_vet_visit: formData.get("lastVetVisit") || null,
-        diet: formData.get("diet"),
-        vaccinations: formData.get("vaccinations"),
-        fee: parseFloat(formData.get("adoptionFees")),
-        adoption_req: formData.get("adoptionRequirement") || null,
-        shelter_name: formData.get("shelter_name") || null,
-        image1: imageUrls[0] || null,
-        image2: imageUrls[1] || null,
-        image3: imageUrls[2] || null,
-      },
-    ])
-    .select()
-    .single();
+  try {
+    const data = await apiClient.post("adminAddPet", {
+      name: formData.get("name"),
+      breed: formData.get("breed"),
+      species: formData.get("species"),
+      gender: formData.get("gender"),
+      age: parseInt(formData.get("age")),
+      size: formData.get("size"),
+      color: formData.get("color"),
+      temperament: formData.get("temperament"),
+      tags: formData.get("tags"),
+      health_status: formData.get("health_status"),
+      location: formData.get("location"),
+      description: formData.get("description"),
+      last_vet_visit: formData.get("lastVetVisit") || null,
+      diet: formData.get("diet"),
+      vaccinations: formData.get("vaccinations"),
+      fee: parseFloat(formData.get("adoptionFees")),
+      adoption_req: formData.get("adoptionRequirement") || null,
+      shelter_name: formData.get("shelter_name") || null,
+      image1: imageUrls[0] || null,
+      image2: imageUrls[1] || null,
+      image3: imageUrls[2] || null,
+    });
 
-  if (error) {
+    pets.push(data);
+    e.target.reset();
+    imgInput.value = "";
+    alert("Pet added successfully!");
+    updateDashboard();
+  } catch (error) {
     console.error("Pet insert error:", error);
-    alert("Error adding pet.");
-    return;
+    alert(error.message || "Error adding pet.");
   }
-
-  pets.push(data);
-  e.target.reset();
-  imgInput.value = "";
-  alert("Pet added successfully!");
-  updateDashboard();
 });
 
 // ---------- Shelter Form ----------
@@ -234,28 +185,23 @@ document.getElementById("shelter-form").addEventListener("submit", async (e) => 
 
   const formData = new FormData(e.target);
 
-  const { data, error } = await db
-    .from("shelter")
-    .insert({
+  try {
+    const data = await apiClient.post("adminAddShelter", {
       shelter_name: formData.get("shelter_name"),
       phone: formData.get("phone"),
       email: formData.get("email"),
       address: formData.get("address"),
       verified: formData.get("verified") === "true",
-    })
-    .select()
-    .single();
+    });
 
-  if (error) {
+    shelters.push(data);
+    e.target.reset();
+    alert("Shelter added successfully!");
+    updateDashboard();
+  } catch (error) {
     console.error("Shelter insert error:", error);
-    alert("Error adding shelter.");
-    return;
+    alert(error.message || "Error adding shelter.");
   }
-
-  shelters.push(data);
-  e.target.reset();
-  alert("Shelter added successfully!");
-  updateDashboard();
 });
 
 // ---------- Render Products ----------
@@ -439,23 +385,22 @@ function renderAppointments() {
 async function updateAppointmentStatus(appointment_id, newStatus) {
   console.log("Updating:", appointment_id, newStatus);
 
-  const { error } = await db
-    .from("appointment")
-    .update({ status: newStatus })
-    .eq("appointment_id", appointment_id);
+  try {
+    await apiClient.put("adminUpdateAppointmentStatus", {
+      appointment_id,
+      status: newStatus
+    });
 
-  if (error) {
+    appointments = appointments.map((a) =>
+      a.appointment_id === appointment_id ? { ...a, status: newStatus } : a
+    );
+
+    renderAppointments();
+    alert(`Appointment ${newStatus}!`);
+  } catch (error) {
     console.error("Update Error:", error);
-    alert("Error updating appointment.");
-    return;
+    alert(error.message || "Error updating appointment.");
   }
-
-  appointments = appointments.map((a) =>
-    a.appointment_id === appointment_id ? { ...a, status: newStatus } : a
-  );
-
-  renderAppointments();
-  alert(`Appointment ${newStatus}!`);
 }
 
 window.updateAppointmentStatus = updateAppointmentStatus;
@@ -487,7 +432,7 @@ function renderAdoptions() {
           <p><strong>Pet ID:</strong> ${req.pet_id}</p>
           <p><strong>Shelter ID:</strong> ${req.shelter_id}</p>
           <p><strong>Message:</strong> ${req.message || "No message"}</p>
-          <p><strong>Status:</strong> ${req.adoptionStatus}</p>
+          <p><strong>Status:</strong> ${req.status}</p>
         </div>
         <div class="action-buttons">
           <button class="btn-primary" onclick="updateAdoptionStatus('${req.adoption_id}', 'accepted')">✓ Accept</button>
@@ -503,25 +448,24 @@ function renderAdoptions() {
 
 // ---------- Adoption Status Update (FIXED) ----------
 async function updateAdoptionStatus(adoption_id, newStatus) {
-  const { error } = await db
-    .from("adoption")
-    .update({ adoptionStatus: newStatus })
-    .eq("adoption_id", adoption_id);
+  try {
+    await apiClient.put("adminUpdateAdoptionStatus", {
+      adoption_id,
+      status: newStatus
+    });
 
-  if (error) {
+    adoptions = adoptions.map((req) =>
+      req.adoption_id === adoption_id
+        ? { ...req, status: newStatus }
+        : req
+    );
+
+    renderAdoptions();
+    alert(`Request ${newStatus}!`);
+  } catch (error) {
     console.error("Update Error:", error);
-    alert("Error updating request.");
-    return;
+    alert(error.message || "Error updating request.");
   }
-
-  adoptions = adoptions.map((req) =>
-    req.adoption_id === adoption_id
-      ? { ...req, adoptionStatus: newStatus }
-      : req
-  );
-
-  renderAdoptions();
-  alert(`Request ${newStatus}!`);
 }
 
 window.updateAdoptionStatus = updateAdoptionStatus;
@@ -530,45 +474,53 @@ window.updateAdoptionStatus = updateAdoptionStatus;
 async function deleteProduct(id) {
   if (!confirm("Delete this product?")) return;
 
-  const { error } = await db.from("product").delete().eq("product_id", id);
-  if (error) return alert("Error deleting product.");
-
-  products = products.filter((p) => p.product_id !== id);
-  renderProducts();
-  updateDashboard();
+  try {
+    await apiClient.delete("adminDeleteProduct", { id });
+    products = products.filter((p) => p.product_id !== id);
+    renderProducts();
+    updateDashboard();
+  } catch (error) {
+    alert(error.message || "Error deleting product.");
+  }
 }
 
 async function deleteVet(id) {
   if (!confirm("Delete this vet?")) return;
 
-  const { error } = await db.from("vet").delete().eq("vet_id", id);
-  if (error) return alert("Error deleting vet.");
-
-  vets = vets.filter((v) => v.vet_id !== id);
-  renderVets();
-  updateDashboard();
+  try {
+    await apiClient.delete("adminDeleteVet", { id });
+    vets = vets.filter((v) => v.vet_id !== id);
+    renderVets();
+    updateDashboard();
+  } catch (error) {
+    alert(error.message || "Error deleting vet.");
+  }
 }
 
 async function deletePet(id) {
   if (!confirm("Delete this pet?")) return;
 
-  const { error } = await db.from("pet").delete().eq("pet_id", id);
-  if (error) return alert("Error deleting pet.");
-
-  pets = pets.filter((p) => p.pet_id !== id);
-  renderPets();
-  updateDashboard();
+  try {
+    await apiClient.delete("adminDeletePet", { id });
+    pets = pets.filter((p) => p.pet_id !== id);
+    renderPets();
+    updateDashboard();
+  } catch (error) {
+    alert(error.message || "Error deleting pet.");
+  }
 }
 
 async function deleteShelter(id) {
   if (!confirm("Delete this shelter?")) return;
 
-  const { error } = await db.from("shelter").delete().eq("shelter_id", id);
-  if (error) return alert("Error deleting shelter.");
-
-  shelters = shelters.filter((s) => s.shelter_id !== id);
-  renderShelters();
-  updateDashboard();
+  try {
+    await apiClient.delete("adminDeleteShelter", { id });
+    shelters = shelters.filter((s) => s.shelter_id !== id);
+    renderShelters();
+    updateDashboard();
+  } catch (error) {
+    alert(error.message || "Error deleting shelter.");
+  }
 }
 
 window.deleteProduct = deleteProduct;

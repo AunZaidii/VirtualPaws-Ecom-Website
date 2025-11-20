@@ -1,13 +1,6 @@
 // adoption.js  (use with: <script type="module" src="adoption.js"></script>)
 
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
-// ---------- Supabase setup ----------
-const SUPABASE_URL = "https://oekreylufrqvuzgoyxye.supabase.co";
-const SUPABASE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+import { apiClient } from "../utils/apiClient.js";
 
 // ---------- State ----------
 let currentFilters = {
@@ -53,28 +46,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   attachEventListeners();
 });
 
-// ---------- Load pets from Supabase ----------
+// ---------- Load pets from API ----------
 async function loadPetsFromSupabase() {
   try {
-    const { data, error } = await supabase
-      .from("pet")
-      .select(
-        `
-        pet_id,
-        name,
-        species,
-        gender,
-        breed,
-        age,
-        location,
-        vaccinations,
-        tags,
-        image1
-      `
-      );
+    const data = await apiClient.get("getPets");
 
-    if (error) {
-      console.error("Error loading pets:", error);
+    if (!data) {
+      console.error("Error loading pets");
       petsGrid.innerHTML =
         '<p style="color:red; text-align:center;">Failed to load pets.</p>';
       return;

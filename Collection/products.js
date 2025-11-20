@@ -1,9 +1,5 @@
-// ---------------- Supabase Setup ----------------
-const SUPABASE_URL = "https://oekreylufrqvuzgoyxye.supabase.co";
-const SUPABASE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
-
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// ---------------- API Client Setup ----------------
+import { apiClient } from "../utils/apiClient.js";
 
 
 // ---------------- GLOBAL TOAST ----------------
@@ -177,18 +173,16 @@ function setupQuantitySelector() {
 async function checkWishlistStatus(productId) {
   const heartIcon = document.getElementById("heartIcon");
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = apiClient.getUser();
   if (!user) return;
 
-  const { data: exists } = await supabase
-    .from("wishlist")
-    .select("*")
-    .eq("user_id", user.id)
-    .eq("product_id", productId)
-    .maybeSingle();
-
-  if (exists) {
-    heartIcon.textContent = "❤️"; 
+  try {
+    const { exists } = await apiClient.get("checkWishlistStatus", { product_id: productId });
+    if (exists) {
+      heartIcon.textContent = "❤️"; 
+    }
+  } catch (error) {
+    console.error("Error checking wishlist status:", error);
   }
 }
 
@@ -199,44 +193,37 @@ function setupWishlistButton(product) {
   const heartIcon = document.getElementById("heartIcon");
 
   wishlistBtn.addEventListener("click", async () => {
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = apiClient.getUser();
 
     if (!user) {
       showToast("Please login to add wishlist ❤️", "error");
       return;
     }
 
-    const { data: exists } = await supabase
-      .from("wishlist")
-      .select("*")
-      .eq("user_id", user.id)
-      .eq("product_id", product.product_id)
-      .maybeSingle();
+    try {
+      const { exists } = await apiClient.get("checkWishlistStatus", { product_id: product.product_id });
 
-    if (exists) {
+      if (exists) {
+        heartIcon.textContent = "❤️";
+        showToast("Already in your wishlist ❤️", "error");
+        return;
+      }
+
+      await apiClient.post("addToWishlist", {
+        product_id: product.product_id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        stock_status: product.stock > 0 ? "In Stock" : "Out of Stock",
+        rating: product.rating
+      });
+
       heartIcon.textContent = "❤️";
-      showToast("Already in your wishlist ❤️", "error");
-      return;
+      showToast("Added to wishlist!", "success");
+    } catch (error) {
+      showToast(error.message || "Failed to add!", "error");
+      console.error(error);
     }
-
-    const { error: insertErr } = await supabase.from("wishlist").insert({
-      user_id: user.id,
-      product_id: product.product_id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      stock_status: product.stock > 0 ? "In Stock" : "Out of Stock",
-      rating: product.rating
-    });
-
-    if (insertErr) {
-      showToast("Failed to add!", "error");
-      console.error(insertErr);
-      return;
-    }
-
-    heartIcon.textContent = "❤️";
-    showToast("Added to wishlist!", "success");
   });
 }
 
@@ -291,25 +278,24 @@ async function submitReview(productId) {
     const text = document.getElementById("reviewText").value;
     const rating = document.querySelectorAll("#starRating .star.active").length;
 
-    const { error } = await supabase.from("product_review").insert({
-      product_id: productId,
-      name,
-      email,
-      rating,
-      review_text: text
-    });
+    try {
+      await apiClient.post("addProductReview", {
+        product_id: productId,
+        name,
+        email,
+        rating,
+        review_text: text
+      });
 
-    if (error) {
+      alert("Review submitted!");
+      document.getElementById("reviewModal").classList.remove("active");
+
+      form.reset();
+      loadReviews(productId);
+    } catch (error) {
       console.error("Review submit error:", error);
-      alert("Error submitting review.");
-      return;
+      alert(error.message || "Error submitting review.");
     }
-
-    alert("Review submitted!");
-    document.getElementById("reviewModal").classList.remove("active");
-
-    form.reset();
-    loadReviews(productId);
   });
 }
 
@@ -319,36 +305,32 @@ async function loadReviews(productId) {
   const container = document.getElementById("reviewsContainer");
   container.innerHTML = "Loading reviews...";
 
-  const { data, error } = await supabase
-    .from("product_review")
-    .select("*")
-    .eq("product_id", productId)
-    .order("created_at", { ascending: false });
+  try {
+    const data = await apiClient.get("getProductReviews", { product_id: productId });
 
-  if (error) {
-    container.innerHTML = "Failed to load reviews.";
-    return;
-  }
+    if (!data.length) {
+      container.innerHTML = "<p>No reviews yet.</p>";
+      return;
+    }
 
-  if (!data.length) {
-    container.innerHTML = "<p>No reviews yet.</p>";
-    return;
-  }
+    container.innerHTML = "";
 
-  container.innerHTML = "";
-
-  data.forEach((review) => {
-    container.innerHTML += `
-      <div class="review-item">
-        <div class="review-header-row">
-          <div class="review-author">${review.name}</div>
-          <div class="review-date">${new Date(review.created_at).toDateString()}</div>
+    data.forEach((review) => {
+      container.innerHTML += `
+        <div class="review-item">
+          <div class="review-header-row">
+            <div class="review-author">${review.name}</div>
+            <div class="review-date">${new Date(review.created_at).toDateString()}</div>
+          </div>
+          <div class="review-stars">${"★".repeat(review.rating)}${"☆".repeat(5 - review.rating)}</div>
+          <p class="review-text">${review.review_text}</p>
         </div>
-        <div class="review-stars">${"★".repeat(review.rating)}${"☆".repeat(5 - review.rating)}</div>
-        <p class="review-text">${review.review_text}</p>
-      </div>
-    `;
-  });
+      `;
+    });
+  } catch (error) {
+    container.innerHTML = "Failed to load reviews.";
+    console.error(error);
+  }
 }
 
 
@@ -359,31 +341,27 @@ function setupAddToCart(product) {
   addBtn.addEventListener("click", async () => {
     const qty = parseInt(document.getElementById("quantity").textContent);
 
-    // Fetch logged-in user
-    const { data: { user }, error } = await supabase.auth.getUser();
+    const user = apiClient.getUser();
 
-    if (error || !user) {
+    if (!user) {
       showToast("Please login to add to cart ❤️", "error");
       return;
     }
 
-    // Insert real authenticated user
-    const { error: insertError } = await supabase.from("cart").insert({
-      user_id: user.id,
-      product_id: product.product_id,
-      title: product.name,
-      price: product.price,
-      quantity: qty,
-      image: product.image
-    });
+    try {
+      await apiClient.post("addToCart", {
+        product_id: product.product_id,
+        title: product.name,
+        price: product.price,
+        quantity: qty,
+        image: product.image
+      });
 
-    if (insertError) {
-      console.error("Add to cart error:", insertError);
-      showToast("Failed to add item to cart ❌", "error");
-      return;
+      showToast("Added to cart successfully! 🛒", "success");
+    } catch (error) {
+      console.error("Add to cart error:", error);
+      showToast(error.message || "Failed to add item to cart ❌", "error");
     }
-
-    showToast("Added to cart successfully! 🛒", "success");
   });
 }
 

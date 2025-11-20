@@ -1,4 +1,4 @@
-import { supabaseClient } from "../SupabaseClient/supabaseClient.js";
+import { apiClient } from "../utils/apiClient.js";
 
 /* -------------------------------------
    GLOBAL TOAST
@@ -32,24 +32,24 @@ function showToast(message, type = "success") {
    LOAD USER INFO
 ------------------------------------- */
 async function loadUserInfo() {
-    const { data: { user }, error } = await supabaseClient.auth.getUser();
+    const user = apiClient.getUser();
     if (!user) {
         showToast("Please login to checkout", "error");
         return (window.location.href = "../Authentication/login.html");
     }
 
-    const { data: profile } = await supabaseClient
-        .from("user")
-        .select("*")
-        .eq("user_id", user.id)   // ✔ FIXED
-        .single();
+    try {
+        const profile = await apiClient.get("getUserProfile");
 
-    if (!profile) return;
+        if (!profile) return;
 
-    document.getElementById("email").value = profile.email || "";
-    document.getElementById("phone").value = profile.phone_no || "";
-    document.getElementById("firstName").value = profile.first_name || "";
-    document.getElementById("lastName").value = profile.last_name || "";
+        document.getElementById("email").value = profile.email || "";
+        document.getElementById("phone").value = profile.phone_no || "";
+        document.getElementById("firstName").value = profile.first_name || "";
+        document.getElementById("lastName").value = profile.last_name || "";
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 /* -------------------------------------
@@ -59,15 +59,16 @@ let cartItems = [];
 let subtotal = 0;
 
 async function loadOrderSummary() {
-    const { data: { user }} = await supabaseClient.auth.getUser();
+    const user = apiClient.getUser();
     if (!user) return;
 
-    const { data: items } = await supabaseClient
-        .from("cart")
-        .select("*")
-        .eq("user_id", user.id);   // ✔ FIXED
-
-    cartItems = items || [];
+    try {
+        const items = await apiClient.get("getCart");
+        cartItems = items || [];
+    } catch (error) {
+        console.error(error);
+        cartItems = [];
+    }
     subtotal = 0;
 
     const container = document.getElementById("order-items");
@@ -100,63 +101,53 @@ async function loadOrderSummary() {
    PLACE ORDER
 ------------------------------------- */
 async function placeOrder() {
-    const { data: { user } } = await supabaseClient.auth.getUser();
+    const user = apiClient.getUser();
 
-const { data: profile, error: profileErr } = await supabaseClient
-    .from("user")
-    .select("first_name, last_name, email, phone_no")
-    .eq("user_id", user.id)
-    .single();
+    try {
+        const profile = await apiClient.get("getUserProfile");
 
-    if (profileErr) {
-        console.error(profileErr);
-        showToast("Could not load user info ❌", "error");
-        return;
-    }
+        if (!profile) {
+            showToast("Could not load user info ❌", "error");
+            return;
+        }
 
-    const address = document.getElementById("address").value;
-    const city = document.getElementById("city").value;
-    const state = document.getElementById("state").value;
-    const zip = document.getElementById("zip_code").value;
-    const payment_method = document.getElementById("payment_method").value;
+        const address = document.getElementById("address").value;
+        const city = document.getElementById("city").value;
+        const state = document.getElementById("state").value;
+        const zip = document.getElementById("zip_code").value;
+        const payment_method = document.getElementById("payment_method").value;
 
-    if (!address || !city || !state || !zip) {
-        showToast("Fill all required fields ❌", "error");
-        return;
-    }
+        if (!address || !city || !state || !zip) {
+            showToast("Fill all required fields ❌", "error");
+            return;
+        }
 
-    const { error } = await supabaseClient.from("orders").insert({
-    user_id: user.id,
-    first_name: profile.first_name,
-    last_name: profile.last_name,
-    email: profile.email,
-    phone_no: profile.phone_no,   // ⭐ FIXED → MATCHES TABLE COLUMN
+        await apiClient.post("createOrder", {
+            first_name: profile.first_name,
+            last_name: profile.last_name,
+            email: profile.email,
+            phone_no: profile.phone_no,
+            subtotal,
+            shipping_cost: 0,
+            total_amount: subtotal,
+            address,
+            city,
+            state,
+            zip_code: zip,
+            payment_method,
+            payment_status: "Pending",
+            items: cartItems
+        });
 
-    subtotal,
-    shipping_cost: 0,
-    total_amount: subtotal,
-    address,
-    city,
-    state,
-    zip_code: zip,
-    payment_method,
-    payment_status: "Pending",
-    items: cartItems
-});
+        showToast("Order placed successfully 🎉", "success");
 
-    if (error) {
+        setTimeout(() => {
+            window.location.href = "order-success.html";
+        }, 1000);
+    } catch (error) {
         console.error(error);
-        showToast("Order failed ❌", "error");
-        return;
+        showToast(error.message || "Order failed ❌", "error");
     }
-
-    await supabaseClient.from("cart").delete().eq("user_id", user.id);  // ✔ FIXED
-
-    showToast("Order placed successfully 🎉", "success");
-
-    setTimeout(() => {
-        window.location.href = "order-success.html";
-    }, 1000);
 }
 
 /* -------------------------------------

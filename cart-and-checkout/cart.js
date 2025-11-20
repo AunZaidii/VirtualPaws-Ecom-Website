@@ -1,29 +1,26 @@
-import { supabaseClient } from "../SupabaseClient/supabaseClient.js";
+import { apiClient } from "../utils/apiClient.js";
 
 
 // -----------------------------------------------------
 // LOAD CART ITEMS
 // -----------------------------------------------------
 async function loadCart() {
-    const { data: { user }, error } = await supabaseClient.auth.getUser();
+    const user = apiClient.getUser();
 
-    if (error || !user) {
+    if (!user) {
         document.getElementById("cart-items").innerHTML =
             "<p>Your cart is empty.</p>";
         return;
     }
 
-    const { data: items, error: cartError } = await supabaseClient
-        .from("cart")
-        .select("*")
-        .eq("user_id", user.id);
-
-    if (cartError) {
-        console.error(cartError);
-        return;
+    try {
+        const items = await apiClient.get("getCart");
+        renderCart(items || []);
+    } catch (error) {
+        console.error(error);
+        document.getElementById("cart-items").innerHTML =
+            "<p>Your cart is empty.</p>";
     }
-
-    renderCart(items);
 }
 
 
@@ -98,12 +95,12 @@ function renderCart(items) {
 async function updateQuantity(cart_id, qty) {
     if (qty < 1) qty = 1;
 
-    await supabaseClient
-        .from("cart")
-        .update({ quantity: qty })
-        .eq("cart_id", cart_id);
-
-    loadCart();
+    try {
+        await apiClient.put("updateCart", { cart_id, quantity: qty });
+        loadCart();
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 
@@ -111,12 +108,12 @@ async function updateQuantity(cart_id, qty) {
 // DELETE ITEM
 // -----------------------------------------------------
 async function deleteItem(cart_id) {
-    await supabaseClient
-        .from("cart")
-        .delete()
-        .eq("cart_id", cart_id);
-
-    loadCart();
+    try {
+        await apiClient.delete("deleteCartItem", { cart_id });
+        loadCart();
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 

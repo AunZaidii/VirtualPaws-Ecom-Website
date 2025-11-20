@@ -1,0 +1,77 @@
+import { createClient } from "@supabase/supabase-js";
+
+export const handler = async (event) => {
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, body: JSON.stringify({ error: "Method not allowed" }) };
+  }
+
+  const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_ANON_KEY
+  );
+
+  try {
+    const authHeader = event.headers.authorization || event.headers.Authorization;
+    if (!authHeader) {
+      return {
+        statusCode: 401,
+        body: JSON.stringify({ error: "No authorization header" }),
+      };
+    }
+
+    const token = authHeader.replace("Bearer ", "");
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+    if (authError || !user) {
+      return {
+        statusCode: 401,
+        body: JSON.stringify({ error: "Unauthorized" }),
+      };
+    }
+
+    const { product_id, name, price, image, stock_status, rating } = JSON.parse(event.body);
+
+    // Check if already exists
+    const { data: exists } = await supabase
+      .from("wishlist")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("product_id", product_id)
+      .maybeSingle();
+
+    if (exists) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: "Already in wishlist" }),
+      };
+    }
+
+    const { data, error } = await supabase.from("wishlist").insert({
+      user_id: user.id,
+      product_id,
+      name,
+      price,
+      image,
+      stock_status,
+      rating
+    });
+
+    if (error) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: error.message }),
+      };
+    }
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(data),
+    };
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: err.message }),
+    };
+  }
+};
+

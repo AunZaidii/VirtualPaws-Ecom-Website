@@ -1,4 +1,4 @@
-import { supabaseClient } from "../SupabaseClient/supabaseClient.js";
+import { apiClient } from "../utils/apiClient.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector(".login-form");
@@ -42,42 +42,15 @@ document.addEventListener("DOMContentLoaded", () => {
     message.textContent = "Creating account...";
 
     try {
-      // SIGN UP USER IN SUPABASE AUTH
-      const { data, error } = await supabaseClient.auth.signUp({
+      const data = await apiClient.post("authRegister", {
         email,
         password,
-        options: {
-          data: { first_name: firstName, last_name: lastName }
-        }
+        firstName,
+        lastName
       });
 
-      if (error) {
-        message.textContent = error.message;
-        message.style.color = "red";
-        return;
-      }
-
-      if (!data.user) {
-        message.textContent = "Registration failed.";
-        message.style.color = "red";
-        return;
-      }
-
-      // INSERT IN CUSTOM `user` TABLE
-      const { error: dbError } = await supabaseClient
-        .from("user")
-        .insert({
-          user_id: data.user.id,
-          first_name: firstName,
-          last_name: lastName,
-          email,
-          password
-        });
-
-      if (dbError) {
-        message.textContent = "Saved to auth, but failed to save profile!";
-        message.style.color = "red";
-        return;
+      if (data.access_token) {
+        apiClient.setAuthSession(data);
       }
 
       message.textContent = "Account created successfully!";
@@ -91,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     } catch (err) {
       console.error(err);
-      message.textContent = "Unexpected error occurred.";
+      message.textContent = err.message || "Unexpected error occurred.";
       message.style.color = "red";
     }
   });

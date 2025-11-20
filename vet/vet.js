@@ -1,11 +1,4 @@
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
-// --- Supabase Credentials ---
-const SUPABASE_URL = "https://oekreylufrqvuzgoyxye.supabase.co";
-const SUPABASE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+import { apiClient } from "../utils/apiClient.js";
 
 // Container
 const vetGrid = document.querySelector("#vetContainer");
@@ -13,9 +6,7 @@ const vetGrid = document.querySelector("#vetContainer");
 // Load vets
 async function loadVets() {
   try {
-    const { data: vets, error } = await supabase.from("vet").select("*");
-
-    if (error) throw error;
+    const vets = await apiClient.get("getVets");
 
     if (!vets.length) {
       vetGrid.innerHTML = `<p style="text-align:center; font-size:20px; color:red;">No vets found.</p>`;

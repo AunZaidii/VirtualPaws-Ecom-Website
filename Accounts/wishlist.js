@@ -1,10 +1,4 @@
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
-const SUPABASE_URL = "https://oekreylufrqvuzgoyxye.supabase.co";
-const SUPABASE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+import { apiClient } from "../utils/apiClient.js";
 
 // ---------------- Toast ----------------
 function showToast(message, type = "success") {
@@ -37,7 +31,7 @@ function renderStars(rating) {
 
 // ---------------- Load Wishlist ----------------
 async function loadWishlist() {
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = apiClient.getUser();
 
   if (!user) {
     document.getElementById("emptyState").style.display = "block";
@@ -45,17 +39,14 @@ async function loadWishlist() {
     return;
   }
 
-  const { data, error } = await supabase
-    .from("wishlist")
-    .select("*")
-    .eq("user_id", user.id);
-
-  if (error) {
+  try {
+    const data = await apiClient.get("getWishlist");
+    renderWishlist(data || []);
+  } catch (error) {
     console.error(error);
-    return;
+    document.getElementById("emptyState").style.display = "block";
+    document.getElementById("wishlistGrid").innerHTML = "";
   }
-
-  renderWishlist(data);
 }
 
 // ---------------- Render Wishlist ----------------
@@ -123,33 +114,43 @@ function renderWishlist(items) {
 
 // ---------------- Remove Item ----------------
 async function removeItem(id) {
-  const { error } = await supabase.from("wishlist").delete().eq("id", id);
-
-  if (error) return showToast("Error removing item", "error");
-
-  showToast("Item removed from wishlist");
-  loadWishlist();
+  try {
+    await apiClient.delete("removeFromWishlist", { id });
+    showToast("Item removed from wishlist");
+    loadWishlist();
+  } catch (error) {
+    showToast(error.message || "Error removing item", "error");
+  }
 }
 
 // ---------------- Add To Cart ----------------
 async function addToCart(id) {
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = apiClient.getUser();
   if (!user) return showToast("Please login to add items.", "error");
 
-  // Find wishlist item
-  const { data } = await supabase.from("wishlist").select("*").eq("id", id).single();
+  try {
+    // Get wishlist item
+    const wishlist = await apiClient.get("getWishlist");
+    const item = wishlist.find(w => w.id === id);
 
-  // Add to cart table
-  await supabase.from("cart").insert({
-    user_id: user.id,
-    product_id: data.product_id,
-    title: data.name,
-    price: data.price,
-    quantity: 1,
-    image: data.image,
-  });
+    if (!item) {
+      showToast("Item not found", "error");
+      return;
+    }
 
-  showToast("Added to cart!");
+    // Add to cart
+    await apiClient.post("addToCart", {
+      product_id: item.product_id,
+      title: item.name,
+      price: item.price,
+      quantity: 1,
+      image: item.image,
+    });
+
+    showToast("Added to cart!");
+  } catch (error) {
+    showToast(error.message || "Error adding to cart", "error");
+  }
 }
 
 window.removeItem = removeItem;
