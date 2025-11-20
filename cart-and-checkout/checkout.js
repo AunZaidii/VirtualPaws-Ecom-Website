@@ -102,11 +102,11 @@ async function loadOrderSummary() {
 async function placeOrder() {
     const { data: { user } } = await supabaseClient.auth.getUser();
 
-    const { data: profile, error: profileErr } = await supabaseClient
-        .from("user")
-        .select("first_name, last_name, email, phone_no")
-        .eq("user_id", user.id)   // ✔ FIXED
-        .single();
+const { data: profile, error: profileErr } = await supabaseClient
+    .from("user")
+    .select("first_name, last_name, email, phone_no")
+    .eq("user_id", user.id)
+    .single();
 
     if (profileErr) {
         console.error(profileErr);
@@ -126,23 +126,23 @@ async function placeOrder() {
     }
 
     const { error } = await supabaseClient.from("orders").insert({
-        user_id: user.id,   // ✔ FIXED
-        first_name: profile.first_name,
-        last_name: profile.last_name,
-        email: profile.email,
-        phone: profile.phone_no,
+    user_id: user.id,
+    first_name: profile.first_name,
+    last_name: profile.last_name,
+    email: profile.email,
+    phone_no: profile.phone_no,   // ⭐ FIXED → MATCHES TABLE COLUMN
 
-        subtotal,
-        shipping_cost: 0,
-        total_amount: subtotal,
-        address,
-        city,
-        state,
-        zip_code: zip,
-        payment_method,
-        payment_status: "Pending",
-        items: cartItems
-    });
+    subtotal,
+    shipping_cost: 0,
+    total_amount: subtotal,
+    address,
+    city,
+    state,
+    zip_code: zip,
+    payment_method,
+    payment_status: "Pending",
+    items: cartItems
+});
 
     if (error) {
         console.error(error);
