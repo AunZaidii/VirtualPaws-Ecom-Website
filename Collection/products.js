@@ -6,6 +6,36 @@ const SUPABASE_KEY =
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
+// ---------------- GLOBAL TOAST ----------------
+function showToast(message, type = "success") {
+  let toast = document.getElementById("globalToast");
+
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "globalToast";
+    toast.style.position = "fixed";
+    toast.style.bottom = "20px";
+    toast.style.right = "20px";
+    toast.style.padding = "12px 20px";
+    toast.style.borderRadius = "8px";
+    toast.style.color = "#fff";
+    toast.style.fontSize = "14px";
+    toast.style.zIndex = "999999";
+    toast.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
+    document.body.appendChild(toast);
+  }
+
+  toast.style.backgroundColor = type === "success" ? "#87da48" : "#ff4d4d";
+  toast.textContent = message;
+  toast.style.opacity = "1";
+
+  setTimeout(() => {
+    toast.style.transition = "opacity 0.4s";
+    toast.style.opacity = "0";
+  }, 2000);
+}
+
+
 // ---------------- Get Product ID ----------------
 function getProductId() {
   const url = new URL(window.location.href);
@@ -40,7 +70,6 @@ async function loadProduct() {
 
 // ---------------- Populate Product ----------------
 function populateProduct(p) {
-
   document.querySelector(".product-title").textContent = p.name;
   document.querySelector(".breadcrumb span").textContent = p.name;
   document.querySelector(".product-price").textContent = "$" + p.price;
@@ -49,14 +78,14 @@ function populateProduct(p) {
   const stockText = p.stock > 0 ? `⚠ Low stock: ${p.stock} left` : "❌ Out of stock";
   document.querySelector(".availability span:last-child").textContent = stockText;
 
-  // Meta fields
   document.querySelector(".meta-item:nth-child(1) .meta-value").textContent = p.vendor;
   document.querySelector(".meta-item:nth-child(2) .meta-value").textContent = p.category;
   document.querySelector(".meta-item:nth-child(3) .meta-value").textContent = p.tags;
 
   setupAddToCart(p);
+  setupWishlistButton(p);
+  checkWishlistStatus(p.product_id);
 
-  // Images
   const images = [
     { src: p.image, alt: p.imageAlt },
     { src: p.hoverimage, alt: p.hoverimageAlt }
@@ -82,11 +111,10 @@ function populateProduct(p) {
 
   activateThumbnailEvents(images);
 
-  // Collapsible content
   document.querySelector('[data-section="materials"]').nextElementSibling.textContent = p.material;
   document.querySelector('[data-section="size"]').nextElementSibling.textContent = p["size chart"];
   document.querySelector('[data-section="care"]').nextElementSibling.textContent = p["care instructions"];
-  
+
   const usageSec = document.querySelector('[data-section="usage"]');
   if (usageSec) usageSec.nextElementSibling.textContent = p["usage instructions"] || "";
 }
@@ -142,6 +170,74 @@ function setupQuantitySelector() {
       quantity--;
       qtyDisplay.textContent = quantity;
     }
+  });
+}
+
+
+// ---------------- CHECK WISHLIST STATUS ----------------
+async function checkWishlistStatus(productId) {
+  const heartIcon = document.getElementById("heartIcon");
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
+
+  const { data: exists } = await supabase
+    .from("wishlist")
+    .select("*")
+    .eq("user_id", user.id)
+    .eq("product_id", productId)
+    .maybeSingle();
+
+  if (exists) {
+    heartIcon.textContent = "❤️"; 
+  }
+}
+
+
+// ---------------- WISHLIST BUTTON ----------------
+function setupWishlistButton(product) {
+  const wishlistBtn = document.getElementById("wishlistBtn");
+  const heartIcon = document.getElementById("heartIcon");
+
+  wishlistBtn.addEventListener("click", async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      showToast("Please login to add wishlist ❤️", "error");
+      return;
+    }
+
+    const { data: exists } = await supabase
+      .from("wishlist")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("product_id", product.product_id)
+      .maybeSingle();
+
+    if (exists) {
+      heartIcon.textContent = "❤️";
+      showToast("Already in your wishlist ❤️", "error");
+      return;
+    }
+
+    const { error: insertErr } = await supabase.from("wishlist").insert({
+      user_id: user.id,
+      product_id: product.product_id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      stock_status: product.stock > 0 ? "In Stock" : "Out of Stock",
+      rating: product.rating
+    });
+
+    if (insertErr) {
+      showToast("Failed to add!", "error");
+      console.error(insertErr);
+      return;
+    }
+
+    heartIcon.textContent = "❤️";
+    showToast("Added to wishlist!", "success");
   });
 }
 
@@ -256,6 +352,8 @@ async function loadReviews(productId) {
   });
 }
 
+
+// ---------------- ADD TO CART ----------------
 function setupAddToCart(product) {
   const addBtn = document.querySelector(".btn.btn-primary"); 
 
@@ -266,7 +364,7 @@ function setupAddToCart(product) {
     const { data: { user }, error } = await supabase.auth.getUser();
 
     if (error || !user) {
-      alert("Please login to add items to cart.");
+      showToast("Please login to add to cart ❤️", "error");
       return;
     }
 
@@ -282,11 +380,11 @@ function setupAddToCart(product) {
 
     if (insertError) {
       console.error("Add to cart error:", insertError);
-      alert("Failed to add item to cart!");
+      showToast("Failed to add item to cart ❌", "error");
       return;
     }
 
-    alert("Added to cart!");
+    showToast("Added to cart successfully! 🛒", "success");
   });
 }
 
@@ -302,3 +400,4 @@ const productId = getProductId();
 submitReview(productId);
 loadProduct();
 loadReviews(productId);
+  

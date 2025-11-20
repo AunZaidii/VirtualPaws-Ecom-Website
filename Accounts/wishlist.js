@@ -1,106 +1,159 @@
- // Wishlist Data
-    let wishlistItems = [
-      {
-        id: '1',
-        name: 'Premium Dog Food Bowl',
-        price: 24.99,
-        image: 'https://images.unsplash.com/photo-1598134493179-51332e56807f?w=400',
-        inStock: true
-      },
-      {
-        id: '2',
-        name: 'Interactive Cat Toy Mouse',
-        price: 12.99,
-        image: 'https://images.unsplash.com/photo-1759720488555-d4ca178c2543?w=400',
-        inStock: true
-      },
-      {
-        id: '3',
-        name: 'Adjustable Pet Collar & Leash Set',
-        price: 18.99,
-        image: 'https://images.unsplash.com/photo-1596822316110-288c7b8f24f8?w=400',
-        inStock: false
-      },
-      {
-        id: '4',
-        name: 'Comfortable Dog Bed Cushion',
-        price: 49.99,
-        image: 'https://images.unsplash.com/photo-1676374024221-318172d3671a?w=400',
-        inStock: true
-      }
-    ];
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-    // Toast Notification Function
-    function showToast(message, type = 'success') {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.className = 'toast show ' + type;
+const SUPABASE_URL = "https://oekreylufrqvuzgoyxye.supabase.co";
+const SUPABASE_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8";
 
-      setTimeout(() => {
-        toast.className = 'toast';
-      }, 3000);
-    }
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Remove Item from Wishlist
-    function removeItem(id) {
-      wishlistItems = wishlistItems.filter(item => item.id !== id);
-      renderWishlist();
-      showToast('Item removed from wishlist', 'success');
-    }
+// ---------------- Toast ----------------
+function showToast(message, type = "success") {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.className = `toast active ${type}`;
 
-    // Add Item to Cart
-    function addToCart(id) {
-      const item = wishlistItems.find(item => item.id === id);
-      if (item) {
-        showToast(item.name + ' added to cart', 'success');
-      }
-    }
+  setTimeout(() => (toast.className = "toast"), 2200);
+}
 
-    // Render Wishlist Items
-    function renderWishlist() {
-      const grid = document.getElementById('wishlistGrid');
-      const emptyState = document.getElementById('emptyState');
-      const countElement = document.getElementById('wishlistCount');
+function renderStars(rating) {
+  rating = Number(rating) || 0;
+  
+  let full = Math.floor(rating);
+  let half = rating % 1 !== 0;
+  let html = "";
 
-      if (wishlistItems.length === 0) {
-        grid.innerHTML = '';
-        emptyState.style.display = 'block';
-        countElement.textContent = '';
-        return;
-      }
+  for (let i = 0; i < full; i++)
+    html += `<i class="fa-solid fa-star" style="color:#facc15;"></i>`;
 
-      emptyState.style.display = 'none';
-      countElement.textContent = wishlistItems.length + (wishlistItems.length === 1 ? ' item' : ' items') + ' in your wishlist';
+  if (half)
+    html += `<i class="fa-solid fa-star-half-stroke" style="color:#facc15;"></i>`;
 
-      grid.innerHTML = wishlistItems.map(item => `
-        <div class="wishlist-item">
-          <div class="item-image-container">
-            <img src="${item.image}" alt="${item.name}" class="item-image">
-            <button class="remove-btn" onclick="removeItem('${item.id}')" aria-label="Remove item">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-            ${!item.inStock ? `
-              <div class="out-of-stock-overlay">
-                <span class="out-of-stock-badge">Out of Stock</span>
-              </div>` : ''}
-          </div>
-          <div class="item-details">
-            <h3 class="item-name">${item.name}</h3>
-            <p class="item-price">$${item.price.toFixed(2)}</p>
-            <button 
-              class="add-to-cart-btn" 
-              onclick="addToCart('${item.id}')"
-              ${!item.inStock ? 'disabled' : ''}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-              </svg>
-              ${item.inStock ? 'Add to Cart' : 'Out of Stock'}
-            </button>
-          </div>
+  for (let i = full + (half ? 1 : 0); i < 5; i++)
+    html += `<i class="fa-regular fa-star" style="color:#d1d5db;"></i>`;
+
+  return html;
+}
+
+
+// ---------------- Load Wishlist ----------------
+async function loadWishlist() {
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    document.getElementById("emptyState").style.display = "block";
+    document.getElementById("wishlistGrid").innerHTML = "";
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from("wishlist")
+    .select("*")
+    .eq("user_id", user.id);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  renderWishlist(data);
+}
+
+// ---------------- Render Wishlist ----------------
+function renderWishlist(items) {
+  const grid = document.getElementById("wishlistGrid");
+  const empty = document.getElementById("emptyState");
+  const count = document.getElementById("wishlistCount");
+
+  if (!items.length) {
+    empty.style.display = "block";
+    grid.innerHTML = "";
+    count.textContent = "";
+    return;
+  }
+
+  empty.style.display = "none";
+  count.textContent = `${items.length} item${items.length === 1 ? "" : "s"} in your wishlist`;
+
+ grid.innerHTML = items
+  .map(
+    (item) => `
+      <div class="wishlist-item">
+        
+        <div class="item-image-container">
+          <img src="${item.image}" class="item-image">
+
+          <button class="remove-btn" onclick="removeItem(${item.id})">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+
+          ${
+            item.stock_status === "Out of Stock"
+              ? `
+            <div class="out-of-stock-overlay">
+              <span class="out-of-stock-badge">Out of Stock</span>
+            </div>`
+              : ""
+          }
         </div>
-      `).join('');
-    }
 
-    document.addEventListener('DOMContentLoaded', renderWishlist);
+        <div class="item-details">
+          <h3 class="item-name">${item.name}</h3>
+
+          <!-- ⭐ PRODUCT RATING ADDED HERE -->
+          <div class="item-rating">
+            ${renderStars(item.rating)}
+          </div>
+
+          <p class="item-price">$${item.price}</p>
+
+          <button 
+            class="add-to-cart-btn"
+            onclick="addToCart(${item.id})"
+            ${item.stock_status === "Out of Stock" ? "disabled" : ""}
+          >
+            <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+          </button>
+        </div>
+
+      </div>
+    `
+  )
+  .join("");
+}
+
+// ---------------- Remove Item ----------------
+async function removeItem(id) {
+  const { error } = await supabase.from("wishlist").delete().eq("id", id);
+
+  if (error) return showToast("Error removing item", "error");
+
+  showToast("Item removed from wishlist");
+  loadWishlist();
+}
+
+// ---------------- Add To Cart ----------------
+async function addToCart(id) {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return showToast("Please login to add items.", "error");
+
+  // Find wishlist item
+  const { data } = await supabase.from("wishlist").select("*").eq("id", id).single();
+
+  // Add to cart table
+  await supabase.from("cart").insert({
+    user_id: user.id,
+    product_id: data.product_id,
+    title: data.name,
+    price: data.price,
+    quantity: 1,
+    image: data.image,
+  });
+
+  showToast("Added to cart!");
+}
+
+window.removeItem = removeItem;
+window.addToCart = addToCart;
+
+// ---------------- Init ----------------
+loadWishlist();

@@ -596,8 +596,7 @@ height: auto;
 .form-textarea:focus {
     outline: none;
     border-color: #8BC34A;
-    ring: 2px;
-    ring-color: #8BC34A;
+
 }
 
 .form-textarea {
@@ -748,6 +747,29 @@ height: auto;
 
 .payment-icons img {
     height: 24px;
+}
+
+.wishlist-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 8px;
+  border: 2px solid #87da48;
+  background: white;
+  color: #87da48;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+  transition: 0.3s;
+}
+
+.wishlist-btn:hover {
+  background: #87da48;
+  color: white;
 }
 
 @media (max-width: 768px) {
