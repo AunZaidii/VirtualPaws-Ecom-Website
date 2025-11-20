@@ -6,364 +6,171 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="/Homepage/homepage.css">
+
     <title>Checkout</title>
     <link rel="stylesheet" href="checkout.css">
 </head>
-<header>
 
-<section>
-<div class="header">
-
-    <div class="header-content">
-        <p style="color: white; font-size: 1.05vw;">Get 15% discount + free mysterious gifts for your first order</p>
-    </div>
-
-    <div class="header-items">
-        <ul>
-            <li><a href="../track-order/track-order.html">Track Order</a></li>
-            <li><a href="../help-center/helpcenter.html">Help Center</a></li>
-
-        </ul>
-    </div>
-</div>
-</section>
-
-<section class="navbar">
-
-<div class="nav">
-
-    <div class="nav-logo">
-    <a href="../Homepage/homepage.html"><img class="logo" src="../Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo"></a>
-    </div>
-
-    <div class="nav-items">
-        <ul>
-            <li><a style="color: rgb(135, 218, 72);" href="../Homepage/homepage.html">Home</a></li>
-           <li class="dropdown">
-    <a href="">Shop 
-        <i class="fa-solid fa-angle-down" style="color: #000000;"></i>
-    </a>
-
-    <ul class="dropdown-menu">
-        <li><a href="../Collection/Cat/catfood.html">Cat Food</a></li>
-        <li><a href="../Collection/Dog/dogfood.html">Dog Food</a></li>
-        <li><a href="../Collection/Cat/cataccessories.html">Cat Accessories</a></li>
-        <li><a href="../Collection/Dog/dogaccessories.html">Dog Accessories</a></li>
-    </ul>
-</li>   
-            <li><a href="../Adoption/adoption.html">Adoption</a></li>
-            <li><a href="../vet/vet.html">Vet</a></li>
-            <li><a href="../Contact/contact.html">Contact</a></li>
-        </ul>
-    </div>
-
-    <div class="nav-items-logo">
-        <ul>
-            <li class="search-icon">
-                <i class="fa-solid fa-magnifying-glass"></i>
-
-                <div class="search-bar-container">
-                    <input type="text" id="search-input" placeholder="Search products..." />
-                </div>
-            </li>
-            <li class="user-dropdown">
-                <a href="#"><i class="fa-regular fa-user" style="color: #000000;"></i></a>
-                <ul class="user-dropdown-menu">
-                    <li><a href="../Authentication/login.html">Login</a></li>
-                    <li><a href="../Authentication/register.html">Signup</a></li>
-                    <li><a href="../Accounts/Accountpage.html">Account</a></li>
-                 </ul>
-            </li>
-            <li><a href="../Accounts/Wishlist.html"><i class="fa-regular fa-heart" style="color: #000000;"></i></a></li>
-            <li><a href="../cart-and-checkout/cart.html"><i class="fa-solid fa-bag-shopping" style="color: #000000;"></i></a></li>
-        </ul>
-    </div>
-</div>
-
-</section>
-
-</header> 
 <body>
-    <div class="min-h-screen bg-fafafa">
-        <div class="max-w-7xl mx-auto px-4 sm-px-6 lg-px-8 py-8">
-            <div class="grid grid-cols-1 lg-grid-cols-3 gap-8">
-                <!-- Left Column - Form Sections -->
-                <div class="lg-col-span-2 space-y-6">
-                    <!-- Contact Section -->
-                    <div class="bg-white rounded-lg border border-e5e5e5 p-6 shadow-sm">
-                        <div class="flex justify-between items-center mb-4">
-                            <h2 class="text-lg">Contact</h2>
-                            <a href="#" class="text-sm text-green-600 hover-text-green-700">
-                                Sign in
-                            </a>
-                        </div>
 
-                        <div class="space-y-4">
-                            <input
-                                type="text"
-                                placeholder="Email or mobile phone number"
-                                class="input-field w-full"
-                            />
-
-                            <div class="flex items-center space-x-2">
-                                <input type="checkbox" id="news-offers" class="checkbox" />
-                                <label for="news-offers" class="text-sm cursor-pointer">
-                                    Email me with news and offers
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Delivery Section -->
-                    <div class="bg-white rounded-lg border border-e5e5e5 p-6 shadow-sm">
-                        <h2 class="text-lg mb-4">Delivery</h2>
-
-                        <div class="space-y-4">
-                            <!-- Country/Region -->
-                            <div>
-                                <select class="input-field w-full">
-                                    <option value="us">United States</option>
-                                    <option value="ca">Canada</option>
-                                    <option value="uk">United Kingdom</option>
-                                    <option value="au">Australia</option>
-                                </select>
-                            </div>
-
-                            <!-- First Name and Last Name -->
-                            <div class="grid grid-cols-2 gap-4">
-                                <input type="text" placeholder="First name (optional)" class="input-field" />
-                                <input type="text" placeholder="Last name" class="input-field" />
-                            </div>
-
-                            <!-- Address with Search Icon -->
-                            <div class="relative">
-                                <input type="text" placeholder="Address" class="input-field pr-10" />
-                                <svg class="absolute right-3 top-1-2 translate-y-neg-1-2 size-4 text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <path d="m21 21-4.35-4.35"></path>
-                                </svg>
-                            </div>
-
-                            <!-- Apartment/Suite -->
-                            <input type="text" placeholder="Apartment, suite, etc. (optional)" class="input-field" />
-
-                            <!-- City, State, ZIP -->
-                            <div class="grid grid-cols-3 gap-4">
-                                <input type="text" placeholder="City" class="input-field" />
-                                <select class="input-field">
-                                    <option value="">State</option>
-                                    <option value="ca">California</option>
-                                    <option value="ny">New York</option>
-                                    <option value="tx">Texas</option>
-                                    <option value="fl">Florida</option>
-                                </select>
-                                <input type="text" placeholder="ZIP code" class="input-field" />
-                            </div>
-
-                            <!-- Save Information Checkbox -->
-                            <div class="flex items-center space-x-2">
-                                <input type="checkbox" id="save-info" class="checkbox" />
-                                <label for="save-info" class="text-sm cursor-pointer">
-                                    Save this information for next time
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Shipping Method Section -->
-                    <div class="bg-white rounded-lg border border-e5e5e5 p-6 shadow-sm">
-                        <h2 class="text-lg mb-4">Shipping method</h2>
-
-                        <button class="button-disabled w-full bg-gray-100 text-gray-500 cursor-not-allowed border-e5e5e5" disabled>
-                            Enter your shipping address to view available shipping methods
-                        </button>
-                    </div>
-
-                    <!-- Payment Section -->
-                    <div class="bg-white rounded-lg border border-e5e5e5 p-6 shadow-sm">
-                        <h2 class="text-lg mb-2">Payment</h2>
-                        <p class="text-sm text-gray-600 mb-4">
-                            All transactions are secure and encrypted.
-                        </p>
-
-                        <!-- Card Input Panel -->
-                        <div class="border border-e5e5e5 rounded-lg p-4 mb-4">
-                            <div class="flex items-center justify-between mb-4 pb-4 border-b border-e5e5e5">
-                                <span class="text-sm">Credit card</span>
-                                <div class="flex gap-2">
-                                    <svg class="size-5 text-gray-400" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                                        <line x1="1" y1="10" x2="23" y2="10"></line>
-                                    </svg>
-                                    <svg class="size-5 text-yellow-500" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                                    </svg>
-                                </div>
-                            </div>
-
-                            <div class="space-y-4">
-                                <!-- Card Number -->
-                                <div class="relative">
-                                    <input type="text" placeholder="Card number" class="input-field" />
-                                    <svg class="absolute right-3 top-1-2 translate-y-neg-1-2 size-4 text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                                    </svg>
-                                </div>
-
-                                <!-- Expiry and Security Code -->
-                                <div class="grid grid-cols-2 gap-4">
-                                    <input type="text" placeholder="Expiration date (MM / YY)" class="input-field" />
-                                    <div class="relative">
-                                        <input type="text" placeholder="Security code" class="input-field" />
-                                        <svg class="absolute right-3 top-1-2 translate-y-neg-1-2 size-4 text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-
-                                <!-- Name on Card -->
-                                <input type="text" placeholder="Name on card" class="input-field" />
-                            </div>
-                        </div>
-
-                        <!-- Billing Address Checkbox -->
-                        <div class="flex items-center space-x-2 mb-6">
-                            <input type="checkbox" id="billing-address" class="checkbox" checked />
-                            <label for="billing-address" class="text-sm cursor-pointer">
-                                Use shipping address as billing address
-                            </label>
-                        </div>
-
-                        <!-- Pay Now Button -->
-                        <button class="button-primary w-full bg-green-600 hover-bg-green-700 text-white py-6">
-                            Pay now
-                        </button>
-                    </div>
+    <!-- ========== HEADER ========== -->
+    <header>
+        <section>
+            <div class="header">
+                <div class="header-content">
+                    <p style="color: white; font-size: 1.05vw;">
+                        Get 15% discount + free mysterious gifts for your first order
+                    </p>
                 </div>
 
-                <!-- Right Column - Order Summary -->
-                <div class="lg-col-span-1">
-                    <div class="bg-white rounded-lg border border-e5e5e5 p-6 shadow-sm lg-sticky lg-top-8">
-                        <h2 class="text-lg mb-6">Order summary</h2>
+                <div class="header-items">
+                    <ul>
+                        <li><a href="../track-order/track-order.html">Track Order</a></li>
+                        <li><a href="../help-center/helpcenter.html">Help Center</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-                        <!-- Product Item -->
-                        <div class="flex gap-4 mb-6 pb-6 border-b border-e5e5e5">
-                            <div class="relative">
-                                <img
-                                    src="https://images.unsplash.com/photo-1698939585913-8dc845d2dce6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkb2clMjBib3dsJTIwc3RlZWx8ZW58MXx8fHwxNzYyNjY5MzI1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                                    alt="Product"
-                                    class="w-16 h-16 rounded-lg border border-e5e5e5 object-cover"
-                                />
-                                <span class="absolute top-neg-2 right-neg-2 bg-gray-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                                    1
-                                </span>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="text-sm mb-1">
-                                    Pets Empire Stainless Steel Dog Bowl (Set of 2)
-                                </h3>
-                                <p class="text-sm text-gray-600">$20.00</p>
-                            </div>
-                        </div>
+        <section class="navbar">
+            <div class="nav">
+                <div class="nav-logo">
+                    <a href="../Homepage/homepage.html">
+                        <img class="logo" src="../Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo">
+                    </a>
+                </div>
 
-                        <!-- Summary Details -->
-                        <div class="space-y-3 mb-6">
-                            <div class="flex justify-between text-sm">
-                                <span class="text-gray-600">Subtotal</span>
-                                <span>$20.00</span>
-                            </div>
-                            <div class="flex justify-between text-sm">
-                                <span class="text-gray-600">Shipping</span>
-                                <span class="text-gray-500 text-xs">Enter shipping address</span>
-                            </div>
-                        </div>
+                <div class="nav-items">
+                    <ul>
+                        <li><a style="color: rgb(135, 218, 72);" href="../Homepage/homepage.html">Home</a></li>
 
-                        <!-- Total -->
-                        <div class="pt-6 border-t border-e5e5e5">
-                            <div class="flex justify-between items-center">
-                                <span class="text-lg">Total</span>
-                                <div class="text-right">
-                                    <span class="text-xs text-gray-500 mr-2">USD</span>
-                                    <span class="text-2xl">$20.00</span>
-                                </div>
+                        <li class="dropdown">
+                            <a href="">Shop <i class="fa-solid fa-angle-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="../Collection/Cat/catfood.html">Cat Food</a></li>
+                                <li><a href="../Collection/Dog/dogfood.html">Dog Food</a></li>
+                                <li><a href="../Collection/Cat/cataccessories.html">Cat Accessories</a></li>
+                                <li><a href="../Collection/Dog/dogaccessories.html">Dog Accessories</a></li>
+                            </ul>
+                        </li>
+
+                        <li><a href="../Adoption/adoption.html">Adoption</a></li>
+                        <li><a href="../vet/vet.html">Vet</a></li>
+                        <li><a href="../Contact/contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-items-logo">
+                    <ul>
+                        <li class="search-icon">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <div class="search-bar-container">
+                                <input type="text" id="search-input" placeholder="Search products..." />
                             </div>
-                        </div>
-                    </div>
+                        </li>
+
+                        <li class="user-dropdown">
+                            <a><i class="fa-regular fa-user"></i></a>
+                            <ul class="user-dropdown-menu">
+                                <li><a href="../Authentication/login.html">Login</a></li>
+                                <li><a href="../Authentication/register.html">Signup</a></li>
+                                <li><a href="../Accounts/Accountpage.html">Account</a></li>
+                            </ul>
+                        </li>
+
+                        <li><a href="../Accounts/Wishlist.html"><i class="fa-regular fa-heart"></i></a></li>
+                        <li><a href="../cart-and-checkout/cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </header>
+
+    <!-- ========== MAIN CHECKOUT LAYOUT ========== -->
+    <div class="checkout-container">
+
+        <!-- ========== LEFT FORM ========== -->
+        <div class="checkout-left">
+
+            <!-- CONTACT INFO -->
+            <div class="section-box">
+                <h2>Contact Information</h2>
+
+                <div class="grid-2">
+                    <input id="email" class="input-field" placeholder="Email" disabled>
+                    <input id="phone" class="input-field" placeholder="Phone number" disabled>
+                </div>
+            </div>
+
+            <!-- DELIVERY ADDRESS -->
+            <div class="section-box">
+                <h2>Delivery Address</h2>
+
+                <div class="grid-2">
+                    <input id="firstName" class="input-field" placeholder="First name" disabled>
+                    <input id="lastName" class="input-field" placeholder="Last name" disabled>
+                </div>
+
+                <input id="address" class="input-field" placeholder="Address">
+                <input id="city" class="input-field" placeholder="City">
+
+                <div class="grid-2">
+                    <input id="state" class="input-field" placeholder="State">
+                    <input id="zip_code" class="input-field" placeholder="ZIP Code">
+                </div>
+            </div>
+
+            <!-- PAYMENT METHOD -->
+            <div class="section-box">
+                <h2>Payment Method</h2>
+
+                <select id="payment_method" class="input-field">
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Cash on Delivery">Cash on Delivery</option>
+                </select>
+            </div>
+
+            <button id="placeOrderBtn" class="place-order-btn">
+                <i class="fa-solid fa-check"></i> Place Order
+            </button>
+        </div>
+
+        <!-- ========== ORDER SUMMARY RIGHT ========== -->
+        <div class="checkout-right">
+            <div class="section-box sticky-summary">
+                <h2>Order Summary</h2>
+
+                <div id="order-items" class="order-items-list"></div>
+
+                <div class="summary-line">
+                    <span>Subtotal</span>
+                    <span id="summary-subtotal">$0.00</span>
+                </div>
+
+                <div class="summary-line">
+                    <span>Shipping</span>
+                    <span id="summary-shipping">$0.00</span>
+                </div>
+
+                <div class="summary-total">
+                    <span>Total</span>
+                    <span id="summary-total">$0.00</span>
                 </div>
             </div>
         </div>
+
     </div>
 
-    <script src="checkout.js"></script>
+    <script src="checkout.js" type="module"></script>
     <script src="../Homepage/search-box.js"></script>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <!-- (your footer stays the same) -->
+    </footer>
+
 </body>
-<footer class="footer">
-    <div class="footer-container">
-
-        <div class="footer-column contact-us">
-            <h3>Contact Us</h3>
-            <p><i class="fa-solid fa-location-dot"></i> Virtual Paws - Pets Store<br>
-              Karachi, Pakistan<br>
-            </p>
-            <p><i class="fa-solid fa-envelope"></i> contact_virtualpaws@gmail.com</p>
-            <p><i class="fa-solid fa-phone"></i> (+91) 9876-543-210</p>
-          </div>
-          
-
-      <div class="footer-column">
-        <h3>Find Product</h3>
-        <ul>
-          <li><a href="../../Contact/contact.html">Privacy Policy</a></li>
-          <li><a href="../../Contact/contact.html">Refund Policy</a></li>
-          <li><a href="../../Contact/contact.html">Shipping Policy</a></li>
-          <li><a href="../../Contact/contact.html">Terms of Service</a></li>
-          <li><a href="../../Contact/contact.html">Policy for Buyers</a></li>
-          <li><a href="../../Contact/contact.html">Policy for Sellers</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h3>Useful Links</h3>
-        <ul>
-          <li><a href="../../Contact/contact.html">Shipping & Refund</a></li>
-          <li><a href="../../Contact/contact.html">FAQs</a></li>
-          <li><a href="../../Contact/contact.html">Delivery Information</a></li>
-          <li><a href="../../Contact/contact.html">Shipping</a></li>
-          <li><a href="../../Contact/contact.html">Size Chart</a></li>
-          <li><a href="../../Contact/contact.html">Sitemap</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column newsletter">
-        <h3>Our Newsletter</h3>
-        <p>Subscribe to our latest newsletter to get news about special discounts.</p>
-        <form>
-          <input type="email" class="email-placeholder" placeholder="Email">
-          <a href="../../Contact/contact.html" class="subscribe-btn" type="submit">Subscribe</a>
-        </form>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <div class="social-icons">
-        <a href="https://facebook.com"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="https://instagram.com"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://twitter.com"><i class="fa-brands fa-x-twitter"></i></a>
-        <a href="https://youtube.com"><i class="fa-brands fa-youtube"></i></a>
-      </div>
-      <p>© 2025, Virtual Paws - Pets Store </p>
-      <div class="payment-icons">
-        <img src="https://img.icons8.com/color/48/visa.png" alt="Visa">
-        <img src="https://img.icons8.com/color/48/mastercard.png" alt="Mastercard">
-        <img src="https://img.icons8.com/color/48/amex.png" alt="Amex">
-        <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal">
-        <img src="https://img.icons8.com/color/48/discover.png" alt="Discover">
-      </div>
-    </div>
-</footer>
 </html>

@@ -1,6 +1,7 @@
 * {  
     margin: 0;
-    padding: 0vb;
+    padding: 0;
+    box-sizing: border-box;
     font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "Liberation Sans", sans-serif;
 }
 .min-h-screen {
@@ -416,4 +417,169 @@ a {
     .grid-cols-3 {
         grid-template-columns: repeat(1, minmax(0, 1fr));
     }
+}/* ======================
+   MAIN CHECKOUT LAYOUT
+====================== */
+.checkout-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 35px;
+    padding: 0 20px;
 }
+
+/* ======================
+   FORM SECTIONS (LEFT)
+====================== */
+.section-box {
+    background-color: #ffffff;
+    border: 1px solid #E5E5E5;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+}
+
+.section-box h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+/* GRID FOR TWO INPUT FIELDS */
+.two-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 12px;
+}
+
+/* ======================
+   INPUT FIELDS
+====================== */
+.input-field {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #E5E5E5;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    background-color: white;
+    transition: 0.2s;
+}
+
+.input-field:focus {
+    border-color: #16a34a;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+}
+
+.input-field::placeholder {
+    color: #9ca3af;
+}
+
+/* Space between stacked inputs */
+.section-box .input-field:not(:last-child) {
+    margin-bottom: 12px;
+}
+
+/* ======================
+   PLACE ORDER BUTTON
+====================== */
+.place-order-btn {
+    width: 100%;
+    padding: 15px;
+    background: rgb(135, 218, 72);
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 10px;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.place-order-btn:hover {
+    background: #71c63e;
+}
+
+/* ======================
+   ORDER SUMMARY (RIGHT)
+====================== */
+
+.sticky-summary {
+    position: sticky;
+    top: 20px;
+}
+
+.order-items-list {
+    margin-bottom: 18px;
+}
+
+/* ITEM ROW (horizontal layout) */
+.order-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #E5E5E5;
+}
+
+.order-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+/* TEXT BLOCK */
+.item-info {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.item-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #222;
+}
+
+.item-qty {
+    font-size: 13px;
+    color: #666;
+}
+
+/* ITEM PRICE */
+.item-total {
+    font-size: 14px;
+    font-weight: 700;
+    min-width: 60px;
+    text-align: right;
+}
+
+/* ======================
+   SUMMARY PRICES
+====================== */
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    margin: 8px 0;
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 19px;
+    font-weight: 800;
+    padding-top: 12px;
+    border-top: 2px solid #E5E5E5;
+    margin-top: 10px;
+}
+
+/* ======================
+   RESPONSIVE
+====================== */
+
