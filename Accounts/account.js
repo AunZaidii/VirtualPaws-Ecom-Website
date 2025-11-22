@@ -10,11 +10,32 @@ import { apiClient } from "../utils/apiClient.js";
     window.location.href = "../Authentication/login.html";
   }
 })();
+
+// ===============================
+// GLOBAL VARIABLES
+// ===============================
+let currentUserProfile = null;
   
 // ===============================
-// LOGOUT
+// LOGOUT WITH CUSTOM MODAL
 // ===============================
-document.getElementById("logout-btn").addEventListener("click", async () => {
+const logoutModal = document.getElementById("logout-modal");
+const logoutBtn = document.getElementById("logout-btn");
+const confirmLogoutBtn = document.getElementById("confirm-logout-btn");
+const cancelLogoutBtn = document.getElementById("cancel-logout-btn");
+
+// Show logout modal
+logoutBtn.addEventListener("click", () => {
+  logoutModal.classList.add("active");
+});
+
+// Cancel logout
+cancelLogoutBtn.addEventListener("click", () => {
+  logoutModal.classList.remove("active");
+});
+
+// Confirm logout
+confirmLogoutBtn.addEventListener("click", async () => {
   try {
     await apiClient.post("authSignOut");
     apiClient.setAuthSession(null);
@@ -28,6 +49,13 @@ document.getElementById("logout-btn").addEventListener("click", async () => {
   }
 });
 
+// Close modal on outside click
+window.addEventListener("click", (event) => {
+  if (event.target === logoutModal) {
+    logoutModal.classList.remove("active");
+  }
+});
+
 // ===============================
 // LOAD USER PROFILE
 // ===============================
@@ -36,6 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const fullNameInput = document.getElementById("name");
   const emailInput = document.getElementById("email");
   const phoneInput = document.getElementById("phone");
+  const addressInput = document.getElementById("address");
 
   const editBtn = document.getElementById("edit-profile-btn");
   const saveBtn = document.querySelector("#edit-actions .btn-primary");
@@ -55,54 +84,61 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
+    currentUserProfile = profile;
     let firstName = profile.first_name;
     let lastName = profile.last_name;
     let emailValue = profile.email;
     let phoneValue = profile.phone_no || "";
+    let addressValue = profile.address || "";
 
     // SET INPUT VALUES
     fullNameInput.value = `${firstName} ${lastName}`.trim();
     emailInput.value = emailValue;
     phoneInput.value = phoneValue;
+    addressInput.value = addressValue;
 
     // ===============================
     // ENABLE EDIT MODE
     // ===============================
-    function toggleEditMode() {
+    window.toggleEditMode = function() {
       fullNameInput.disabled = false;
-      emailInput.disabled = false;
+      // Email should NEVER be editable
+      emailInput.disabled = true;
       phoneInput.disabled = false;
+      addressInput.disabled = false;
 
       editBtn.style.display = "none";
       editActions.classList.remove("hidden");
-    }
+    };
 
     // ===============================
     // CANCEL EDIT MODE
     // ===============================
-    function cancelEdit() {
+    window.cancelEdit = function() {
       fullNameInput.value = `${firstName} ${lastName}`.trim();
       emailInput.value = emailValue;
       phoneInput.value = phoneValue;
+      addressInput.value = addressValue;
 
       fullNameInput.disabled = true;
       emailInput.disabled = true;
       phoneInput.disabled = true;
+      addressInput.disabled = true;
 
       editActions.classList.add("hidden");
       editBtn.style.display = "inline-flex";
-    }
+    };
 
     // ===============================
     // SAVE PROFILE
     // ===============================
-    async function saveProfile() {
+    window.saveProfile = async function() {
       const fullName = fullNameInput.value.trim();
-      const email = emailInput.value.trim();
       const phone = phoneInput.value.trim();
+      const address = addressInput.value.trim();
 
-      if (!fullName || !email) {
-        alert("Full name and email are required.");
+      if (!fullName) {
+        showToast("Full name is required.", "error");
         return;
       }
 
@@ -114,36 +150,32 @@ document.addEventListener("DOMContentLoaded", async () => {
         await apiClient.put("updateUserProfile", {
           first_name: updatedFirst,
           last_name: updatedLast,
-          email,
-          phone_no: phone
+          phone_no: phone,
+          address: address
         });
 
         // Update local values
         firstName = updatedFirst;
         lastName = updatedLast;
-        emailValue = email;
         phoneValue = phone;
+        addressValue = address;
+        currentUserProfile.address = address;
 
         cancelEdit();
         showToast("Profile updated!", "success");
       } catch (updateErr) {
-        alert("Failed to update profile.");
+        showToast("Failed to update profile.", "error");
         console.error(updateErr);
       }
-    }
+    };
 
-    // Add event listeners
-    editBtn.addEventListener("click", toggleEditMode);
-    cancelBtn.addEventListener("click", cancelEdit);
-    saveBtn.addEventListener("click", saveProfile);
+    // Load all histories
+    await loadOrderHistory();
+    await loadAdoptionHistory();
+    await loadAppointmentHistory();
   } catch (err) {
     console.error("Error loading profile:", err);
   }
-
-  // Add event listeners
-  editBtn.addEventListener("click", toggleEditMode);
-  cancelBtn.addEventListener("click", cancelEdit);
-  saveBtn.addEventListener("click", saveProfile);
 });
 
 // ===============================
@@ -191,99 +223,233 @@ function switchTab(tabName) {
 // Make switchTab available globally
 window.switchTab = switchTab;
 
+// ===============================
+// LOAD ORDER HISTORY
+// ===============================
+async function loadOrderHistory() {
+  try {
+    const orders = await apiClient.get("getUserOrders");
+    const orderList = document.getElementById('order-list');
 
-            // Render Orders
-            function renderOrders() {
-                const orderList = document.getElementById('order-list');
-                orderList.innerHTML = orders.map(order => `
-                    <div class="order-card">
-                        <div class="order-header">
-                            <div>
-                                <h3>Order ${order.id}</h3>
-                                <p style="color: #666; margin-top: 5px;">Placed on ${order.date}</p>
-                            </div>
-                            <span class="status-badge status-${order.status.toLowerCase().replace(' ', '-')}">
-                                ${order.status}
-                            </span>
-                        </div>
-                        <div class="order-details">
-                            <div class="order-info">
-                                <div>
-                                    <p style="color: #666;">Total Amount</p>
-                                    <p class="price">Rs. ${order.total.toLocaleString()}</p>
-                                </div>
-                                <div>
-                                    <p style="color: #666;">Items</p>
-                                    <p style="font-weight: 500;">${order.items} items</p>
-                                </div>
-                                <div style="text-align: right;">
-                                    <button class="btn btn-secondary" onclick="viewOrderDetails('${order.id}')">
-                                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                                        </svg>
-                                        View Details
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="order-products">
-                                <p style="color: #666; margin-bottom: 10px;">Products:</p>
-                                <ul>
-                                    ${order.products.map(product => `<li>${product}</li>`).join('')}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-            }
+    if (!orders || orders.length === 0) {
+      orderList.innerHTML = `
+        <div class="empty-state">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+          </svg>
+          <h3>No Orders Yet</h3>
+          <p>You haven't placed any orders yet.</p>
+        </div>
+      `;
+      return;
+    }
 
-            function viewOrderDetails(orderId) {
-                showToast('Opening order details...', 'success');
-            }
+    orderList.innerHTML = orders.map(order => {
+      const orderDate = new Date(order.created_at).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
 
-            // Render Addresses
-            function renderAddresses() {
-                const addressList = document.getElementById('address-list');
-                addressList.innerHTML = addresses.map(address => `
-                    <div class="address-card ${address.isDefault ? 'default' : ''}">
-                        ${address.isDefault ? '<span class="default-badge">Default</span>' : ''}
-                        <div style="margin-bottom: 15px;">
-                            <h3>${address.type}</h3>
-                            <p style="color: #333; margin-top: 5px;">${address.name}</p>
-                        </div>
-                        <div style="color: #666; line-height: 1.8;">
-                            <p>${address.address}</p>
-                            <p>${address.city}</p>
-                            <p>${address.phone}</p>
-                        </div>
-                        <div class="address-actions">
-                            <button class="btn btn-secondary" style="flex: 1;" onclick="editAddress(${address.id})">
-                                Edit
-                            </button>
-                            <button class="btn btn-delete" onclick="openDeleteModal('address', ${address.id})">
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                `).join('');
-            }
+      const products = Array.isArray(order.products) ? order.products : [];
+      const itemCount = products.reduce((sum, p) => sum + (p.quantity || 1), 0);
 
-            function editAddress(id) {
-                showToast('Edit address functionality', 'success');
-            }
+      return `
+        <div class="order-card">
+          <div class="order-header">
+            <div>
+              <h3>Order #${order.order_id.substring(0, 8)}</h3>
+              <p style="color: #666; margin-top: 5px;">Placed on ${orderDate}</p>
+            </div>
+            <span class="status-badge status-${(order.order_status || '').toLowerCase().replace(' ', '-')}">
+              ${order.order_status || 'Pending'}
+            </span>
+          </div>
+          <div class="order-details">
+            <div class="order-info">
+              <div>
+                <p style="color: #666;">Total Amount</p>
+                <p class="price">Rs. ${parseFloat(order.total_price || 0).toLocaleString()}</p>
+              </div>
+              <div>
+                <p style="color: #666;">Items</p>
+                <p style="font-weight: 500;">${itemCount} items</p>
+              </div>
+              <div style="text-align: right;">
+                <button class="btn btn-secondary" onclick="window.location.href='../track-order/track-order.html?order_id=${order.order_id}'">
+                  Track Order
+                </button>
+              </div>
+            </div>
+            ${products.length > 0 ? `
+              <div class="order-products">
+                <p style="color: #666; margin-bottom: 10px;">Products:</p>
+                <ul>
+                  ${products.map(p => `<li>${p.title || p.name} x ${p.quantity || 1}</li>`).join('')}
+                </ul>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch (error) {
+    console.error("Error loading orders:", error);
+    showToast("Failed to load order history", "error");
+  }
+}
 
-            
+// ===============================
+// LOAD ADOPTION HISTORY
+// ===============================
+async function loadAdoptionHistory() {
+  try {
+    const adoptions = await apiClient.get("getUserAdoptions");
+    const adoptionList = document.getElementById('adoption-list');
 
-            function addToCart(id) {
-                showToast('Added to cart!', 'success');
-            }
+    if (!adoptions || adoptions.length === 0) {
+      adoptionList.innerHTML = `
+        <div class="empty-state">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+          </svg>
+          <h3>No Adoption Requests</h3>
+          <p>You haven't submitted any adoption requests yet.</p>
+        </div>
+      `;
+      return;
+    }
 
-            // Close modals when clicking outside
-            window.onclick = function(event) {
-                if (event.target.classList.contains('modal')) {
-                    event.target.classList.remove('active');
-                }
-            }
-            // Initialize
-            renderOrders();
-            renderAddresses();
+    adoptionList.innerHTML = adoptions.map(adoption => {
+      const adoptionDate = new Date(adoption.created_at).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      const pet = adoption.pets || {};
+      const petImage = pet.image1 || '../Homepage/product images/placeholder-pet.jpg';
+
+      return `
+        <div class="adoption-card">
+          <img src="${petImage}" alt="${pet.name}" class="adoption-image" onerror="this.src='../Homepage/product images/placeholder-pet.jpg'">
+          <div class="adoption-info">
+            <div class="adoption-header">
+              <div>
+                <h3>${pet.name || 'Pet'} - ${pet.breed || 'Unknown Breed'}</h3>
+                <p style="color: #666; margin-top: 5px;">Requested on ${adoptionDate}</p>
+              </div>
+              <span class="status-badge status-${(adoption.status || 'pending').toLowerCase()}">
+                ${adoption.status || 'Pending'}
+              </span>
+            </div>
+            <div class="adoption-details">
+              <div>
+                <p style="color: #666;">Pet Age</p>
+                <p style="font-weight: 500;">${pet.age || 'Unknown'}</p>
+              </div>
+              <div>
+                <p style="color: #666;">Gender</p>
+                <p style="font-weight: 500;">${pet.gender || 'Unknown'}</p>
+              </div>
+              <div>
+                <p style="color: #666;">Contact</p>
+                <p style="font-weight: 500;">${adoption.phone || 'N/A'}</p>
+              </div>
+            </div>
+            ${adoption.message ? `
+              <div style="margin-top: 15px; padding: 15px; background-color: #f9f9f9; border-radius: 8px;">
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">Your Message:</p>
+                <p style="color: #333;">${adoption.message}</p>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch (error) {
+    console.error("Error loading adoptions:", error);
+    showToast("Failed to load adoption history", "error");
+  }
+}
+
+// ===============================
+// LOAD APPOINTMENT HISTORY
+// ===============================
+async function loadAppointmentHistory() {
+  try {
+    const appointments = await apiClient.get("getUserAppointments");
+    const appointmentList = document.getElementById('appointment-list');
+
+    if (!appointments || appointments.length === 0) {
+      appointmentList.innerHTML = `
+        <div class="empty-state">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          <h3>No Vet Appointments</h3>
+          <p>You haven't booked any vet appointments yet.</p>
+        </div>
+      `;
+      return;
+    }
+
+    appointmentList.innerHTML = appointments.map(appointment => {
+      const appointmentDate = new Date(appointment.date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      const vet = appointment.vet || {};
+      const vetImage = vet.profile_image || vet.image || '../Homepage/Logo/virtualpaws-logo.png';
+      const vetName = vet.name || vet.vet_name || 'Veterinarian';
+      const vetSpec = vet.specialization || vet.specialty || 'Veterinarian';
+      const vetClinic = vet.clinic_name || vet.clinic || '';
+
+      return `
+        <div class="appointment-card">
+          <div class="appointment-header">
+            <div>
+              <h3>Appointment with Dr. ${vetName}</h3>
+              <p style="color: #666; margin-top: 5px;">${appointmentDate} at ${appointment.time}</p>
+            </div>
+            <span class="status-badge status-${(appointment.status || 'pending').toLowerCase()}">
+              ${appointment.status || 'Pending'}
+            </span>
+          </div>
+          
+          <div class="appointment-vet-info">
+            <img src="${vetImage}" alt="Dr. ${vetName}" class="vet-profile-img" onerror="this.src='../Homepage/Logo/virtualpaws-logo.png'">
+            <div>
+              <h4 style="margin-bottom: 5px;">Dr. ${vetName}</h4>
+              <p style="color: #666; font-size: 0.9rem;">${vetSpec}</p>
+              <p style="color: #666; font-size: 0.9rem;">${vetClinic}</p>
+            </div>
+          </div>
+
+          <div class="appointment-details">
+            <div>
+              <p style="color: #666;">Contact Name</p>
+              <p style="font-weight: 500;">${appointment.name || 'N/A'}</p>
+            </div>
+            <div>
+              <p style="color: #666;">Phone</p>
+              <p style="font-weight: 500;">${appointment.phone || 'N/A'}</p>
+            </div>
+          </div>
+
+          ${appointment.notes ? `
+            <div style="margin-top: 15px; padding: 15px; background-color: #f9f9f9; border-radius: 8px;">
+              <p style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">Notes:</p>
+              <p style="color: #333;">${appointment.notes}</p>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }).join('');
+  } catch (error) {
+    console.error("Error loading appointments:", error);
+    showToast("Failed to load appointment history", "error");
+  }
+}

@@ -1,8 +1,8 @@
 import { apiClient } from "../utils/apiClient.js";
 
 // Admin credentials
-const ADMIN_EMAIL = "admin123@gmail.com";
-const ADMIN_PASSWORD = "admin12345";
+const ADMIN_EMAIL = "admin@virtualpaws.com";
+const ADMIN_PASSWORD = "virtualpaws123";
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector(".login-form");

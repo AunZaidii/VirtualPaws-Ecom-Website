@@ -496,6 +496,149 @@ h3 {
     to { transform: rotate(360deg); }
 }
 
+/* Adoption Cards */
+.adoption-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.adoption-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    border: 2px solid #e5e5e5;
+    transition: all 0.3s ease;
+    display: flex;
+    gap: 20px;
+}
+
+.adoption-card:hover {
+    border-color: #7ED957;
+    transform: translateX(5px);
+}
+
+.adoption-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.adoption-info {
+    flex: 1;
+}
+
+.adoption-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.adoption-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid #f0f0f0;
+}
+
+/* Appointment Cards */
+.appointment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.appointment-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    border: 2px solid #e5e5e5;
+    transition: all 0.3s ease;
+}
+
+.appointment-card:hover {
+    border-color: #7ED957;
+    transform: translateX(5px);
+}
+
+.appointment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.appointment-vet-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.vet-profile-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.appointment-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+/* Logout Modal Styles */
+.logout-modal-content {
+    text-align: center;
+}
+
+.logout-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background-color: #fee2e2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logout-icon svg {
+    width: 40px;
+    height: 40px;
+    color: #dc2626;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.empty-state svg {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+    color: #ccc;
+}
+
+.empty-state h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
 /* Toast Notification */
 .toast {
     position: fixed;

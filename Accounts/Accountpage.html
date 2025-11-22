@@ -109,12 +109,17 @@
                     </svg>
                     Order History
                 </button>
-                <button class="tab-btn" onclick="switchTab('addresses')">
+                <button class="tab-btn" onclick="switchTab('adoptions')">
                     <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                     </svg>
-                    Addresses
+                    Adoption History
+                </button>
+                <button class="tab-btn" onclick="switchTab('appointments')">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    Vet Booking History
                 </button>
 
             </div>
@@ -145,6 +150,10 @@
                             <div class="form-group">
                                 <label>Phone Number</label>
                                 <input type="tel" id="phone" value="(+92) 300-1234567" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <input type="text" id="address" placeholder="Enter your address" disabled>
                             </div>
                         </div>
 
@@ -180,23 +189,27 @@
                 </div>
             </div>
 
-            <!-- Addresses Tab -->
-            <div id="addresses-tab" class="tab-content">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px;">
-                    <div>
-                        <h2>Saved Addresses</h2>
-                        <p style="color: #666; margin-top: 10px;">Manage your delivery addresses</p>
-                    </div>
-                    <button class="btn btn-primary" onclick="openAddressModal()">
-                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                        </svg>
-                        Add New Address
-                    </button>
+            <!-- Adoption History Tab -->
+            <div id="adoptions-tab" class="tab-content">
+                <div style="margin-bottom: 30px;">
+                    <h2>Adoption History</h2>
+                    <p style="color: #666; margin-top: 10px;">View all your pet adoption requests</p>
                 </div>
 
-                <div class="address-grid" id="address-list">
-                    <!-- Addresses will be dynamically inserted here -->
+                <div class="adoption-list" id="adoption-list">
+                    <!-- Adoptions will be dynamically inserted here -->
+                </div>
+            </div>
+
+            <!-- Vet Booking History Tab -->
+            <div id="appointments-tab" class="tab-content">
+                <div style="margin-bottom: 30px;">
+                    <h2>Vet Booking History</h2>
+                    <p style="color: #666; margin-top: 10px;">View all your veterinary appointments</p>
+                </div>
+
+                <div class="appointment-list" id="appointment-list">
+                    <!-- Appointments will be dynamically inserted here -->
                 </div>
             </div>
         </div>
@@ -226,47 +239,19 @@
             </div>
         </div>
 
-        <!-- Address Modal -->
-        <div id="address-modal" class="modal">
-            <div class="modal-content">
-                <h3>Add New Address</h3>
-                <form id="address-form" style="margin-top: 20px;">
-                    <div class="form-group">
-                        <label>Address Type</label>
-                        <input type="text" placeholder="e.g., Home, Office" required>
-                    </div>
-                    <div class="form-group" style="margin-top: 15px;">
-                        <label>Full Name</label>
-                        <input type="text" required>
-                    </div>
-                    <div class="form-group" style="margin-top: 15px;">
-                        <label>Address</label>
-                        <input type="text" required>
-                    </div>
-                    <div class="form-group" style="margin-top: 15px;">
-                        <label>City & Postal Code</label>
-                        <input type="text" required>
-                    </div>
-                    <div class="form-group" style="margin-top: 15px;">
-                        <label>Phone Number</label>
-                        <input type="tel" required>
-                    </div>
-                    <div class="modal-actions">
-                        <button type="button" class="btn btn-secondary" onclick="closeAddressModal()">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save Address</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Delete Confirmation Modal -->
-        <div id="delete-modal" class="modal">
-            <div class="modal-content">
-                <h3>Confirm Delete</h3>
-                <p style="margin-top: 15px; color: #666;">Are you sure you want to delete this item? This action cannot be undone.</p>
+        <!-- Logout Confirmation Modal -->
+        <div id="logout-modal" class="modal">
+            <div class="modal-content logout-modal-content">
+                <div class="logout-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                    </svg>
+                </div>
+                <h3>Confirm Logout</h3>
+                <p style="margin-top: 15px; color: #666;">Are you sure you want to sign out of your account?</p>
                 <div class="modal-actions">
-                    <button class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
-                    <button class="btn btn-delete" onclick="confirmDelete()">Delete</button>
+                    <button class="btn btn-secondary" id="cancel-logout-btn">Cancel</button>
+                    <button class="btn btn-delete" id="confirm-logout-btn">Sign Out</button>
                 </div>
             </div>
         </div>

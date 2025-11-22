@@ -68,6 +68,11 @@ async function loadUserInfo() {
         document.getElementById("phone").value = profile.phone_no || "";
         document.getElementById("firstName").value = profile.first_name || "";
         document.getElementById("lastName").value = profile.last_name || "";
+        
+        // Auto-fill address if available
+        if (profile.address) {
+            document.getElementById("address").value = profile.address;
+        }
     } catch (error) {
         console.error(error);
     }
