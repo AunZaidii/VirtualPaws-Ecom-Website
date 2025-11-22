@@ -21,6 +21,7 @@ export const handler = async (event) => {
     ] = await Promise.all([
       supabase.from("product").select("*"),
       supabase.from("vet").select("*"),
+      // Admin needs to see ALL pets including hidden ones for adoption management
       supabase.from("pet").select("*"),
       supabase.from("shelter").select("*"),
       supabase.from("adoption").select("*"),

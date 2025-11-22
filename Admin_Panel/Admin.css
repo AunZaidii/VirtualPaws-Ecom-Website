@@ -360,3 +360,37 @@ body {
   margin-right: 8px;
   flex-shrink: 0;
 }
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-badge.status-pending {
+  background-color: #fbbf24;
+  color: #78350f;
+}
+
+.status-badge.status-approved {
+  background-color: #34d399;
+  color: #065f46;
+}
+
+.status-badge.status-rejected {
+  background-color: #f87171;
+  color: #7f1d1d;
+}
+
+.item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 10px;
+}

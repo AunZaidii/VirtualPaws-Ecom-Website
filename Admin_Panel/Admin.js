@@ -1,6 +1,25 @@
 // ---------- API Client Init ----------
 import { apiClient } from "../utils/apiClient.js";
 
+// ---------- Short ID Generator ----------
+function generateShortId(fullId) {
+  // Generate 3 letters + 3 numbers from the full ID
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const hash = fullId.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  
+  let shortId = "";
+  // Generate 3 letters
+  for (let i = 0; i < 3; i++) {
+    shortId += letters[Math.floor((hash * (i + 1)) % letters.length)];
+  }
+  // Generate 3 numbers
+  for (let i = 0; i < 3; i++) {
+    shortId += Math.floor((hash * (i + 7)) % 10);
+  }
+  
+  return shortId;
+}
+
 // ---------- Local state ----------
 let products = [];
 let vets = [];
@@ -360,31 +379,40 @@ function renderAppointments() {
     '<div class="items-grid">' +
     appointments
       .map(
-        (req) => `
+        (req) => {
+          // Generate short booking ID from appointment_id
+          const shortId = req.booking_id || generateShortId(req.appointment_id);
+          
+          // Find vet name
+          const vet = vets.find(v => v.vet_id === req.vet_id);
+          const vetName = vet ? vet.name : 'Unknown Vet';
+          
+          return `
         <div class="item-card">
 
           <div class="item-header">
-            <div class="item-title">Booking #${req.appointment_id}</div>
+            <div class="item-title">Booking #${shortId}</div>
+            <span class="status-badge status-${req.status.toLowerCase()}">${req.status}</span>
           </div>
 
           <div class="item-details">
-            <p><strong>Name:</strong> ${req.name || "Unknown"}</p>
+            <p><strong>Patient Name:</strong> ${req.name || "Unknown"}</p>
             <p><strong>Phone:</strong> ${req.phone || "N/A"}</p>
-            <p><strong>Vet ID:</strong> ${req.vet_id || "N/A"}</p>
+            <p><strong>Vet:</strong> Dr. ${vetName}</p>
             <p><strong>Date:</strong> ${req.date}</p>
             <p><strong>Time:</strong> ${req.time}</p>
             <p><strong>Notes:</strong> ${req.notes || "No notes"}</p>
-            <p><strong>Status:</strong> ${req.status}</p>
           </div>
 
           <div class="action-buttons">
-            <button class="btn-primary" onclick="updateAppointmentStatus('${req.appointment_id}', 'accepted')">✓ Accept</button>
-            <button class="btn-danger" onclick="updateAppointmentStatus('${req.appointment_id}', 'rejected')">✕ Reject</button>
+            <button class="btn-primary" onclick="updateAppointmentStatus('${req.appointment_id}', 'Approved')">✓ Accept</button>
+            <button class="btn-danger" onclick="updateAppointmentStatus('${req.appointment_id}', 'Rejected')">✕ Reject</button>
           </div>
 
 
         </div>
-      `
+      `;
+        }
       )
       .join("") +
     "</div>";
@@ -425,41 +453,64 @@ function renderAdoptions() {
     '<div class="items-grid">' +
     adoptions
       .map(
-        (req) => `
+        (req) => {
+          // Generate short request ID from adoption_id
+          const shortId = req.request_id || generateShortId(req.adoption_id);
+          
+          // Find pet and shelter names
+          const pet = pets.find(p => p.pet_id === req.pet_id);
+          const shelter = shelters.find(s => s.shelter_id === req.shelter_id);
+          
+          const petName = pet ? pet.name : 'Unknown Pet';
+          const shelterName = shelter ? shelter.shelter_name : 'Unknown Shelter';
+          
+          return `
       <div class="item-card">
 
         <div class="item-header">
-          <div class="item-title">Request #${req.adoption_id}</div>
+          <div class="item-title">Request #${shortId}</div>
+          <span class="status-badge status-${req.status.toLowerCase()}">${req.status}</span>
         </div>
 
         <div class="item-details">
-          <p><strong>Name:</strong> ${req.name}</p>
+          <p><strong>Applicant:</strong> ${req.name}</p>
           <p><strong>Email:</strong> ${req.email}</p>
           <p><strong>Phone:</strong> ${req.phone}</p>
-          <p><strong>Pet ID:</strong> ${req.pet_id}</p>
-          <p><strong>Shelter ID:</strong> ${req.shelter_id}</p>
+          <p><strong>Pet Name:</strong> ${petName}</p>
+          <p><strong>Shelter:</strong> ${shelterName}</p>
           <p><strong>Message:</strong> ${req.message || "No message"}</p>
-          <p><strong>Status:</strong> ${req.status}</p>
         </div>
         <div class="action-buttons">
-          <button class="btn-primary" onclick="updateAdoptionStatus('${req.adoption_id}', 'accepted')">✓ Accept</button>
-          <button class="btn-danger" onclick="updateAdoptionStatus('${req.adoption_id}', 'rejected')">✕ Reject</button>
+          <button class="btn-primary" onclick="updateAdoptionStatus('${req.adoption_id}', '${req.pet_id}', 'Approved')">✓ Accept</button>
+          <button class="btn-danger" onclick="updateAdoptionStatus('${req.adoption_id}', '${req.pet_id}', 'Rejected')">✕ Reject</button>
         </div>
 
       </div>
-      `
+      `;
+        }
       )
       .join("") +
     "</div>";
 }
 
 // ---------- Adoption Status Update (FIXED) ----------
-async function updateAdoptionStatus(adoption_id, newStatus) {
+async function updateAdoptionStatus(adoption_id, pet_id, newStatus) {
   try {
     await apiClient.put("adminUpdateAdoptionStatus", {
       adoption_id,
       status: newStatus
     });
+
+    // If accepted, hide the pet from display
+    if (newStatus === 'Approved') {
+      await apiClient.put("adminHidePet", {
+        pet_id,
+        hidden: true
+      });
+      
+      // Remove pet from local array
+      pets = pets.filter(p => p.pet_id !== pet_id);
+    }
 
     adoptions = adoptions.map((req) =>
       req.adoption_id === adoption_id

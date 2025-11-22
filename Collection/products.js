@@ -40,6 +40,8 @@ function getProductId() {
 
 
 // ---------------- Load Product ----------------
+let currentProduct = null;
+
 async function loadProduct() {
   const id = getProductId(); 
   if (!id) {
@@ -54,7 +56,9 @@ async function loadProduct() {
       alert("Product not found");
       return;
     }
+    currentProduct = data;
     populateProduct(data);
+    return data;
   } catch (error) {
     console.error("Error loading product:", error);
     alert("Error loading product");
@@ -70,7 +74,15 @@ function populateProduct(p) {
   document.querySelector(".product-price").textContent = "$" + p.price;
   document.querySelector(".product-description").textContent = p.description;
 
-  const stockText = p.stock > 0 ? `⚠ Low stock: ${p.stock} left` : "❌ Out of stock";
+  // Dynamic stock display based on actual stock from database
+  let stockText = "";
+  if (p.stock === 0) {
+    stockText = "❌ Out of stock";
+  } else if (p.stock <= 10) {
+    stockText = `⚠️ Low stock: ${p.stock} left`;
+  } else {
+    stockText = `✅ In stock: ${p.stock} available`;
+  }
   document.querySelector(".availability span:last-child").textContent = stockText;
 
   document.querySelector(".meta-item:nth-child(1) .meta-value").textContent = p.vendor;
@@ -148,7 +160,7 @@ function setupCollapsibles() {
 
 
 // ---------------- Quantity Selector ----------------
-function setupQuantitySelector() {
+function setupQuantitySelector(maxStock) {
   const qtyDisplay = document.getElementById("quantity");
   const increaseBtn = document.getElementById("increaseQty");
   const decreaseBtn = document.getElementById("decreaseQty");
@@ -156,6 +168,10 @@ function setupQuantitySelector() {
   let quantity = 1;
 
   increaseBtn.addEventListener("click", () => {
+    if (maxStock && quantity >= maxStock) {
+      showToast(`Maximum stock available: ${maxStock}`, "error");
+      return;
+    }
     quantity++;
     qtyDisplay.textContent = quantity;
   });
@@ -349,6 +365,17 @@ function setupAddToCart(product) {
       return;
     }
 
+    // Check if stock is available
+    if (product.stock === 0) {
+      showToast("Product is out of stock ❌", "error");
+      return;
+    }
+
+    if (qty > product.stock) {
+      showToast(`Only ${product.stock} items available ⚠️`, "error");
+      return;
+    }
+
     try {
       await apiClient.post("addToCart", {
         product_id: product.product_id,
@@ -379,6 +406,17 @@ function setupAddToCart(product) {
       return;
     }
 
+    // Check if stock is available
+    if (product.stock === 0) {
+      showToast("Product is out of stock ❌", "error");
+      return;
+    }
+
+    if (qty > product.stock) {
+      showToast(`Only ${product.stock} items available ⚠️`, "error");
+      return;
+    }
+
     try {
       // Add to cart
       await apiClient.post("addToCart", {
@@ -405,13 +443,19 @@ function setupAddToCart(product) {
 
 // ---------------- Run Page ----------------
 setupCollapsibles();
-setupQuantitySelector();
 setupReviewModal();
 setupStarRating();
 
 const productId = getProductId();
 
 submitReview(productId);
-loadProduct();
+
+// Load product first, then setup quantity selector with stock limit
+loadProduct().then((product) => {
+  if (product) {
+    setupQuantitySelector(product.stock);
+  }
+});
+
 loadReviews(productId);
   

@@ -1,5 +1,23 @@
 import { createClient } from "@supabase/supabase-js";
 
+// Generate short ID (3 letters + 3 numbers)
+function generateShortId() {
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let shortId = "";
+  
+  // 3 random letters
+  for (let i = 0; i < 3; i++) {
+    shortId += letters[Math.floor(Math.random() * letters.length)];
+  }
+  
+  // 3 random numbers
+  for (let i = 0; i < 3; i++) {
+    shortId += Math.floor(Math.random() * 10);
+  }
+  
+  return shortId;
+}
+
 export const handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: JSON.stringify({ error: "Method not allowed" }) };
@@ -43,7 +61,8 @@ export const handler = async (event) => {
       email,
       phone: phoneNumber,
       message,
-      status: "Pending"
+      status: "Pending",
+      request_id: generateShortId()
     });
 
     if (error) {

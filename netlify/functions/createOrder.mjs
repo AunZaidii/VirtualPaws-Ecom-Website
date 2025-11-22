@@ -31,6 +31,31 @@ export const handler = async (event) => {
 
     const orderData = JSON.parse(event.body);
 
+    // Decrement stock for each product in the order
+    if (orderData.items && Array.isArray(orderData.items)) {
+      for (const item of orderData.items) {
+        const productId = item.product_id;
+        const quantityOrdered = item.quantity || 1;
+
+        // Get current stock
+        const { data: product, error: fetchError } = await supabase
+          .from("product")
+          .select("stock")
+          .eq("product_id", productId)
+          .single();
+
+        if (!fetchError && product) {
+          const newStock = Math.max(0, product.stock - quantityOrdered);
+          
+          // Update stock
+          await supabase
+            .from("product")
+            .update({ stock: newStock })
+            .eq("product_id", productId);
+        }
+      }
+    }
+
     const { data, error } = await supabase.from("orders").insert({
       user_id: user.id,
       ...orderData

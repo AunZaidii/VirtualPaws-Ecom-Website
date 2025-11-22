@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 
 export const handler = async (event) => {
-  if (event.httpMethod !== "GET") {
+  if (event.httpMethod !== "PUT") {
     return { statusCode: 405, body: JSON.stringify({ error: "Method not allowed" }) };
   }
 
@@ -11,21 +11,12 @@ export const handler = async (event) => {
   );
 
   try {
+    const { pet_id, hidden } = JSON.parse(event.body);
+
     const { data, error } = await supabase
       .from("pet")
-      .select(`
-        pet_id,
-        name,
-        species,
-        gender,
-        breed,
-        age,
-        location,
-        vaccinations,
-        tags,
-        image1
-      `)
-      .or("hidden.is.null,hidden.eq.false");
+      .update({ hidden: hidden })
+      .eq("pet_id", pet_id);
 
     if (error) {
       return {
@@ -36,7 +27,7 @@ export const handler = async (event) => {
 
     return {
       statusCode: 200,
-      body: JSON.stringify(data || []),
+      body: JSON.stringify({ message: "Pet visibility updated successfully" }),
     };
   } catch (err) {
     return {
@@ -45,4 +36,3 @@ export const handler = async (event) => {
     };
   }
 };
-
