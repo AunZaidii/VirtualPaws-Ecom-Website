@@ -11,36 +11,72 @@ import { getSupabase, getCurrentSession, getCurrentUser } from "../utils/supabas
     console.log('OAuth callback detected, processing session...');
   }
 
-  // Get current session from Supabase
-  const supabase = await getSupabase();
-  const { data: { session }, error } = await supabase.auth.getSession();
-  
-  if (error) {
-    console.error('Session error:', error);
+  // Check localStorage session first
+  const localSession = localStorage.getItem('supabase.auth.session');
+  let session = null;
+
+  // Try to get session from localStorage first for immediate access
+  if (localSession) {
+    try {
+      const parsed = JSON.parse(localSession);
+      if (parsed.access_token && parsed.user) {
+        session = parsed;
+        console.log('Session loaded from localStorage:', session.user.email);
+      }
+    } catch (e) {
+      console.error('Failed to parse localStorage session');
+    }
+  }
+
+  // Also get session from Supabase (will update if needed)
+  try {
+    const supabase = await getSupabase();
+    const { data: { session: supabaseSession }, error } = await supabase.auth.getSession();
+    
+    if (error) {
+      console.error('Session error:', error);
+    }
+
+    if (supabaseSession) {
+      session = supabaseSession;
+      // Store session in localStorage for apiClient compatibility
+      apiClient.setAuthSession(session);
+      console.log('Session updated from Supabase:', session.user.email);
+    }
+  } catch (err) {
+    console.error('Supabase init error:', err);
   }
 
   if (session) {
-    // Store session in localStorage for apiClient compatibility
-    apiClient.setAuthSession(session);
-    console.log('Session stored:', session.user.email);
-
     // Check if user exists in custom user table, if not create one
     try {
+      console.log('Checking if profile exists...');
       const profile = await apiClient.get("getUserProfile");
+      console.log('Profile check result:', profile);
+      
       if (!profile) {
+        console.log('No profile found, creating one for Google user...');
         // Create user profile for Google users
         const user = session.user;
-        const nameParts = (user.user_metadata?.full_name || user.email).split(' ');
-        await apiClient.post("authSignUp", {
+        const fullName = user.user_metadata?.full_name || user.user_metadata?.name || '';
+        const nameParts = fullName ? fullName.split(' ') : [user.email.split('@')[0], ''];
+        
+        const registerData = {
           email: user.email,
-          password: null, // Google auth users don't need password
-          first_name: nameParts[0] || 'User',
-          last_name: nameParts.slice(1).join(' ') || '',
-          phone_no: user.user_metadata?.phone || ''
-        });
+          password: 'google-oauth-' + Math.random().toString(36).substring(7), // Random dummy password
+          firstName: nameParts[0] || 'User',
+          lastName: nameParts.slice(1).join(' ') || ''
+        };
+        
+        console.log('Creating profile with data:', registerData);
+        const result = await apiClient.post("authRegister", registerData);
+        console.log('Profile creation result:', result);
+      } else {
+        console.log('Profile exists:', profile.email);
       }
     } catch (err) {
-      console.log('Profile check/creation:', err.message);
+      console.error('Profile check/creation error:', err);
+      console.error('Error details:', err.message, err.response);
     }
 
     // Clean up URL hash
@@ -49,6 +85,7 @@ import { getSupabase, getCurrentSession, getCurrentUser } from "../utils/supabas
     }
   } else {
     // No session found, redirect to login
+    console.log('No session found, redirecting to login...');
     window.location.href = "../Authentication/login.html";
   }
 })();
@@ -121,9 +158,27 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cancelBtn = document.querySelector("#edit-actions .btn-secondary");
   const editActions = document.getElementById("edit-actions");
 
+  // Wait a bit for session to be fully loaded
+  await new Promise(resolve => setTimeout(resolve, 500));
+
   // GET AUTH USER
   const user = apiClient.getUser();
-  if (!user) return;
+  console.log('User from apiClient:', user);
+  
+  if (!user) {
+    console.error('No user found in apiClient');
+    // Try to get from localStorage directly
+    const localSession = localStorage.getItem('supabase.auth.session');
+    if (localSession) {
+      try {
+        const parsed = JSON.parse(localSession);
+        console.log('Found session in localStorage:', parsed.user?.email);
+      } catch (e) {
+        console.error('Could not parse localStorage session');
+      }
+    }
+    return;
+  }
 
   // Display Google profile picture if available
   const session = apiClient.getSession();
@@ -158,10 +213,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // FETCH FROM custom `user` TABLE
   try {
+    console.log('Fetching user profile...');
     const profile = await apiClient.get("getUserProfile");
+    console.log('Profile received:', profile);
 
     if (!profile) {
-      console.error("Profile not found");
+      console.error("Profile not found in database");
+      // Show user info from session even if profile not in DB
+      const session = apiClient.getSession();
+      if (session && session.user) {
+        const user = session.user;
+        const nameParts = (user.user_metadata?.full_name || user.email).split(' ');
+        fullNameInput.value = user.user_metadata?.full_name || user.email;
+        emailInput.value = user.email;
+        phoneInput.value = user.user_metadata?.phone || '';
+        addressInput.value = '';
+        
+        showToast("Loading profile from session", "info");
+      }
       return;
     }
 
@@ -171,6 +240,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     let emailValue = profile.email;
     let phoneValue = profile.phone_no || "";
     let addressValue = profile.address || "";
+
+    console.log('Setting profile values:', { firstName, lastName, emailValue });
 
     // SET INPUT VALUES
     fullNameInput.value = `${firstName} ${lastName}`.trim();
