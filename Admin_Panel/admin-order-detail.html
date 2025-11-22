@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="Admin.css">
+    <title>Order Details - Admin</title>
+    <style>
+        body {
+            background-color: #f9fafb;
+            padding: 20px;
+        }
+
+        .order-detail-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 20px;
+        }
+
+        .order-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .back-btn {
+            padding: 10px 20px;
+            background: #e5e7eb;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #d1d5db;
+        }
+
+        .order-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .section-card {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: #1f2937;
+            font-weight: 500;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .status-confirmed {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-transit {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .status-delivered {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .order-items {
+            margin-bottom: 30px;
+        }
+
+        .order-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+
+        .item-qty {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+
+        .item-price {
+            font-weight: 600;
+            color: #87da48;
+        }
+
+        .status-controls {
+            background: #f0fee5;
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid #87da48;
+        }
+
+        .status-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+
+        .status-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .status-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .status-step.active {
+            background: white;
+            border-color: #87da48;
+        }
+
+        .status-step.completed {
+            background: #f0fee5;
+            border-color: #87da48;
+        }
+
+        .status-step:hover {
+            border-color: #87da48;
+        }
+
+        .step-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
+            background: #e5e7eb;
+            color: #6b7280;
+        }
+
+        .status-step.completed .step-icon {
+            background: #87da48;
+            color: white;
+        }
+
+        .status-step.active .step-icon {
+            background: #87da48;
+            color: white;
+        }
+
+        .step-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .step-time {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 3px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            flex: 1;
+            min-width: 150px;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-confirmed {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .btn-confirmed:hover:not(:disabled) {
+            background: #bfdbfe;
+        }
+
+        .btn-transit {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .btn-transit:hover:not(:disabled) {
+            background: #c7d2fe;
+        }
+
+        .btn-delivered {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .btn-delivered:hover:not(:disabled) {
+            background: #bbf7d0;
+        }
+
+        .btn-back {
+            background: #fee2e2;
+            color: #7f1d1d;
+        }
+
+        .btn-back:hover:not(:disabled) {
+            background: #fecaca;
+        }
+
+        .btn-action:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .order-content {
+                grid-template-columns: 1fr;
+            }
+
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="order-detail-container">
+        <div class="order-header">
+            <div>
+                <h1>Order Details</h1>
+                <p id="orderId" style="color: #6b7280; margin-top: 5px;">Loading...</p>
+            </div>
+            <button class="back-btn" onclick="goBack()">← Back</button>
+        </div>
+
+        <div class="order-content">
+            <!-- Left Column: Order & User Info -->
+            <div>
+                <!-- Order Summary -->
+                <div class="section-card" style="margin-bottom: 20px;">
+                    <div class="section-title">
+                        <i class="fas fa-box"></i> Order Summary
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Order Number:</span>
+                        <span class="info-value" id="orderNumber">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Status:</span>
+                        <span class="status-badge" id="orderStatus">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Total Amount:</span>
+                        <span class="info-value" id="orderTotal">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Order Date:</span>
+                        <span class="info-value" id="orderDate">-</span>
+                    </div>
+                </div>
+
+                <!-- User Information -->
+                <div class="section-card" style="margin-bottom: 20px;">
+                    <div class="section-title">
+                        <i class="fas fa-user"></i> Customer Information
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Name:</span>
+                        <span class="info-value" id="customerName">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value" id="customerEmail">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value" id="customerPhone">-</span>
+                    </div>
+                </div>
+
+                <!-- Shipping Address -->
+                <div class="section-card" style="margin-bottom: 20px;">
+                    <div class="section-title">
+                        <i class="fas fa-map-marker-alt"></i> Shipping Address
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value" id="customerAddress">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">City:</span>
+                        <span class="info-value" id="customerCity">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">State:</span>
+                        <span class="info-value" id="customerState">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Zip Code:</span>
+                        <span class="info-value" id="customerZip">-</span>
+                    </div>
+                </div>
+
+                <!-- Payment Information -->
+                <div class="section-card">
+                    <div class="section-title">
+                        <i class="fas fa-credit-card"></i> Payment Information
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Method:</span>
+                        <span class="info-value" id="paymentMethod">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Status:</span>
+                        <span class="info-value" id="paymentStatus">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Items & Status Control -->
+            <div>
+                <!-- Order Items -->
+                <div class="order-items" style="margin-bottom: 20px;">
+                    <div class="section-title" style="margin-bottom: 15px;">
+                        <i class="fas fa-shopping-bag"></i> Items in Order
+                    </div>
+                    <div id="itemsList"></div>
+                </div>
+
+                <!-- Status Control -->
+                <div class="status-controls">
+                    <div class="status-label">Update Order Status</div>
+                    
+                    <div class="status-timeline" id="statusTimeline">
+                        <!-- Generated by JavaScript -->
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn-action btn-confirmed" onclick="updateStatus('Order Confirmed')">
+                            <i class="fas fa-check"></i> Confirmed
+                        </button>
+                        <button class="btn-action btn-transit" onclick="updateStatus('Out for Delivery')">
+                            <i class="fas fa-truck"></i> Out for Delivery
+                        </button>
+                        <button class="btn-action btn-delivered" onclick="updateStatus('Delivered')">
+                            <i class="fas fa-box-open"></i> Delivered
+                        </button>
+                        <button class="btn-action btn-back" onclick="revertStatus()">
+                            <i class="fas fa-undo"></i> Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-order-detail.js"></script>
+</body>
+</html>

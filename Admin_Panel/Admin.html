@@ -61,15 +61,6 @@
           <div class="nav-label">
             VIEW ALL</div>
             
-          <button class="nav-btn" onclick="showSection('view-adoptions', event)">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 14l9-5-9-5-9 5 9 5z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
-            </svg>
-            Adoption Requests
-          </button>
           <button class="nav-btn" onclick="showSection('view-products', event)">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -91,15 +82,24 @@
             </svg>
             View Pets
           </button>
-          <button class="nav-btn" onclick="showSection('view-shelters', event)">
+
+           <!-- closes View All section -->
+
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-label">VIEW REQUESTS</div>
+            
+          <button class="nav-btn" onclick="showSection('view-adoptions', event)">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4z" />
+                d="M12 14l9-5-9-5-9 5 9 5z" />
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M6 20v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
+                d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
             </svg>
-              View Shelters
+            Adoption Requests
           </button>
+
           <button class="nav-btn" onclick="showSection('view-appointments', event)">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -108,9 +108,12 @@
             Vet Bookings
           </button>
 
-           <!-- closes View All section -->
-
-
+          <button class="nav-btn" onclick="showSection('view-orders', event)">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Order Requests
+          </button>
         </div>
       </nav>
     </aside>
@@ -603,10 +606,16 @@
         <h2 class="page-title">Adoption Requests (<span id="adoptions-count">0</span>)</h2>
         <div id="adoption-list"></div>
       </div>
-            <!-- View Vet Appointments Section -->
+      <!-- View Vet Appointments Section -->
       <div id="view-appointments-section" class="section hidden">
         <h2 class="page-title">Vet Bookings (<span id="appointments-count">0</span>)</h2>
         <div id="appointments-list"></div>
+      </div>
+
+      <!-- View Orders Section -->
+      <div id="view-orders-section" class="section hidden">
+        <h2 class="page-title">Order Requests (<span id="orders-count">0</span>)</h2>
+        <div id="orders-list"></div>
       </div>
 
 

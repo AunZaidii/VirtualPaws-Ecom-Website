@@ -1,5 +1,9 @@
 import { apiClient } from "../utils/apiClient.js";
 
+// Admin credentials
+const ADMIN_EMAIL = "admin123@gmail.com";
+const ADMIN_PASSWORD = "admin12345";
+
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector(".login-form");
   const loginBtn = document.querySelector(".login-btn");
@@ -16,6 +20,21 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // Check if admin credentials
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+      loginMessage.textContent = "Admin login successful!";
+      loginMessage.style.color = "green";
+      
+      // Set admin flag in localStorage
+      localStorage.setItem('isAdmin', 'true');
+      localStorage.setItem('adminEmail', email);
+      
+      setTimeout(() => {
+        window.location.href = "../Admin_Panel/Admin.html";
+      }, 1200);
+      return;
+    }
+
     loginMessage.textContent = "Signing in...";
     loginMessage.style.color = "#333";
 
@@ -25,6 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.access_token) {
         apiClient.setAuthSession(data);
       }
+
+      // Clear admin flag for regular users
+      localStorage.removeItem('isAdmin');
 
       loginMessage.textContent = "Login successful!";
       loginMessage.style.color = "green";

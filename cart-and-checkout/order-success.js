@@ -35,12 +35,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             return;
         }
 
-        // Display order_number from database (using lowercase field name)
+        // Display order_number from database (using lowercase field name) - without hash
         const orderNumberRow = document.createElement('div');
         orderNumberRow.className = 'order-info-row';
         orderNumberRow.innerHTML = `
             <span class="order-info-label">Order Number:</span>
-            <span class="order-info-value">#${order.order_number}</span>
+            <span class="order-info-value">${order.order_number}</span>
         `;
         orderInfoDiv.insertBefore(orderNumberRow, orderInfoDiv.firstChild);
         console.log('Order number inserted:', order.order_number);

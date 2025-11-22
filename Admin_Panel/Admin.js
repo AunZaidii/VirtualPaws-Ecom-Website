@@ -8,11 +8,11 @@ let pets = [];
 let shelters = [];
 let adoptions = []; // NEW
 let appointments = [];
-
-const orders = {
-  pending: 12,
-  completed: 145,
-  cancelled: 3,
+let orders = []; // NEW - for order management
+let orderStats = {
+  pending: 0,
+  completed: 0,
+  cancelled: 0,
 };
 
 // ---------- Upload helper ----------
@@ -40,6 +40,7 @@ function showSection(sectionName, evt) {
   if (sectionName === "view-pets") renderPets();
   if (sectionName === "view-shelters") renderShelters();
   if (sectionName === "view-adoptions") renderAdoptions(); // NEW
+  if (sectionName === "view-orders") renderOrders(); // NEW
   if (sectionName === "dashboard") updateDashboard();
   if (sectionName === "view-appointments") renderAppointments();
 
@@ -50,7 +51,10 @@ window.showSection = showSection;
 // ---------- Load Data ----------
 async function loadData() {
   try {
+    console.log("Loading admin data...");
     const allData = await apiClient.get("adminGetAllData");
+    
+    console.log("Admin data received:", allData);
     
     products = allData.products || [];
     vets = allData.vets || [];
@@ -59,9 +63,12 @@ async function loadData() {
     adoptions = allData.adoptions || [];
     appointments = allData.appointments || [];
 
+    console.log("Data loaded - Products:", products.length, "Vets:", vets.length, "Pets:", pets.length);
+
     updateDashboard();
   } catch (error) {
     console.error("Error loading data:", error);
+    console.error("Error details:", error.message);
   }
 }
 
@@ -470,6 +477,64 @@ async function updateAdoptionStatus(adoption_id, newStatus) {
 
 window.updateAdoptionStatus = updateAdoptionStatus;
 
+// ---------- Render Orders ----------
+async function renderOrders() {
+  const container = document.getElementById("orders-list");
+  
+  try {
+    // Fetch all orders from Supabase
+    const allOrders = await apiClient.get("adminGetAllOrders");
+    orders = allOrders || [];
+    
+    document.getElementById("orders-count").textContent = orders.length;
+
+    if (orders.length === 0) {
+      container.innerHTML = `<p style="padding: 20px; text-align: center; color: #6b7280;">No orders found.</p>`;
+      return;
+    }
+
+    container.innerHTML = '<div style="display: flex; flex-direction: column; gap: 15px;">' +
+      orders
+        .map((order) => `
+          <div onclick="viewOrderDetail('${order.order_number}', '${order.email}')" style="cursor: pointer; display: flex; gap: 15px; padding: 15px; background: white; border: 1px solid #e5e7eb; border-radius: 8px; transition: all 0.3s; align-items: center;">
+            <div style="flex: 1;">
+              <div style="font-weight: 600; color: #1f2937; margin-bottom: 8px;">Order #${order.order_number}</div>
+              <div style="font-size: 14px; color: #6b7280; margin-bottom: 5px;">Customer: ${order.first_name} ${order.last_name}</div>
+              <div style="font-size: 14px; color: #6b7280; margin-bottom: 5px;">Address: ${order.address}, ${order.city}</div>
+              <div style="font-size: 14px; color: #6b7280;">Email: ${order.email}</div>
+            </div>
+            <div style="text-align: right; min-width: 150px;">
+              <div style="font-weight: 600; color: #87da48; font-size: 16px; margin-bottom: 8px;">$${parseFloat(order.total_amount).toFixed(2)}</div>
+              <span style="display: inline-block; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; background: ${getStatusColor(order.tracking_status)}; color: white;">
+                ${order.tracking_status}
+              </span>
+            </div>
+          </div>
+        `)
+        .join("") +
+      "</div>";
+  } catch (error) {
+    console.error("Error loading orders:", error);
+    container.innerHTML = `<p style="padding: 20px; color: #dc2626;">Error loading orders</p>`;
+  }
+}
+
+function getStatusColor(status) {
+  const colors = {
+    'Order Placed': '#fbbf24',
+    'Order Confirmed': '#60a5fa',
+    'Out for Delivery': '#a78bfa',
+    'Delivered': '#34d399'
+  };
+  return colors[status] || '#9ca3af';
+}
+
+function viewOrderDetail(orderNumber, email) {
+  window.location.href = `admin-order-detail.html?order=${encodeURIComponent(orderNumber)}&email=${encodeURIComponent(email)}`;
+}
+
+window.viewOrderDetail = viewOrderDetail;
+
 // ---------- Delete ----------
 async function deleteProduct(id) {
   if (!confirm("Delete this product?")) return;
@@ -535,13 +600,25 @@ function updateDashboard() {
   document.getElementById("total-pets").textContent = pets.length;
   document.getElementById("total-shelters").textContent = shelters.length;
 
-  document.getElementById("pending-orders").textContent = orders.pending;
-  document.getElementById("completed-orders").textContent = orders.completed;
-  document.getElementById("cancelled-orders").textContent = orders.cancelled;
+  // Calculate order stats from orders array
+  orderStats.pending = orders.filter(o => o.tracking_status === 'Order Placed').length;
+  orderStats.completed = orders.filter(o => o.tracking_status === 'Delivered').length;
+  orderStats.cancelled = 0; // You can add cancelled status tracking if needed
+
+  document.getElementById("pending-orders").textContent = orderStats.pending;
+  document.getElementById("completed-orders").textContent = orderStats.completed;
+  document.getElementById("cancelled-orders").textContent = orderStats.cancelled;
 }
 
 // ---------- Init ----------
 (async function init() {
   await loadData();
+  // Load orders separately
+  try {
+    const allOrders = await apiClient.get("adminGetAllOrders");
+    orders = allOrders || [];
+  } catch (error) {
+    console.error("Error loading orders:", error);
+  }
   updateDashboard();
 })();
