@@ -29,6 +29,27 @@ function showToast(message, type = "success") {
 }
 
 /* -------------------------------------
+   ORDER NUMBER GENERATOR
+   Format: AAA999 (3 letters + 3 digits)
+------------------------------------- */
+function generateOrderNumber() {
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let result = "";
+
+    // 3 letters
+    for (let i = 0; i < 3; i++) {
+        result += letters.charAt(Math.floor(Math.random() * letters.length));
+    }
+
+    // 3 digits
+    for (let i = 0; i < 3; i++) {
+        result += Math.floor(Math.random() * 10);
+    }
+
+    return result; // e.g. "AZP012"
+}
+
+/* -------------------------------------
    LOAD USER INFO
 ------------------------------------- */
 async function loadUserInfo() {
@@ -122,6 +143,9 @@ async function placeOrder() {
             return;
         }
 
+        // Generate unique-ish order number for the user to track
+        const order_number = generateOrderNumber();
+
         await apiClient.post("createOrder", {
             first_name: profile.first_name,
             last_name: profile.last_name,
@@ -136,8 +160,28 @@ async function placeOrder() {
             zip_code: zip,
             payment_method,
             payment_status: "Pending",
-            items: cartItems
+            items: cartItems,
+
+            // ---------- tracking-related fields ----------
+            order_number,
+            tracking_status: "Order Placed",
+            current_location: "Virtual Paws Warehouse",
+            estimated_delivery: null,
+            tracking_history: [
+                {
+                    title: "Order Placed",
+                    timestamp: new Date().toISOString(),
+                    location: "Virtual Paws Warehouse"
+                }
+            ]
         });
+
+        // Store order details in localStorage for success page
+        localStorage.setItem('lastOrderNumber', order_number);
+        localStorage.setItem('lastOrderEmail', profile.email);
+        localStorage.setItem('lastOrderTotal', subtotal.toFixed(2));
+        localStorage.setItem('lastOrderDate', new Date().toISOString());
+        localStorage.setItem('lastOrderStatus', 'Order Placed');
 
         showToast("Order placed successfully 🎉", "success");
 

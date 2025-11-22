@@ -104,7 +104,7 @@
                     <form onsubmit="trackOrder(event)">
                         <div class="form-group">
                             <label for="orderNumber">Order Number</label>
-                            <input type="text" id="orderNumber" class="form-input" placeholder="VP123456789" required>
+                            <input type="text" id="orderNumber" class="form-input" placeholder="ABC123" required>
                         </div>
 
                         <div class="form-group">
@@ -127,8 +127,8 @@
                     <div class="card-header">
                         <div class="order-header">
                             <div>
-                                <h3 id="orderIdDisplay">Order #VP123456789</h3>
-                                <p id="trackingNumberDisplay">Tracking Number: VPWABCDEFGH123</p>
+                                <h3 id="orderIdDisplay">Order #ABC123</h3>
+                                <p id="trackingNumberDisplay">Tracking Number: ABC123</p>
                             </div>
                             <button onclick="resetTrackingForm()" class="btn btn-outline">Track Another Order</button>
                         </div>
@@ -146,7 +146,7 @@
                             </div>
                             <div class="info-item">
                                 <div class="info-label">Estimated Delivery</div>
-                                <div id="estimatedDelivery">November 14, 2025</div>
+                                <div id="estimatedDelivery">Not Available</div>
                             </div>
                         </div>
 
@@ -180,7 +180,8 @@
         </div>
     </section>
 
-    <script src="track-order.js"></script>
+    <!-- IMPORTANT: track-order.js is now a module so we can import apiClient -->
+    <script type="module" src="track-order.js"></script>
     <script src="../Homepage/search-box.js"></script>
 </body>
 <footer class="footer">

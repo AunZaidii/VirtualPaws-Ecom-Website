@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/Homepage/homepage.css">
+    <link rel="stylesheet" href="order-success.css">
+    <title>Order Success</title>
+</head>
+
+<body>
+    <!-- ========== HEADER ========== -->
+    <header>
+        <section>
+            <div class="header">
+                <div class="header-content">
+                    <p style="color: white; font-size: 1.05vw;">
+                        Get 15% discount + free mysterious gifts for your first order
+                    </p>
+                </div>
+
+                <div class="header-items">
+                    <ul>
+                        <li><a href="../track-order/track-order.html">Track Order</a></li>
+                        <li><a href="../help-center/helpcenter.html">Help Center</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="navbar">
+            <div class="nav">
+                <div class="nav-logo">
+                    <a href="../Homepage/homepage.html">
+                        <img class="logo" src="../Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo">
+                    </a>
+                </div>
+
+                <div class="nav-items">
+                    <ul>
+                        <li><a href="../Homepage/homepage.html">Home</a></li>
+
+                        <li class="dropdown">
+                            <a href="">Shop <i class="fa-solid fa-angle-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="../Collection/Cat/catfood.html">Cat Food</a></li>
+                                <li><a href="../Collection/Dog/dogfood.html">Dog Food</a></li>
+                                <li><a href="../Collection/Cat/cataccessories.html">Cat Accessories</a></li>
+                                <li><a href="../Collection/Dog/dogaccessories.html">Dog Accessories</a></li>
+                            </ul>
+                        </li>
+
+                        <li><a href="../Adoption/adoption.html">Adoption</a></li>
+                        <li><a href="../vet/vet.html">Vet</a></li>
+                        <li><a href="../Contact/contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-items-logo">
+                    <ul>
+                        <li class="search-icon">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <div class="search-bar-container">
+                                <input type="text" id="search-input" placeholder="Search products..." />
+                            </div>
+                        </li>
+
+                        <li class="user-dropdown">
+                            <a><i class="fa-regular fa-user"></i></a>
+                            <ul class="user-dropdown-menu">
+                                <li><a href="../Authentication/login.html">Login</a></li>
+                                <li><a href="../Authentication/register.html">Signup</a></li>
+                                <li><a href="../Accounts/Accountpage.html">Account</a></li>
+                            </ul>
+                        </li>
+
+                        <li><a href="../Accounts/Wishlist.html"><i class="fa-regular fa-heart"></i></a></li>
+                        <li><a href="../cart-and-checkout/cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </header>
+
+    <!-- ========== SUCCESS CONTENT ========== -->
+    <div class="success-container">
+        <div class="success-card">
+            <!-- Success Icon -->
+            <div class="success-icon">
+                <i class="fa-solid fa-check-circle"></i>
+            </div>
+
+            <!-- Title -->
+            <h1 class="success-title">Order Placed Successfully! 🎉</h1>
+
+            <!-- Subtitle -->
+            <p class="success-subtitle">
+                Thank you for your order! Your pets are going to love their new goodies.
+            </p>
+
+            <!-- Success Message -->
+            <div class="success-message">
+                <i class="fa-solid fa-info-circle"></i>
+                <span>Your order has been confirmed and is being processed.</span>
+            </div>
+
+            <!-- Order Info -->
+            <div class="order-info">
+                <div class="order-info-row">
+                    <span class="order-info-label">Order Status:</span>
+                    <span class="order-info-value">Confirmed</span>
+                </div>
+                <div class="order-info-row">
+                    <span class="order-info-label">Estimated Delivery:</span>
+                    <span class="order-info-value">3-5 Business Days</span>
+                </div>
+                <div class="order-info-row">
+                    <span class="order-info-label">Shipping:</span>
+                    <span class="order-info-value">FREE</span>
+                </div>
+            </div>
+
+            <!-- Email Notice -->
+            <div class="email-notice">
+                <i class="fa-solid fa-envelope"></i>
+                A confirmation email with your order details and tracking number has been sent to your registered email address.
+            </div>
+
+            <!-- Next Steps -->
+            <div class="next-steps">
+                <div class="next-steps-title">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    What's Next?
+                </div>
+                <ul class="next-steps-list">
+                    <li>Your order is being prepared by our team</li>
+                    <li>You'll receive a shipping notification once it's on the way</li>
+                    <li>Track your order using the tracking number from your email</li>
+                    <li>Products will arrive safely packaged for your pet</li>
+                </ul>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="button-group">
+                <a href="../track-order/track-order.html" class="btn btn-primary">
+                    <i class="fa-solid fa-box"></i> Track Order
+                </a>
+                <a href="../Homepage/homepage.html" class="btn btn-secondary">
+                    <i class="fa-solid fa-home"></i> Continue Shopping
+                </a>
+            </div>
+
+            <!-- Additional Info -->
+            <p style="margin-top: 2vw; font-size: 0.9vw; color: #999;">
+                Questions? <a href="../Contact/contact.html" style="color: rgb(135, 218, 72); text-decoration: none; font-weight: 600;">Contact our support team</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column contact-us">
+                <h3>Contact Us</h3>
+                <p><i class="fa-solid fa-location-dot"></i> Virtual Paws - Pets Store<br>
+                  Karachi, Pakistan<br>
+                </p>
+                <p><i class="fa-solid fa-envelope"></i> contact_virtualpaws@gmail.com</p>
+                <p><i class="fa-solid fa-phone"></i> (+91) 9876-543-210</p>
+            </div>
+
+            <div class="footer-column">
+                <h3>Find Product</h3>
+                <ul>
+                    <li><a href="../Contact/contact.html">Privacy Policy</a></li>
+                    <li><a href="../Contact/contact.html">Refund Policy</a></li>
+                    <li><a href="../Contact/contact.html">Shipping Policy</a></li>
+                    <li><a href="../Contact/contact.html">Terms of Service</a></li>
+                    <li><a href="../Contact/contact.html">Policy for Buyers</a></li>
+                    <li><a href="../Contact/contact.html">Policy for Sellers</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li><a href="../Contact/contact.html">Shipping & Refund</a></li>
+                    <li><a href="../Contact/contact.html">FAQs</a></li>
+                    <li><a href="../Contact/contact.html">Delivery Information</a></li>
+                    <li><a href="../Contact/contact.html">Shipping</a></li>
+                    <li><a href="../Contact/contact.html">Size Chart</a></li>
+                    <li><a href="../Contact/contact.html">Sitemap</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column newsletter">
+                <h3>Our Newsletter</h3>
+                <p>Subscribe to our latest newsletter to get news about special discounts.</p>
+                <form>
+                    <input type="email" class="email-placeholder" placeholder="Email">
+                    <a href="../Contact/contact.html" class="subscribe-btn" type="submit">Subscribe</a>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="social-icons">
+                <a href="https://facebook.com"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://instagram.com"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://twitter.com"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://youtube.com"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+            <p>© 2025, Virtual Paws - Pets Store</p>
+            <div class="payment-icons">
+                <img src="https://img.icons8.com/color/48/visa.png" alt="Visa">
+                <img src="https://img.icons8.com/color/48/mastercard.png" alt="Mastercard">
+                <img src="https://img.icons8.com/color/48/amex.png" alt="Amex">
+                <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal">
+                <img src="https://img.icons8.com/color/48/discover.png" alt="Discover">
+            </div>
+        </div>
+    </footer>
+
+    <script src="../Homepage/search-box.js"></script>
+    <script src="order-success.js"></script>
+</body>
+</html>
