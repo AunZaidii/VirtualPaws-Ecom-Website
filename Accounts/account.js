@@ -1,5 +1,5 @@
 import { apiClient } from "../utils/apiClient.js";
-import { supabase, getCurrentSession, getCurrentUser } from "../utils/supabaseClient.js";
+import { getSupabase, getCurrentSession, getCurrentUser } from "../utils/supabaseClient.js";
 
 // ===============================
 // HANDLE GOOGLE OAUTH CALLBACK & SESSION
@@ -12,6 +12,7 @@ import { supabase, getCurrentSession, getCurrentUser } from "../utils/supabaseCl
   }
 
   // Get current session from Supabase
+  const supabase = await getSupabase();
   const { data: { session }, error } = await supabase.auth.getSession();
   
   if (error) {
@@ -79,6 +80,7 @@ cancelLogoutBtn.addEventListener("click", () => {
 confirmLogoutBtn.addEventListener("click", async () => {
   try {
     // Sign out from Supabase
+    const supabase = await getSupabase();
     await supabase.auth.signOut();
     
     // Clear local storage

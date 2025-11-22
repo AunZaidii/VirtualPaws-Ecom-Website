@@ -1,25 +1,51 @@
 // Supabase Client for Frontend
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-// NOTE: Supabase Anon Key is PUBLIC and safe to expose in frontend code
-// It only allows authenticated operations defined in your Row Level Security policies
-// For production deployment, set SUPABASE_URL and SUPABASE_ANON_KEY in Netlify environment variables
+// Fetch config from Netlify function
+let supabaseInstance = null;
+let configPromise = null;
 
-
-// Initialize Supabase client
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true,
-    storage: localStorage,
-    storageKey: 'supabase.auth.session'
+async function fetchConfig() {
+  const response = await fetch('/.netlify/functions/getConfig');
+  if (!response.ok) {
+    throw new Error('Failed to fetch config');
   }
-});
+  return response.json();
+}
+
+async function initSupabase() {
+  if (supabaseInstance) {
+    return supabaseInstance;
+  }
+
+  if (!configPromise) {
+    configPromise = fetchConfig();
+  }
+
+  const config = await configPromise;
+  
+  supabaseInstance = createClient(config.supabaseUrl, config.supabaseAnonKey, {
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
+      storage: localStorage,
+      storageKey: 'supabase.auth.session'
+    }
+  });
+
+  return supabaseInstance;
+}
+
+// Export function to get initialized supabase client
+export async function getSupabase() {
+  return await initSupabase();
+}
 
 // Helper function to get current session
 export async function getCurrentSession() {
-  const { data: { session }, error } = await supabase.auth.getSession();
+  const instance = await initSupabase();
+  const { data: { session }, error } = await instance.auth.getSession();
   if (error) {
     console.error('Error getting session:', error);
     return null;

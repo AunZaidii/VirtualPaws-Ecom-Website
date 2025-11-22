@@ -1,5 +1,4 @@
 import { apiClient } from "../utils/apiClient.js";
-import { supabase } from "../utils/supabaseClient.js";
 
 // Admin credentials
 const ADMIN_EMAIL = "admin@virtualpaws.com";
@@ -91,6 +90,10 @@ document.addEventListener("DOMContentLoaded", () => {
       loginMessage.textContent = "Redirecting to Google...";
       loginMessage.style.color = "#333";
 
+      // Get initialized supabase client
+      const { getSupabase } = await import('../utils/supabaseClient.js');
+      const supabase = await getSupabase();
+      
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {

@@ -1,5 +1,5 @@
 import { apiClient } from "../utils/apiClient.js";
-import { supabase } from "../utils/supabaseClient.js";
+import { getSupabase } from "../utils/supabaseClient.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector(".login-form");
@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
       message.textContent = "Redirecting to Google...";
       message.style.color = "#333";
 
+      const supabase = await getSupabase();
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {

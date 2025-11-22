@@ -1,6 +1,6 @@
 // Navbar Authentication State Manager
 // This script handles showing/hiding navbar items based on login status
-import { supabase } from './supabaseClient.js';
+import { getSupabase, getCurrentSession } from './supabaseClient.js';
 
 // Function to update navbar based on auth state
 async function updateNavbar() {
@@ -10,7 +10,7 @@ async function updateNavbar() {
     const isAdmin = localStorage.getItem('isAdmin');
     
     // Get session from Supabase (async)
-    const { data: { session } } = await supabase.auth.getSession();
+    const session = await getCurrentSession();
     
     // Determine if logged in from either Supabase session or localStorage
     let isLoggedIn = false;
@@ -228,7 +228,12 @@ function handleSignOut(event) {
   // Handle confirm
   document.getElementById('modal-confirm-btn').addEventListener('click', async () => {
     // Sign out from Supabase
-    await supabase.auth.signOut();
+    try {
+      const supabase = await getSupabase();
+      await supabase.auth.signOut();
+    } catch (err) {
+      console.error('Sign out error:', err);
+    }
     
     // Clear all stored data
     localStorage.clear();
