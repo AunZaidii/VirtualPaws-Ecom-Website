@@ -81,8 +81,8 @@ async function updateNavbar() {
       console.log('NavbarAuth: User is logged in - showing Account & Sign Out');
       // User is logged in - show ONLY Account and Sign Out
       
-      // Determine correct path depth based on current location
-      const pathPrefix = window.location.pathname.includes('/Collection/') ? '../../' : '../';
+      // Determine correct path depth based on current location (case-insensitive check)
+      const pathPrefix = window.location.pathname.toLowerCase().includes('/collection/') ? '../../' : '../';
       
       userDropdownMenu.innerHTML = `
         <li><a href="${pathPrefix}Accounts/Accountpage.html">Account</a></li>
@@ -98,8 +98,8 @@ async function updateNavbar() {
       console.log('NavbarAuth: User is logged out - showing Login & Signup');
       // User is logged out - show ONLY Login and Signup
       
-      // Determine correct path depth based on current location
-      const pathPrefix = window.location.pathname.includes('/Collection/') ? '../../' : '../';
+      // Determine correct path depth based on current location (case-insensitive check)
+      const pathPrefix = window.location.pathname.toLowerCase().includes('/collection/') ? '../../' : '../';
       
       userDropdownMenu.innerHTML = `
         <li><a href="${pathPrefix}Authentication/login.html">Login</a></li>
