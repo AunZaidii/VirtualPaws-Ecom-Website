@@ -42,7 +42,7 @@ function displayOrderDetails(order) {
     document.getElementById('orderNumber').textContent = order.order_number;
     document.getElementById('orderStatus').textContent = order.tracking_status;
     document.getElementById('orderStatus').className = `status-badge status-${getStatusClass(order.tracking_status)}`;
-    document.getElementById('orderTotal').textContent = `Rs ${parseFloat(order.total_amount).toFixed(2)}`;
+    document.getElementById('orderTotal').textContent = `$${parseFloat(order.total_amount).toFixed(2)}`;
     document.getElementById('orderDate').textContent = new Date(order.created_at).toLocaleDateString();
 
     // Customer Information
@@ -58,7 +58,19 @@ function displayOrderDetails(order) {
 
     // Payment Information
     document.getElementById('paymentMethod').textContent = order.payment_method || 'N/A';
-    document.getElementById('paymentStatus').textContent = order.payment_status || 'Pending';
+    
+    const paymentStatusEl = document.getElementById('paymentStatus');
+    const paymentStatus = order.payment_status || 'Pending';
+    paymentStatusEl.textContent = paymentStatus;
+    
+    // Add color coding for payment status
+    if (paymentStatus === 'Paid') {
+        paymentStatusEl.style.color = '#16a34a';
+        paymentStatusEl.style.fontWeight = '600';
+    } else {
+        paymentStatusEl.style.color = '#f59e0b';
+        paymentStatusEl.style.fontWeight = '600';
+    }
 
     // Order Items
     displayOrderItems(order.items || []);
@@ -87,7 +99,7 @@ function displayOrderItems(items) {
             <div class="item-details">
                 <div class="item-title">${item.title}</div>
                 <div class="item-qty">Quantity: ${item.quantity}</div>
-                <div class="item-price">Rs ${(item.price * item.quantity).toFixed(2)}</div>
+                <div class="item-price">$${(item.price * item.quantity).toFixed(2)}</div>
             </div>
         `;
         itemsList.appendChild(itemDiv);

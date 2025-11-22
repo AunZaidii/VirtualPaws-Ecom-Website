@@ -1,8 +1,10 @@
 import { apiClient } from "../utils/apiClient.js";
+import { supabase } from "../utils/supabaseClient.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector(".login-form");
   const registerBtn = document.querySelector(".login-btn");
+  const googleSignupBtn = document.getElementById("google-signup-btn");
 
   const message = document.createElement("p");
   message.classList.add("register-message");
@@ -65,6 +67,29 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       console.error(err);
       message.textContent = err.message || "Unexpected error occurred.";
+      message.style.color = "red";
+    }
+  });
+
+  // GOOGLE SIGNUP
+  googleSignupBtn.addEventListener("click", async () => {
+    try {
+      message.textContent = "Redirecting to Google...";
+      message.style.color = "#333";
+
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/Accounts/Accountpage.html`
+        }
+      });
+
+      if (error) {
+        throw error;
+      }
+    } catch (err) {
+      console.error('Google signup error:', err);
+      message.textContent = err.message || "Google signup failed. Try again.";
       message.style.color = "red";
     }
   });

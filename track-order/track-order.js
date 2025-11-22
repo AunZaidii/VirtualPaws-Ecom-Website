@@ -1,4 +1,8 @@
 import { apiClient } from "../utils/apiClient.js";
+import { requireAuth } from "../utils/authGuard.js";
+
+// Check authentication before tracking order
+await requireAuth();
 
 function formatDate(dateStr) {
     if (!dateStr) return "Not Available";
@@ -64,7 +68,7 @@ export async function trackOrder(event) {
                     <img src="${item.image}" alt="${item.title}">
                     <div>
                         <p>${item.title}</p>
-                        <p>${item.quantity} × Rs ${item.price}</p>
+                        <p>${item.quantity} × $${item.price}</p>
                     </div>
                 </div>
             `;

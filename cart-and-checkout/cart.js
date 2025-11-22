@@ -1,5 +1,8 @@
 import { apiClient } from "../utils/apiClient.js";
+import { requireAuth } from "../utils/authGuard.js";
 
+// Check authentication before loading cart
+await requireAuth();
 
 // -----------------------------------------------------
 // LOAD CART ITEMS
@@ -78,14 +81,14 @@ function renderCart(items) {
             </div>
 
             <div class="total-price">
-                Rs ${(item.price * item.quantity).toFixed(2)}
+                $${(item.price * item.quantity).toFixed(2)}
             </div>
         `;
 
         container.appendChild(row);
     });
 
-    document.getElementById("subtotal").textContent = `Rs ${subtotal.toFixed(2)}`;
+    document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
 }
 
 

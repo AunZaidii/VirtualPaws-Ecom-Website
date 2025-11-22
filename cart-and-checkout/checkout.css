@@ -580,6 +580,77 @@ a {
 }
 
 /* ======================
+   CARD INPUT SECTION
+====================== */
+#card-input-section {
+    background-color: #f9fafb;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+#card-input-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #374151;
+}
+
+#card-input-section input {
+    font-size: 15px;
+}
+
+/* Stripe Elements styling */
+.stripe-input {
+    padding: 12px 14px;
+    border: 1px solid #E5E5E5;
+    border-radius: 10px;
+    background-color: white;
+    transition: 0.2s;
+}
+
+.stripe-input:focus-within {
+    border-color: #16a34a;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+}
+
+.stripe-element {
+    width: 100%;
+}
+
+.stripe-element-invalid {
+    border-color: #fa755a;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+/* Card logos container */
+#card-input-section > div:first-child {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+#card-input-section img {
+    height: 32px;
+    object-fit: contain;
+    filter: grayscale(20%);
+    transition: filter 0.2s;
+}
+
+#card-input-section img:hover {
+    filter: grayscale(0%);
+}
+
+/* ======================
    RESPONSIVE
 ====================== */
 

@@ -1,37 +1,56 @@
 // Navbar Authentication State Manager
 // This script handles showing/hiding navbar items based on login status
+import { supabase } from './supabaseClient.js';
 
 // Function to update navbar based on auth state
-function updateNavbar() {
+async function updateNavbar() {
   try {
-    // Check if user is logged in via localStorage
-    const sessionStr = localStorage.getItem('supabase.auth.session');
+    // Check localStorage first for immediate feedback
+    const localSession = localStorage.getItem('supabase.auth.session');
     const isAdmin = localStorage.getItem('isAdmin');
     
-    // Parse session to check if it's valid
-    let session = null;
-    if (sessionStr) {
+    // Get session from Supabase (async)
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    // Determine if logged in from either Supabase session or localStorage
+    let isLoggedIn = false;
+    
+    if (isAdmin === 'true') {
+      isLoggedIn = true;
+    } else if (session) {
+      isLoggedIn = true;
+    } else if (localSession) {
+      // Check if localStorage has valid session
       try {
-        session = JSON.parse(sessionStr);
-        // Check if session has access_token and user
-        if (!session.access_token || !session.user) {
-          session = null;
+        const parsed = JSON.parse(localSession);
+        if (parsed.access_token && parsed.user) {
+          isLoggedIn = true;
         }
       } catch (e) {
-        session = null;
+        console.error('Invalid session in localStorage');
       }
     }
-    
-    const isLoggedIn = !!(session || isAdmin === 'true');
 
     console.log('NavbarAuth: Checking login status...');
-    console.log('Session exists:', !!sessionStr);
-    console.log('Session valid:', !!session);
+    console.log('Supabase session:', !!session);
+    console.log('LocalStorage session:', !!localSession);
     console.log('IsAdmin:', isAdmin);
     console.log('IsLoggedIn:', isLoggedIn);
+    
+    // Debug: Show session details
+    if (localSession) {
+      try {
+        const parsed = JSON.parse(localSession);
+        console.log('Session user:', parsed.user?.email || 'No user');
+        console.log('Session token:', parsed.access_token ? 'Present' : 'Missing');
+      } catch (e) {
+        console.error('Could not parse session');
+      }
+    }
 
-    // Get the dropdown menu
+    // Get the dropdown menu and user icon
     const userDropdownMenu = document.querySelector('.user-dropdown-menu');
+    const userIcon = document.querySelector('.user-dropdown > a > i, .user-dropdown > a > img');
     
     if (!userDropdownMenu) {
       console.error('NavbarAuth: User dropdown menu not found!');
@@ -39,6 +58,21 @@ function updateNavbar() {
     }
 
     console.log('NavbarAuth: Dropdown menu found, updating...');
+
+    // Update user avatar if Google user
+    if (session && session.user && userIcon) {
+      const avatarUrl = session.user.user_metadata?.avatar_url || 
+                        session.user.user_metadata?.picture;
+      
+      if (avatarUrl && userIcon.tagName === 'I') {
+        // Replace icon with Google profile picture
+        const img = document.createElement('img');
+        img.src = avatarUrl;
+        img.alt = 'Profile';
+        img.style.cssText = 'width: 24px; height: 24px; border-radius: 50%; object-fit: cover;';
+        userIcon.replaceWith(img);
+      }
+    }
 
     // Clear existing menu items
     userDropdownMenu.innerHTML = '';
@@ -184,7 +218,10 @@ function handleSignOut(event) {
   });
 
   // Handle confirm
-  document.getElementById('modal-confirm-btn').addEventListener('click', () => {
+  document.getElementById('modal-confirm-btn').addEventListener('click', async () => {
+    // Sign out from Supabase
+    await supabase.auth.signOut();
+    
     // Clear all stored data
     localStorage.clear();
     sessionStorage.clear();
@@ -231,8 +268,37 @@ function handleSignOut(event) {
   });
 }
 
+// Make updateNavbar globally accessible
+window.updateNavbar = updateNavbar;
+
 // Initialize navbar on page load
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('NavbarAuth: Initializing...');
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('NavbarAuth: Initializing...');
+    updateNavbar();
+  });
+} else {
+  // DOM already loaded, run immediately
+  console.log('NavbarAuth: Initializing (immediate)...');
+  updateNavbar();
+}
+
+// Update again after a short delay to catch any async session updates
+setTimeout(() => {
+  console.log('NavbarAuth: Delayed update check...');
+  updateNavbar();
+}, 500);
+
+// Also listen for storage changes (when login happens in another tab/window)
+window.addEventListener('storage', (e) => {
+  if (e.key === 'supabase.auth.session') {
+    console.log('NavbarAuth: Session changed, updating...');
+    updateNavbar();
+  }
+});
+
+// Listen for page show event (when navigating back)
+window.addEventListener('pageshow', (event) => {
+  console.log('NavbarAuth: Page shown, updating...');
   updateNavbar();
 });

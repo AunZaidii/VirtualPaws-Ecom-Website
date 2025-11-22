@@ -39,7 +39,7 @@ function productCard(p) {
         <div class="product-text-div">
           <p class="product-text-title">${p.name}</p>
           <p class="product-text-rating">${renderStars(p.rating)}</p>
-          <p class="product-text-price"><span class="green-price">Rs ${p.price}</span></p>
+          <p class="product-text-price"><span class="green-price">$${p.price}</span></p>
         </div>
       </div>
     </a>`;
@@ -57,7 +57,7 @@ function featuredCard(p) {
         <div class="best-product-text-div">
           <p class="best-product-text-title">${p.name}</p>
           <p class="best-product-text-rating">${renderStars(p.rating)}</p>
-          <p class="best-product-text-price"><span class="green-price">Rs ${p.price}</span></p>
+          <p class="best-product-text-price"><span class="green-price">$${p.price}</span></p>
           <p class="best-product-addtocart">Add To Cart</p>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { apiClient } from "../utils/apiClient.js";
+import { supabase } from "../utils/supabaseClient.js";
 
 // Admin credentials
 const ADMIN_EMAIL = "admin@virtualpaws.com";
@@ -8,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector(".login-form");
   const loginBtn = document.querySelector(".login-btn");
   const loginMessage = document.querySelector(".login-message");
+  const googleLoginBtn = document.getElementById("google-login-btn");
 
   // LOGIN FUNCTION
   loginBtn.addEventListener("click", async () => {
@@ -41,8 +43,18 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const data = await apiClient.post("authLogin", { email, password });
 
-      if (data.access_token) {
-        apiClient.setAuthSession(data);
+      if (data.session && data.access_token) {
+        // Store the full session object
+        const sessionData = {
+          access_token: data.access_token,
+          refresh_token: data.session.refresh_token,
+          expires_in: data.session.expires_in,
+          expires_at: data.session.expires_at,
+          token_type: data.session.token_type,
+          user: data.user
+        };
+        apiClient.setAuthSession(sessionData);
+        console.log('Session stored after login:', sessionData);
       }
 
       // Clear admin flag for regular users
@@ -71,6 +83,29 @@ document.addEventListener("DOMContentLoaded", () => {
     passwordField.type = type;
     togglePassword.classList.toggle("fa-eye");
     togglePassword.classList.toggle("fa-eye-slash");
+  });
+
+  // GOOGLE LOGIN
+  googleLoginBtn.addEventListener("click", async () => {
+    try {
+      loginMessage.textContent = "Redirecting to Google...";
+      loginMessage.style.color = "#333";
+
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/Accounts/Accountpage.html`
+        }
+      });
+
+      if (error) {
+        throw error;
+      }
+    } catch (err) {
+      console.error('Google login error:', err);
+      loginMessage.textContent = err.message || "Google login failed. Try again.";
+      loginMessage.style.color = "red";
+    }
   });
 
   // RESET PASSWORD

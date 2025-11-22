@@ -1,12 +1,53 @@
 import { apiClient } from "../utils/apiClient.js";
+import { supabase, getCurrentSession, getCurrentUser } from "../utils/supabaseClient.js";
 
 // ===============================
-// REDIRECT IF USER NOT LOGGED IN
+// HANDLE GOOGLE OAUTH CALLBACK & SESSION
 // ===============================
 (async () => {
-  const user = apiClient.getUser();
+  // Check for OAuth callback (hash in URL after Google redirect)
+  const hashParams = new URLSearchParams(window.location.hash.substring(1));
+  if (hashParams.has('access_token')) {
+    console.log('OAuth callback detected, processing session...');
+  }
 
-  if (!user) {
+  // Get current session from Supabase
+  const { data: { session }, error } = await supabase.auth.getSession();
+  
+  if (error) {
+    console.error('Session error:', error);
+  }
+
+  if (session) {
+    // Store session in localStorage for apiClient compatibility
+    apiClient.setAuthSession(session);
+    console.log('Session stored:', session.user.email);
+
+    // Check if user exists in custom user table, if not create one
+    try {
+      const profile = await apiClient.get("getUserProfile");
+      if (!profile) {
+        // Create user profile for Google users
+        const user = session.user;
+        const nameParts = (user.user_metadata?.full_name || user.email).split(' ');
+        await apiClient.post("authSignUp", {
+          email: user.email,
+          password: null, // Google auth users don't need password
+          first_name: nameParts[0] || 'User',
+          last_name: nameParts.slice(1).join(' ') || '',
+          phone_no: user.user_metadata?.phone || ''
+        });
+      }
+    } catch (err) {
+      console.log('Profile check/creation:', err.message);
+    }
+
+    // Clean up URL hash
+    if (window.location.hash) {
+      history.replaceState(null, null, window.location.pathname);
+    }
+  } else {
+    // No session found, redirect to login
     window.location.href = "../Authentication/login.html";
   }
 })();
@@ -37,14 +78,21 @@ cancelLogoutBtn.addEventListener("click", () => {
 // Confirm logout
 confirmLogoutBtn.addEventListener("click", async () => {
   try {
-    await apiClient.post("authSignOut");
+    // Sign out from Supabase
+    await supabase.auth.signOut();
+    
+    // Clear local storage
     apiClient.setAuthSession(null);
+    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('adminEmail');
+    
     showToast("Logged out successfully!", "success");
 
     setTimeout(() => {
       window.location.href = "../Authentication/login.html";
     }, 1000);
   } catch (error) {
+    console.error('Logout error:', error);
     showToast(error.message || "Logout failed!", "error");
   }
 });
@@ -74,6 +122,37 @@ document.addEventListener("DOMContentLoaded", async () => {
   // GET AUTH USER
   const user = apiClient.getUser();
   if (!user) return;
+
+  // Display Google profile picture if available
+  const session = apiClient.getSession();
+  if (session && session.user) {
+    const avatarUrl = session.user.user_metadata?.avatar_url || 
+                      session.user.user_metadata?.picture;
+    const fullName = session.user.user_metadata?.full_name;
+    
+    if (avatarUrl) {
+      // Update profile picture in navbar if exists
+      const navbarAvatar = document.querySelector('.user-dropdown img, .nav-items-logo .fa-user');
+      if (navbarAvatar && navbarAvatar.tagName === 'I') {
+        // Replace icon with image
+        const img = document.createElement('img');
+        img.src = avatarUrl;
+        img.alt = 'Profile';
+        img.style.cssText = 'width: 24px; height: 24px; border-radius: 50%; object-fit: cover;';
+        navbarAvatar.replaceWith(img);
+      }
+      
+      // Update profile picture on account page if profile image container exists
+      const profileImg = document.querySelector('.profile-picture, .account-avatar');
+      if (profileImg) {
+        if (profileImg.tagName === 'IMG') {
+          profileImg.src = avatarUrl;
+        } else {
+          profileImg.style.backgroundImage = `url(${avatarUrl})`;
+        }
+      }
+    }
+  }
 
   // FETCH FROM custom `user` TABLE
   try {
@@ -251,25 +330,25 @@ async function loadOrderHistory() {
         day: 'numeric'
       });
 
-      const products = Array.isArray(order.products) ? order.products : [];
-      const itemCount = products.reduce((sum, p) => sum + (p.quantity || 1), 0);
+      const items = Array.isArray(order.items) ? order.items : [];
+      const itemCount = items.reduce((sum, p) => sum + (p.quantity || 1), 0);
 
       return `
         <div class="order-card">
           <div class="order-header">
             <div>
-              <h3>Order #${order.order_id.substring(0, 8)}</h3>
+              <h3>Order #${order.order_number || order.order_id.substring(0, 8)}</h3>
               <p style="color: #666; margin-top: 5px;">Placed on ${orderDate}</p>
             </div>
-            <span class="status-badge status-${(order.order_status || '').toLowerCase().replace(' ', '-')}">
-              ${order.order_status || 'Pending'}
+            <span class="status-badge status-${(order.tracking_status || order.order_status || 'pending').toLowerCase().replace(' ', '-')}">
+              ${order.tracking_status || order.order_status || 'Pending'}
             </span>
           </div>
           <div class="order-details">
             <div class="order-info">
               <div>
                 <p style="color: #666;">Total Amount</p>
-                <p class="price">Rs. ${parseFloat(order.total_price || 0).toLocaleString()}</p>
+                <p class="price">$${parseFloat(order.total_amount || 0).toFixed(2)}</p>
               </div>
               <div>
                 <p style="color: #666;">Items</p>
@@ -281,11 +360,11 @@ async function loadOrderHistory() {
                 </button>
               </div>
             </div>
-            ${products.length > 0 ? `
+            ${items.length > 0 ? `
               <div class="order-products">
                 <p style="color: #666; margin-bottom: 10px;">Products:</p>
                 <ul>
-                  ${products.map(p => `<li>${p.title || p.name} x ${p.quantity || 1}</li>`).join('')}
+                  ${items.map(p => `<li>${p.title || p.name} x ${p.quantity || 1}</li>`).join('')}
                 </ul>
               </div>
             ` : ''}
@@ -377,13 +456,8 @@ async function loadAdoptionHistory() {
 // LOAD APPOINTMENT HISTORY
 // ===============================
 async function loadAppointmentHistory() {
-  console.log("Loading appointment history...");
-  console.log("Auth token:", apiClient.getAuthToken() ? "Present" : "Missing");
-  
   try {
-    console.log("Calling getUserAppointments API...");
     const appointments = await apiClient.get("getUserAppointments");
-    console.log("Appointments received:", appointments);
     const appointmentList = document.getElementById('appointment-list');
 
     if (!appointments || appointments.length === 0) {
@@ -407,10 +481,10 @@ async function loadAppointmentHistory() {
       });
 
       const vet = appointment.vet || {};
-      const vetImage = vet.profile_image || vet.image || '../Homepage/Logo/virtualpaws-logo.png';
+      const vetImage = vet.image_url || vet.profile_image || vet.image || '../Homepage/Logo/virtualpaws-logo.png';
       const vetName = vet.name || vet.vet_name || 'Veterinarian';
       const vetSpec = vet.specialization || vet.specialty || 'Veterinarian';
-      const vetClinic = vet.clinic_name || vet.clinic || '';
+      const vetClinic = vet.clinic || vet.clinic_name || '';
 
       return `
         <div class="appointment-card">
