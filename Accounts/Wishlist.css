@@ -1,10 +1,15 @@
-/* ------------------ GLOBAL ------------------ */
+/* SAFE RESET */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
+
+/* Set global font ONLY on body */
+body {
+    font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+}
+
 
 body {
     background-color: #f9fafb;
@@ -227,3 +232,21 @@ main {
 .toast.error {
     background: #ef4444;
 }
+
+.subscribe-btn {
+    background: #87da48;
+    font-size: 1vw;
+    border: none;
+    color: #fff;
+    padding: 0.4vw 1vw 1vw 1vw;
+    border-radius: 1.302vw;
+    cursor: pointer;
+    text-decoration: none;
+    width: 7vw;
+    height: 2.4vw;
+  }
+  
+  .subscribe-btn:hover {
+    background: #73b93d;
+  }
+  
