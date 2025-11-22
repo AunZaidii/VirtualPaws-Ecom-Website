@@ -7,54 +7,52 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="/Homepage/homepage.css">
+<link rel="stylesheet" href="../Homepage/homepage.css?v=9999">
   <link rel="stylesheet" href="Wishlist.css">
   <title>Wishlist</title>
 </head>
+<body>
 
 <section>
 <div class="header">
-
     <div class="header-content">
         <p style="color: white; font-size: 1.05vw;">Get 15% discount + free mysterious gifts for your first order</p>
     </div>
 
     <div class="header-items">
         <ul>
-            <li><a href="../track-order/track-order.html">Track Order</a></li>
-            <li><a href="../help-center/helpcenter.html">Help Center</a></li>
-
+            <li><a href="/track-order/track-order.html">Track Order</a></li>
+            <li><a href="/help-center/helpcenter.html">Help Center</a></li>
         </ul>
     </div>
 </div>
 </section>
 
 <section class="navbar">
-
 <div class="nav">
-
     <div class="nav-logo">
-    <a href="../Homepage/homepage.html"><img class="logo" src="../Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo"></a>
+      <a href="../Homepage/homepage.html">
+        <img class="logo" src="../Homepage/Logo/virtualpaws-logo.png" alt="Virtual Paws Logo">
+      </a>
     </div>
 
     <div class="nav-items">
         <ul>
             <li><a style="color: rgb(135, 218, 72);" href="../Homepage/homepage.html">Home</a></li>
-           <li class="dropdown">
-    <a href="">Shop 
-        <i class="fa-solid fa-angle-down" style="color: #000000;"></i>
-    </a>
 
-    <ul class="dropdown-menu">
-        <li><a href="../Collection/Cat/catfood.html">Cat Food</a></li>
-        <li><a href="../Collection/Dog/dogfood.html">Dog Food</a></li>
-        <li><a href="../Collection/Cat/cataccessories.html">Cat Accessories</a></li>
-        <li><a href="../Collection/Dog/dogaccessories.html">Dog Accessories</a></li>
-    </ul>
-</li>   
-            <li><a href="../Adoption/adoption.html">Adoption</a></li>
-            <li><a href="../vet/vet.html">Vet</a></li>
-            <li><a href="../Contact/contact.html">Contact</a></li>
+            <li class="dropdown">
+              <a href="#">Shop <i class="fa-solid fa-angle-down" style="color: #000000;"></i></a>
+              <ul class="dropdown-menu">
+                  <li><a href="/Collection/Cat/catfood.html">Cat Food</a></li>
+                  <li><a href="/Collection/Dog/dogfood.html">Dog Food</a></li>
+                  <li><a href="/Collection/Cat/cataccessories.html">Cat Accessories</a></li>
+                  <li><a href="/Collection/Dog/dogaccessories.html">Dog Accessories</a></li>
+              </ul>
+            </li>
+
+            <li><a href="/Adoption/adoption.html">Adoption</a></li>
+            <li><a href="/vet/vet.html">Vet</a></li>
+            <li><a href="/Contact/contact.html">Contact</a></li>
         </ul>
     </div>
 
@@ -62,38 +60,32 @@
         <ul>
             <li class="search-icon">
                 <i class="fa-solid fa-magnifying-glass"></i>
-
                 <div class="search-bar-container">
                     <input type="text" id="search-input" placeholder="Search products..." />
                 </div>
             </li>
             <li class="user-dropdown">
-                <a href="#"><i class="fa-regular fa-user" style="color: #000000;"></i></a>
+                <a href="#"><i class="fa-regular fa-user"></i></a>
                 <ul class="user-dropdown-menu">
-                    <li><a href="../Authentication/login.html">Login</a></li>
-                    <li><a href="../Authentication/register.html">Signup</a></li>
-                    <li><a href="../Accounts/Accountpage.html">Account</a></li>
+                    <li><a href="/Authentication/login.html">Login</a></li>
+                    <li><a href="/Authentication/register.html">Signup</a></li>
+                    <li><a href="/Accounts/Accountpage.html">Account</a></li>
                  </ul>
             </li>
-            <li><a href="../Accounts/Wishlist.html"><i class="fa-regular fa-heart" style="color: #000000;"></i></a></li>
-            <li><a href="../cart-and-checkout/cart.html"><i class="fa-solid fa-bag-shopping" style="color: #000000;"></i></a></li>
+            <li><a href="/Accounts/Wishlist.html"><i class="fa-regular fa-heart"></i></a></li>
+            <li><a href="/cart-and-checkout/cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
         </ul>
     </div>
 </div>
-
 </section>
 
-
-<body>
-    <section class="account-header">
-       <h1>Wishlist</h1>
-    </section>
+<section class="account-header">
+   <h1>Wishlist</h1>
+</section>
 
 <main>
   <div class="container">
-
     <div class="wishlist-count" id="wishlistCount"></div>
-
     <div class="wishlist-grid" id="wishlistGrid"></div>
 
     <div class="empty-state" id="emptyState">
@@ -108,10 +100,8 @@
 
 <script type="module" src="wishlist.js"></script>
 <script src="../Homepage/search-box.js"></script>
+<script type="module" src="/utils/navbarAuth.js"></script>
 
-
-
-<script type="module" src="../utils/navbarAuth.js"></script></body>
 
 <footer class="footer">
     <div class="footer-container">
@@ -150,15 +140,15 @@
         </ul>
       </div>
 
-    <div class="footer-column newsletter">
-    <h3>Our Newsletter</h3>
-    <p>Subscribe to our latest newsletter to get news about special discounts.</p>
-    <form>
-        <input type="email" class="email-placeholder" placeholder="Email" required>
-        <button type="submit" class="subscribe-btn">Subscribe</button>
-    </form>
+      <div class="footer-column newsletter">
+        <h3>Our Newsletter</h3>
+        <p>Subscribe to our latest newsletter to get news about special discounts.</p>
+        <form>
+          <input type="email" class="email-placeholder" placeholder="Email">
+          <a href="#" class="subscribe-btn" type="submit">Subscribe</a>
+        </form>
+      </div>
     </div>
-
 
     <div class="footer-bottom">
       <div class="social-icons">
@@ -177,5 +167,5 @@
       </div>
     </div>
 </footer>
+</body>
 </html>
-

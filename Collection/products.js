@@ -73,17 +73,20 @@ function populateProduct(p) {
   document.querySelector(".breadcrumb span").textContent = p.name;
   document.querySelector(".product-price").textContent = "Rs " + p.price;
   document.querySelector(".product-description").textContent = p.description;
+let stockText = "";
 
   // Dynamic stock display based on actual stock from database
-  let stockText = "";
-  if (p.stock === 0) {
-    stockText = "❌ Out of stock";
-  } else if (p.stock <= 10) {
-    stockText = `⚠️ Low stock: ${p.stock} left`;
-  } else {
-    stockText = `✅ In stock: ${p.stock} available`;
-  }
-  document.querySelector(".availability span:last-child").textContent = stockText;
+    if (p.stock === 0) {
+      stockText = `<i class="fa-solid fa-xmark" style="color:#ff4d4d;"></i> Out of stock`;
+    } 
+    else if (p.stock <= 10) {
+      stockText = `<i class="fa-solid fa-circle-exclamation" style="color:#ffae00;"></i> Low stock: ${p.stock} left`;
+    } 
+    else {
+      stockText = `<i class="fa-solid fa-check" style="color:#87da48;"></i> In stock: ${p.stock} available`;
+    }
+  document.querySelector(".availability span:last-child").innerHTML = stockText;
+
 
   document.querySelector(".meta-item:nth-child(1) .meta-value").textContent = p.vendor;
   document.querySelector(".meta-item:nth-child(2) .meta-value").textContent = p.category;
@@ -119,11 +122,6 @@ function populateProduct(p) {
   activateThumbnailEvents(images);
 
   document.querySelector('[data-section="materials"]').nextElementSibling.textContent = p.material;
-  document.querySelector('[data-section="size"]').nextElementSibling.textContent = p["size chart"];
-  document.querySelector('[data-section="care"]').nextElementSibling.textContent = p["care instructions"];
-
-  const usageSec = document.querySelector('[data-section="usage"]');
-  if (usageSec) usageSec.nextElementSibling.textContent = p["usage instructions"] || "";
 }
 
 
@@ -195,7 +193,9 @@ async function checkWishlistStatus(productId) {
   try {
     const { exists } = await apiClient.get("checkWishlistStatus", { product_id: productId });
     if (exists) {
-      heartIcon.textContent = "❤️"; 
+      heartIcon.classList.remove("fa-regular");
+      heartIcon.classList.add("fa-solid");
+
     }
   } catch (error) {
     console.error("Error checking wishlist status:", error);
@@ -220,10 +220,12 @@ function setupWishlistButton(product) {
       const { exists } = await apiClient.get("checkWishlistStatus", { product_id: product.product_id });
 
       if (exists) {
-        heartIcon.textContent = "❤️";
+        heartIcon.classList.remove("fa-regular");
+        heartIcon.classList.add("fa-solid");
         showToast("Already in your wishlist ❤️", "error");
         return;
-      }
+}
+
 
       await apiClient.post("addToWishlist", {
         product_id: product.product_id,
@@ -234,7 +236,7 @@ function setupWishlistButton(product) {
         rating: product.rating
       });
 
-      heartIcon.textContent = "❤️";
+      heartIcon.classList.replace("fa-regular", "fa-solid");
       showToast("Added to wishlist!", "success");
     } catch (error) {
       showToast(error.message || "Failed to add!", "error");
