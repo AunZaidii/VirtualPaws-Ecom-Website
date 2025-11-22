@@ -555,7 +555,7 @@ async function renderOrders() {
               <div style="font-size: 14px; color: #6b7280;">Email: ${order.email}</div>
             </div>
             <div style="text-align: right; min-width: 150px;">
-              <div style="font-weight: 600; color: #87da48; font-size: 16px; margin-bottom: 8px;">$${parseFloat(order.total_amount).toFixed(2)}</div>
+              <div style="font-weight: 600; color: #87da48; font-size: 16px; margin-bottom: 8px;">Rs ${parseFloat(order.total_amount).toFixed(2)}</div>
               <span style="display: inline-block; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; background: ${getStatusColor(order.tracking_status)}; color: white;">
                 ${order.tracking_status}
               </span>

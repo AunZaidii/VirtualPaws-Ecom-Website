@@ -91,36 +91,51 @@ async function loadOrderSummary() {
     try {
         const items = await apiClient.get("getCart");
         cartItems = items || [];
+        console.log("Cart items loaded:", cartItems);
     } catch (error) {
-        console.error(error);
+        console.error("Error loading cart:", error);
         cartItems = [];
     }
+    
     subtotal = 0;
 
     const container = document.getElementById("order-items");
+    if (!container) {
+        console.error("Order items container not found!");
+        return;
+    }
     container.innerHTML = "";
 
-    cartItems.forEach(item => {
-        subtotal += item.price * item.quantity;
+    if (cartItems.length === 0) {
+        container.innerHTML = '<p style="text-align: center; padding: 20px; color: #666;">Your cart is empty</p>';
+    } else {
+        cartItems.forEach(item => {
+            subtotal += item.price * item.quantity;
 
-        container.innerHTML += `
-            <div class="order-item">
-                <img src="${item.image}" alt="${item.title}">
+            container.innerHTML += `
+                <div class="order-item">
+                    <img src="${item.image}" alt="${item.title}">
 
-                <div class="item-info">
-                    <p class="item-title">${item.title}</p>
-                    <p class="item-qty">${item.quantity} × $${item.price}</p>
+                    <div class="item-info">
+                        <p class="item-title">${item.title}</p>
+                        <p class="item-qty">${item.quantity} × Rs ${item.price}</p>
+                    </div>
+
+                    <div class="item-total">
+                        Rs ${(item.price * item.quantity).toFixed(2)}
+                    </div>
                 </div>
+            `;
+        });
+    }
 
-                <div class="item-total">
-                    $${(item.price * item.quantity).toFixed(2)}
-                </div>
-            </div>
-        `;
-    });
-
-    document.getElementById("summary-subtotal").textContent = `$${subtotal.toFixed(2)}`;
-    document.getElementById("summary-total").textContent = `$${subtotal.toFixed(2)}`;
+    const subtotalEl = document.getElementById("summary-subtotal");
+    const totalEl = document.getElementById("summary-total");
+    
+    if (subtotalEl) subtotalEl.textContent = `Rs ${subtotal.toFixed(2)}`;
+    if (totalEl) totalEl.textContent = `Rs ${subtotal.toFixed(2)}`;
+    
+    console.log("Order summary updated. Subtotal:", subtotal);
 }
 
 /* -------------------------------------

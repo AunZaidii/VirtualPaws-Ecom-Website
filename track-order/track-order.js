@@ -64,7 +64,7 @@ export async function trackOrder(event) {
                     <img src="${item.image}" alt="${item.title}">
                     <div>
                         <p>${item.title}</p>
-                        <p>${item.quantity} × $${item.price}</p>
+                        <p>${item.quantity} × Rs ${item.price}</p>
                     </div>
                 </div>
             `;

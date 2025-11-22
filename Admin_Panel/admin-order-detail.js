@@ -42,7 +42,7 @@ function displayOrderDetails(order) {
     document.getElementById('orderNumber').textContent = order.order_number;
     document.getElementById('orderStatus').textContent = order.tracking_status;
     document.getElementById('orderStatus').className = `status-badge status-${getStatusClass(order.tracking_status)}`;
-    document.getElementById('orderTotal').textContent = `$${parseFloat(order.total_amount).toFixed(2)}`;
+    document.getElementById('orderTotal').textContent = `Rs ${parseFloat(order.total_amount).toFixed(2)}`;
     document.getElementById('orderDate').textContent = new Date(order.created_at).toLocaleDateString();
 
     // Customer Information
@@ -87,7 +87,7 @@ function displayOrderItems(items) {
             <div class="item-details">
                 <div class="item-title">${item.title}</div>
                 <div class="item-qty">Quantity: ${item.quantity}</div>
-                <div class="item-price">$${(item.price * item.quantity).toFixed(2)}</div>
+                <div class="item-price">Rs ${(item.price * item.quantity).toFixed(2)}</div>
             </div>
         `;
         itemsList.appendChild(itemDiv);
