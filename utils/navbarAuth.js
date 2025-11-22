@@ -5,12 +5,28 @@
 function updateNavbar() {
   try {
     // Check if user is logged in via localStorage
-    const session = localStorage.getItem('supabase.auth.session');
+    const sessionStr = localStorage.getItem('supabase.auth.session');
     const isAdmin = localStorage.getItem('isAdmin');
-    const isLoggedIn = !!(session || isAdmin);
+    
+    // Parse session to check if it's valid
+    let session = null;
+    if (sessionStr) {
+      try {
+        session = JSON.parse(sessionStr);
+        // Check if session has access_token and user
+        if (!session.access_token || !session.user) {
+          session = null;
+        }
+      } catch (e) {
+        session = null;
+      }
+    }
+    
+    const isLoggedIn = !!(session || isAdmin === 'true');
 
     console.log('NavbarAuth: Checking login status...');
-    console.log('Session:', session ? 'exists' : 'null');
+    console.log('Session exists:', !!sessionStr);
+    console.log('Session valid:', !!session);
     console.log('IsAdmin:', isAdmin);
     console.log('IsLoggedIn:', isLoggedIn);
 

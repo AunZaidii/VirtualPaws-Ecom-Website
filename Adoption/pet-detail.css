@@ -16,6 +16,9 @@
   align-items: start;
   margin-top: 2rem;
   --panel-size: clamp(320px, 36vw, 460px);
+  justify-content: start;
+  max-width: 1200px;
+  margin-left: 0;
 }
 
 /* ------------------
@@ -73,6 +76,8 @@
   display: flex;
   flex-direction: column;
   max-width: 520px;
+  height: auto;
+  overflow: visible;
 }
 
 .pet-detail-header{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:.65rem; }

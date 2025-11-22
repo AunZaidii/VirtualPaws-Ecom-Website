@@ -5,17 +5,25 @@
 }
 
 .latest-product-section {
-    display: flex;
-    align-items: flex-start;
-    gap: 30px;
     padding: 20px 40px;
-    flex-wrap: wrap; 
 }
 
 .section-heading {
     width: 100%;
     text-align: center;
     margin-bottom: 20px;
+}
+
+.latest-product-section::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.filter-sidebar-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
 }
 
 .section-heading h2 {
@@ -34,14 +42,18 @@
 }
 
 .filter-sidebar {
-    position: static; 
+    position: sticky;
+    top: 120px;
     align-self: flex-start;
     width: 230px;
     background-color: #fff;
     padding: 25px;
     border: 1px solid #ddd;       
     border-radius: 10px;         
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08); 
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    z-index: 100;
 }
 
 .price-range {

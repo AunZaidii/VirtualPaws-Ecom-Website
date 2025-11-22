@@ -97,22 +97,24 @@
     <hr>
   </div>
 
-  <div class="filter-sidebar">
-    <h3>Filter:</h3>
-    <h3>Price</h3>
-    <p>The highest price is $110.00</p>
-    <div class="price-range">
-      <label style="font-size: 1vw;">From:</label>
-      <input type="number" min="0" id="price-min" placeholder="0" style="font-size: 1vw;">
-      <label style="font-size: 1vw;">To:</label>
-      <input type="number" min="0" max="110" id="price-max" placeholder="110" style="font-size: 1vw;">
+  <div class="filter-sidebar-wrapper">
+    <div class="filter-sidebar">
+      <h3>Filter:</h3>
+      <h3>Price</h3>
+      <p>The highest price is $110.00</p>
+      <div class="price-range">
+        <label style="font-size: 1vw;">From:</label>
+        <input type="number" min="0" id="price-min" placeholder="0" style="font-size: 1vw;">
+        <label style="font-size: 1vw;">To:</label>
+        <input type="number" min="0" max="110" id="price-max" placeholder="110" style="font-size: 1vw;">
+      </div>
+      <button class="apply-filter" id="apply-filter" style="font-size: 1vw;">Apply</button>
+      <button class="reset-filter" id="reset-filter" style="font-size: 1vw;">Reset</button>
     </div>
-    <button class="apply-filter" id="apply-filter" style="font-size: 1vw;">Apply</button>
-    <button class="reset-filter" id="reset-filter" style="font-size: 1vw;">Reset</button>
-  </div>
 
-  <div class="products js-products-grid">
-    <!-- dynamically added products -->
+    <div class="products js-products-grid">
+      <!-- dynamically added products -->
+    </div>
   </div>
 </section>
 

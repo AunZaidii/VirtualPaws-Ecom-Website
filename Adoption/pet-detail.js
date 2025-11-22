@@ -41,17 +41,9 @@ function debounce(fn, wait) {
 function syncInfoHeight() {
   if (!infoSection || !mainImage) return;
 
-  if (window.matchMedia("(max-width: 768px)").matches) {
-    infoSection.style.height = "auto";
-    infoSection.style.overflow = "visible";
-    return;
-  }
-
-  const imgHeight = mainImage.getBoundingClientRect().height;
-  if (imgHeight && imgHeight > 0) {
-    infoSection.style.height = `${Math.round(imgHeight)}px`;
-    infoSection.style.overflow = "auto";
-  }
+  // Always set to auto height with no scrollbar
+  infoSection.style.height = "auto";
+  infoSection.style.overflow = "visible";
 }
 
 if (mainImage) {

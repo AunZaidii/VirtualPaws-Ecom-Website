@@ -337,6 +337,7 @@ async function loadReviews(productId) {
 // ---------------- ADD TO CART ----------------
 function setupAddToCart(product) {
   const addBtn = document.querySelector(".btn.btn-primary"); 
+  const buyNowBtn = document.querySelector(".btn.btn-secondary");
 
   addBtn.addEventListener("click", async () => {
     const qty = parseInt(document.getElementById("quantity").textContent);
@@ -361,6 +362,42 @@ function setupAddToCart(product) {
     } catch (error) {
       console.error("Add to cart error:", error);
       showToast(error.message || "Failed to add item to cart ❌", "error");
+    }
+  });
+
+  // Buy It Now Button
+  buyNowBtn.addEventListener("click", async () => {
+    const qty = parseInt(document.getElementById("quantity").textContent);
+
+    const user = apiClient.getUser();
+
+    if (!user) {
+      showToast("Please login to continue ❤️", "error");
+      setTimeout(() => {
+        window.location.href = "../Authentication/login.html";
+      }, 1500);
+      return;
+    }
+
+    try {
+      // Add to cart
+      await apiClient.post("addToCart", {
+        product_id: product.product_id,
+        title: product.name,
+        price: product.price,
+        quantity: qty,
+        image: product.image
+      });
+
+      showToast("Redirecting to cart... 🛒", "success");
+      
+      // Redirect to cart page
+      setTimeout(() => {
+        window.location.href = "../cart-and-checkout/cart.html";
+      }, 800);
+    } catch (error) {
+      console.error("Buy now error:", error);
+      showToast(error.message || "Failed to process ❌", "error");
     }
   });
 }
