@@ -1,10 +1,26 @@
 // Auth Guard - Use this on pages that require authentication
-import { supabase, getCurrentSession } from './supabaseClient.js';
+import { getSupabase, getCurrentSession } from './supabaseClient.js';
 import { apiClient } from './apiClient.js';
 
 export async function requireAuth(redirectUrl = '/Authentication/login.html') {
   try {
+    // Check localStorage first for immediate access
+    const localSession = localStorage.getItem('supabase.auth.session');
+    if (localSession) {
+      try {
+        const parsed = JSON.parse(localSession);
+        if (parsed.access_token && parsed.user) {
+          apiClient.setAuthSession(parsed);
+          console.log('Auth guard: Session found in localStorage');
+          return parsed.user;
+        }
+      } catch (e) {
+        console.error('Failed to parse localStorage session');
+      }
+    }
+
     // Get session from Supabase
+    const supabase = await getSupabase();
     const { data: { session }, error } = await supabase.auth.getSession();
     
     if (error) {
@@ -33,6 +49,21 @@ export async function requireAuth(redirectUrl = '/Authentication/login.html') {
 // Optional: Check if user is authenticated without redirecting
 export async function checkAuth() {
   try {
+    // Check localStorage first
+    const localSession = localStorage.getItem('supabase.auth.session');
+    if (localSession) {
+      try {
+        const parsed = JSON.parse(localSession);
+        if (parsed.access_token && parsed.user) {
+          apiClient.setAuthSession(parsed);
+          return parsed.user;
+        }
+      } catch (e) {
+        console.error('Failed to parse localStorage session');
+      }
+    }
+
+    const supabase = await getSupabase();
     const { data: { session } } = await supabase.auth.getSession();
     if (session) {
       apiClient.setAuthSession(session);
