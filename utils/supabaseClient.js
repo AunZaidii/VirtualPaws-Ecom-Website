@@ -1,9 +1,11 @@
 // Supabase Client for Frontend
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-const SUPABASE_URL = 'https://oekreylufrqvuzgoyxye.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9la3JleWx1ZnJxdnV6Z295eHllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzk1NTYsImV4cCI6MjA3Nzc1NTU1Nn0.t02ttVCOwxMdBdyyp467HNjh9xzE7rw2YxehYpZrC_8';
+// NOTE: Supabase Anon Key is PUBLIC and safe to expose in frontend code
+// It only allows authenticated operations defined in your Row Level Security policies
+// For production deployment, set SUPABASE_URL and SUPABASE_ANON_KEY in Netlify environment variables
 
+// Initialize Supabase client
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
     autoRefreshToken: true,
@@ -16,7 +18,8 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 
 // Helper function to get current session
 export async function getCurrentSession() {
-  const { data: { session }, error } = await supabase.auth.getSession();
+  const instance = await initSupabase();
+  const { data: { session }, error } = await instance.auth.getSession();
   if (error) {
     console.error('Error getting session:', error);
     return null;

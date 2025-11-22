@@ -56,7 +56,7 @@ function renderProducts(products) {
           <p class="product-text-rating">${stars}</p>
           <p class="product-text-price">
             <span style="color: rgb(135,218,72); font-weight:bold;">
-              $${product.price}
+              $${p.price}
             </span>
           </p>
         </div>
