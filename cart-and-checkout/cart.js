@@ -78,14 +78,14 @@ function renderCart(items) {
             </div>
 
             <div class="total-price">
-                Rs ${(item.price * item.quantity).toFixed(2)}
+                $${(item.price * item.quantity).toFixed(2)}
             </div>
         `;
 
         container.appendChild(row);
     });
 
-    document.getElementById("subtotal").textContent = `Rs ${subtotal.toFixed(2)}`;
+    document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
 }
 
 

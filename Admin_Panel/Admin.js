@@ -35,13 +35,26 @@ let orderStats = {
 };
 
 // ---------- Upload helper ----------
-// Note: Image uploads still need Supabase storage access
-// For now, using a simplified approach - you may need to create a storage upload function
+// For file uploads, we'll use direct URLs for now
+// You can paste image URLs from any hosting service (Imgur, Cloudinary, etc.)
 async function uploadImages(fileList, bucketName) {
-  // TODO: Create a Netlify function for image uploads or use a different storage solution
-  // For now, returning empty array - you'll need to implement storage upload function
-  console.warn("Image upload not yet implemented with Netlify functions");
-  return [];
+  // If no files selected, return empty array
+  if (!fileList || fileList.length === 0) {
+    return [];
+  }
+  
+  // For now, we'll create object URLs for preview
+  // In production, you should upload to a cloud storage service
+  const urls = [];
+  for (let i = 0; i < fileList.length; i++) {
+    const file = fileList[i];
+    const objectUrl = URL.createObjectURL(file);
+    urls.push(objectUrl);
+  }
+  
+  console.log("Created preview URLs:", urls);
+  console.warn("Note: These are temporary preview URLs. For production, upload to cloud storage.");
+  return urls;
 }
 
 // ---------- Navigation ----------
@@ -132,8 +145,15 @@ document.getElementById("vet-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const formData = new FormData(e.target);
-  const imageInput = document.getElementById("vet-images");
-  const imageUrls = await uploadImages(imageInput.files, "vet-images");
+  
+  // Check if there's a URL input field, otherwise use file upload
+  let imageUrl = formData.get("imageUrl") || formData.get("image_url");
+  
+  if (!imageUrl) {
+    const imageInput = document.getElementById("vet-images");
+    const imageUrls = await uploadImages(imageInput.files, "vet-images");
+    imageUrl = imageUrls[0] || null;
+  }
 
   try {
     const data = await apiClient.post("adminAddVet", {
@@ -147,7 +167,7 @@ document.getElementById("vet-form").addEventListener("submit", async (e) => {
       rating: parseFloat(formData.get("rating")),
       education: formData.get("education"),
       reviews: formData.get("reviews"),
-      image_url: imageUrls[0] || null,
+      image_url: imageUrl,
     });
 
     vets.push(data);
@@ -555,7 +575,7 @@ async function renderOrders() {
               <div style="font-size: 14px; color: #6b7280;">Email: ${order.email}</div>
             </div>
             <div style="text-align: right; min-width: 150px;">
-              <div style="font-weight: 600; color: #87da48; font-size: 16px; margin-bottom: 8px;">Rs ${parseFloat(order.total_amount).toFixed(2)}</div>
+              <div style="font-weight: 600; color: #87da48; font-size: 16px; margin-bottom: 8px;">$${parseFloat(order.total_amount).toFixed(2)}</div>
               <span style="display: inline-block; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; background: ${getStatusColor(order.tracking_status)}; color: white;">
                 ${order.tracking_status}
               </span>

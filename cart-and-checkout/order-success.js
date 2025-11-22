@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             orderTotalRow.className = 'order-info-row';
             orderTotalRow.innerHTML = `
                 <span class="order-info-label">Order Total:</span>
-                <span class="order-info-value">Rs ${parseFloat(order.total_amount).toFixed(2)}</span>
+                <span class="order-info-value">$${parseFloat(order.total_amount).toFixed(2)}</span>
             `;
             orderInfoDiv.appendChild(orderTotalRow);
         }

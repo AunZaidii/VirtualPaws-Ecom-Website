@@ -128,9 +128,39 @@
                 <h2>Payment Method</h2>
 
                 <select id="payment_method" class="input-field">
-                    <option value="Credit Card">Credit Card</option>
+                    <option value="Credit Card">Debit/Credit Card</option>
                     <option value="Cash on Delivery">Cash on Delivery</option>
                 </select>
+
+                <!-- CARD INPUT SECTION (Visible only for Credit Card) -->
+                <div id="card-input-section" style="display: none; margin-top: 20px;">
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px; justify-content: flex-start;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" style="height: 30px;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" style="height: 30px;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg" alt="American Express" style="height: 30px;">
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Card Number</label>
+                        <div id="card-number-element" class="stripe-input"></div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Expiry Date</label>
+                            <div id="card-expiry-element" class="stripe-input"></div>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">CVV</label>
+                            <div id="card-cvc-element" class="stripe-input"></div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 15px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Cardholder Name</label>
+                        <input id="card-holder" class="input-field" placeholder="Name on card">
+                    </div>
+                </div>
             </div>
 
             <button id="placeOrderBtn" class="place-order-btn">
@@ -147,23 +177,24 @@
 
                 <div class="summary-line">
                     <span>Subtotal</span>
-                    <span id="summary-subtotal">Rs 0.00</span>
+                    <span id="summary-subtotal">$0.00</span>
                 </div>
 
                 <div class="summary-line">
                     <span>Shipping</span>
-                    <span id="summary-shipping">Rs 0.00</span>
+                    <span id="summary-shipping">$0.00</span>
                 </div>
 
                 <div class="summary-line summary-total">
                     <span>Total</span>
-                    <span id="summary-total">Rs 0.00</span>
+                    <span id="summary-total">$0.00</span>
                 </div>
             </div>
         </div>
 
     </div>
 
+    <script src="https://js.stripe.com/v3/"></script>
     <script src="checkout.js" type="module"></script>
     <script src="../Homepage/search-box.js"></script>
 

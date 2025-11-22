@@ -71,7 +71,7 @@ async function loadProduct() {
 function populateProduct(p) {
   document.querySelector(".product-title").textContent = p.name;
   document.querySelector(".breadcrumb span").textContent = p.name;
-  document.querySelector(".product-price").textContent = "Rs " + p.price;
+  document.querySelector(".product-price").textContent = "$" + p.price;
   document.querySelector(".product-description").textContent = p.description;
 
   // Dynamic stock display based on actual stock from database

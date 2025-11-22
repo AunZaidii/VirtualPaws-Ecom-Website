@@ -132,8 +132,8 @@ async function loadOrderSummary() {
     const subtotalEl = document.getElementById("summary-subtotal");
     const totalEl = document.getElementById("summary-total");
     
-    if (subtotalEl) subtotalEl.textContent = `Rs ${subtotal.toFixed(2)}`;
-    if (totalEl) totalEl.textContent = `Rs ${subtotal.toFixed(2)}`;
+    if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+    if (totalEl) totalEl.textContent = `$${subtotal.toFixed(2)}`;
     
     console.log("Order summary updated. Subtotal:", subtotal);
 }
@@ -163,8 +163,39 @@ async function placeOrder() {
             return;
         }
 
-        // Generate unique-ish order number for the user to track
+        // Generate unique order number
         const order_number = generateOrderNumber();
+
+        // Determine payment status based on method
+        let paymentStatus = "Pending";
+        
+        // If Credit Card is selected, validate and process payment
+        if (payment_method === "Credit Card") {
+            if (!validateCardDetails()) {
+                return;
+            }
+
+            showToast("Processing payment... 💳", "success");
+
+            const orderData = {
+                email: profile.email,
+                address: address,
+                city: city,
+                state: state,
+                zip_code: zip,
+                orderNumber: order_number
+            };
+
+            const paymentSuccess = await processStripePayment(orderData, subtotal);
+            
+            if (!paymentSuccess) {
+                return;
+            }
+
+            // If payment successful, update status
+            paymentStatus = "Paid";
+            showToast("Payment completed successfully! ✅", "success");
+        }
 
         await apiClient.post("createOrder", {
             first_name: profile.first_name,
@@ -179,7 +210,7 @@ async function placeOrder() {
             state,
             zip_code: zip,
             payment_method,
-            payment_status: "Pending",
+            payment_status: paymentStatus,
             items: cartItems,
 
             // ---------- tracking-related fields ----------
@@ -215,8 +246,170 @@ async function placeOrder() {
 }
 
 /* -------------------------------------
+   STRIPE CONFIGURATION
+------------------------------------- */
+import { config } from '../utils/config.js';
+const stripe = Stripe(config.stripe.publishableKey);
+const elements = stripe.elements();
+let cardNumberElement, cardExpiryElement, cardCvcElement;
+
+/* -------------------------------------
+   INITIALIZE STRIPE ELEMENTS
+------------------------------------- */
+function initializeStripeElements() {
+    const elementStyles = {
+        base: {
+            fontSize: '15px',
+            color: '#32325d',
+            fontFamily: '"Nunito", sans-serif',
+            '::placeholder': {
+                color: '#9ca3af',
+            },
+        },
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a',
+        },
+    };
+
+    const elementClasses = {
+        base: 'stripe-element',
+        focus: 'stripe-element-focus',
+        invalid: 'stripe-element-invalid',
+    };
+
+    // Create card elements
+    cardNumberElement = elements.create('cardNumber', {
+        style: elementStyles,
+        classes: elementClasses,
+        placeholder: '1234 5678 9012 3456',
+    });
+
+    cardExpiryElement = elements.create('cardExpiry', {
+        style: elementStyles,
+        classes: elementClasses,
+    });
+
+    cardCvcElement = elements.create('cardCvc', {
+        style: elementStyles,
+        classes: elementClasses,
+        placeholder: '123',
+    });
+
+    // Mount elements when card section is visible
+    if (document.getElementById("payment_method").value === "Credit Card") {
+        mountStripeElements();
+    }
+}
+
+/* -------------------------------------
+   MOUNT/UNMOUNT STRIPE ELEMENTS
+------------------------------------- */
+function mountStripeElements() {
+    // Mount Stripe Elements to containers
+    cardNumberElement.mount('#card-number-element');
+    cardExpiryElement.mount('#card-expiry-element');
+    cardCvcElement.mount('#card-cvc-element');
+}
+
+function unmountStripeElements() {
+    if (cardNumberElement) cardNumberElement.unmount();
+    if (cardExpiryElement) cardExpiryElement.unmount();
+    if (cardCvcElement) cardCvcElement.unmount();
+}
+
+/* -------------------------------------
+   PAYMENT METHOD TOGGLE
+------------------------------------- */
+function toggleCardInput() {
+    const paymentMethod = document.getElementById("payment_method").value;
+    const cardSection = document.getElementById("card-input-section");
+    
+    if (paymentMethod === "Credit Card") {
+        cardSection.style.display = "block";
+        mountStripeElements();
+    } else {
+        cardSection.style.display = "none";
+        unmountStripeElements();
+    }
+}
+
+/* -------------------------------------
+   VALIDATE CARD DETAILS
+------------------------------------- */
+function validateCardDetails() {
+    const cardHolder = document.getElementById("card-holder").value;
+
+    if (!cardHolder.trim()) {
+        showToast("Cardholder name required ❌", "error");
+        return false;
+    }
+
+    return true;
+}
+
+/* -------------------------------------
+   PROCESS STRIPE PAYMENT
+------------------------------------- */
+async function processStripePayment(orderData, totalAmount) {
+    const cardHolder = document.getElementById("card-holder").value;
+
+    try {
+        // Create payment method with Stripe Elements
+        const { paymentMethod, error } = await stripe.createPaymentMethod({
+            type: 'card',
+            card: cardNumberElement,
+            billing_details: {
+                name: cardHolder,
+                email: orderData.email,
+                address: {
+                    line1: orderData.address,
+                    city: orderData.city,
+                    state: orderData.state,
+                    postal_code: orderData.zip_code,
+                }
+            },
+        });
+
+        if (error) {
+            console.error("Stripe error:", error);
+            showToast(error.message || "Payment failed ❌", "error");
+            return false;
+        }
+
+        // Process payment through backend
+        const paymentResult = await apiClient.post("createStripePayment", {
+            amount: totalAmount,
+            currency: 'usd',
+            paymentMethodId: paymentMethod.id,
+            email: orderData.email,
+            description: `Virtual Paws Order - ${orderData.orderNumber || 'New Order'}`
+        });
+
+        if (paymentResult.success) {
+            console.log("Payment successful:", paymentResult);
+            showToast("Payment successful ✅", "success");
+            return true;
+        } else {
+            showToast("Payment failed ❌", "error");
+            return false;
+        }
+
+    } catch (err) {
+        console.error("Payment processing error:", err);
+        showToast(err.message || "Payment processing failed ❌", "error");
+        return false;
+    }
+}
+
+/* -------------------------------------
    INIT
 ------------------------------------- */
 loadUserInfo();
 loadOrderSummary();
+initializeStripeElements();
 document.getElementById("placeOrderBtn").addEventListener("click", placeOrder);
+document.getElementById("payment_method").addEventListener("change", toggleCardInput);
+
+// Initialize card section visibility
+toggleCardInput();

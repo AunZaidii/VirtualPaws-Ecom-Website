@@ -251,25 +251,25 @@ async function loadOrderHistory() {
         day: 'numeric'
       });
 
-      const products = Array.isArray(order.products) ? order.products : [];
-      const itemCount = products.reduce((sum, p) => sum + (p.quantity || 1), 0);
+      const items = Array.isArray(order.items) ? order.items : [];
+      const itemCount = items.reduce((sum, p) => sum + (p.quantity || 1), 0);
 
       return `
         <div class="order-card">
           <div class="order-header">
             <div>
-              <h3>Order #${order.order_id.substring(0, 8)}</h3>
+              <h3>Order #${order.order_number || order.order_id.substring(0, 8)}</h3>
               <p style="color: #666; margin-top: 5px;">Placed on ${orderDate}</p>
             </div>
-            <span class="status-badge status-${(order.order_status || '').toLowerCase().replace(' ', '-')}">
-              ${order.order_status || 'Pending'}
+            <span class="status-badge status-${(order.tracking_status || order.order_status || 'pending').toLowerCase().replace(' ', '-')}">
+              ${order.tracking_status || order.order_status || 'Pending'}
             </span>
           </div>
           <div class="order-details">
             <div class="order-info">
               <div>
                 <p style="color: #666;">Total Amount</p>
-                <p class="price">Rs. ${parseFloat(order.total_price || 0).toLocaleString()}</p>
+                <p class="price">$${parseFloat(order.total_amount || 0).toFixed(2)}</p>
               </div>
               <div>
                 <p style="color: #666;">Items</p>
@@ -281,11 +281,11 @@ async function loadOrderHistory() {
                 </button>
               </div>
             </div>
-            ${products.length > 0 ? `
+            ${items.length > 0 ? `
               <div class="order-products">
                 <p style="color: #666; margin-bottom: 10px;">Products:</p>
                 <ul>
-                  ${products.map(p => `<li>${p.title || p.name} x ${p.quantity || 1}</li>`).join('')}
+                  ${items.map(p => `<li>${p.title || p.name} x ${p.quantity || 1}</li>`).join('')}
                 </ul>
               </div>
             ` : ''}
@@ -377,13 +377,8 @@ async function loadAdoptionHistory() {
 // LOAD APPOINTMENT HISTORY
 // ===============================
 async function loadAppointmentHistory() {
-  console.log("Loading appointment history...");
-  console.log("Auth token:", apiClient.getAuthToken() ? "Present" : "Missing");
-  
   try {
-    console.log("Calling getUserAppointments API...");
     const appointments = await apiClient.get("getUserAppointments");
-    console.log("Appointments received:", appointments);
     const appointmentList = document.getElementById('appointment-list');
 
     if (!appointments || appointments.length === 0) {
@@ -407,10 +402,10 @@ async function loadAppointmentHistory() {
       });
 
       const vet = appointment.vet || {};
-      const vetImage = vet.profile_image || vet.image || '../Homepage/Logo/virtualpaws-logo.png';
+      const vetImage = vet.image_url || vet.profile_image || vet.image || '../Homepage/Logo/virtualpaws-logo.png';
       const vetName = vet.name || vet.vet_name || 'Veterinarian';
       const vetSpec = vet.specialization || vet.specialty || 'Veterinarian';
-      const vetClinic = vet.clinic_name || vet.clinic || '';
+      const vetClinic = vet.clinic || vet.clinic_name || '';
 
       return `
         <div class="appointment-card">

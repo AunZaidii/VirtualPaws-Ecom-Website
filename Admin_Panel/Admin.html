@@ -235,7 +235,7 @@
               </div>
               <div class="form-group">
                 <label class="form-label">Price *</label>
-                <input type="text" name="price" class="form-input" placeholder="Rs 0.00" required>
+                <input type="text" name="price" class="form-input" placeholder="$0.00" required>
               </div>
             </div>
 
@@ -374,6 +374,12 @@
             </div>
 
             <div class="form-group">
+              <label class="form-label">Image URL *</label>
+              <input type="url" name="imageUrl" class="form-input" placeholder="https://example.com/vet-image.jpg" required>
+              <small style="color: #6b7280; font-size: 0.875rem; margin-top: 4px; display: block;">Paste the direct URL to the vet's image</small>
+            </div>
+
+            <div class="form-group" style="display: none;">
               <label class="form-label">Upload Images (1 - 3)</label>
               <div class="file-input-wrapper">
                 <input type="file" id="vet-images" class="form-input" accept="image/*" multiple>
