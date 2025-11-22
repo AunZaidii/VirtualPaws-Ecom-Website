@@ -1,4 +1,8 @@
 import { apiClient } from "../utils/apiClient.js";
+import { requireAuth } from "../utils/authGuard.js";
+
+// Check authentication before tracking order
+await requireAuth();
 
 function formatDate(dateStr) {
     if (!dateStr) return "Not Available";

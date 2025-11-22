@@ -1,12 +1,53 @@
 import { apiClient } from "../utils/apiClient.js";
+import { supabase, getCurrentSession, getCurrentUser } from "../utils/supabaseClient.js";
 
 // ===============================
-// REDIRECT IF USER NOT LOGGED IN
+// HANDLE GOOGLE OAUTH CALLBACK & SESSION
 // ===============================
 (async () => {
-  const user = apiClient.getUser();
+  // Check for OAuth callback (hash in URL after Google redirect)
+  const hashParams = new URLSearchParams(window.location.hash.substring(1));
+  if (hashParams.has('access_token')) {
+    console.log('OAuth callback detected, processing session...');
+  }
 
-  if (!user) {
+  // Get current session from Supabase
+  const { data: { session }, error } = await supabase.auth.getSession();
+  
+  if (error) {
+    console.error('Session error:', error);
+  }
+
+  if (session) {
+    // Store session in localStorage for apiClient compatibility
+    apiClient.setAuthSession(session);
+    console.log('Session stored:', session.user.email);
+
+    // Check if user exists in custom user table, if not create one
+    try {
+      const profile = await apiClient.get("getUserProfile");
+      if (!profile) {
+        // Create user profile for Google users
+        const user = session.user;
+        const nameParts = (user.user_metadata?.full_name || user.email).split(' ');
+        await apiClient.post("authSignUp", {
+          email: user.email,
+          password: null, // Google auth users don't need password
+          first_name: nameParts[0] || 'User',
+          last_name: nameParts.slice(1).join(' ') || '',
+          phone_no: user.user_metadata?.phone || ''
+        });
+      }
+    } catch (err) {
+      console.log('Profile check/creation:', err.message);
+    }
+
+    // Clean up URL hash
+    if (window.location.hash) {
+      history.replaceState(null, null, window.location.pathname);
+    }
+  } else {
+    // No session found, redirect to login
     window.location.href = "../Authentication/login.html";
   }
 })();
@@ -37,14 +78,21 @@ cancelLogoutBtn.addEventListener("click", () => {
 // Confirm logout
 confirmLogoutBtn.addEventListener("click", async () => {
   try {
-    await apiClient.post("authSignOut");
+    // Sign out from Supabase
+    await supabase.auth.signOut();
+    
+    // Clear local storage
     apiClient.setAuthSession(null);
+    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('adminEmail');
+    
     showToast("Logged out successfully!", "success");
 
     setTimeout(() => {
       window.location.href = "../Authentication/login.html";
     }, 1000);
   } catch (error) {
+    console.error('Logout error:', error);
     showToast(error.message || "Logout failed!", "error");
   }
 });
@@ -74,6 +122,37 @@ document.addEventListener("DOMContentLoaded", async () => {
   // GET AUTH USER
   const user = apiClient.getUser();
   if (!user) return;
+
+  // Display Google profile picture if available
+  const session = apiClient.getSession();
+  if (session && session.user) {
+    const avatarUrl = session.user.user_metadata?.avatar_url || 
+                      session.user.user_metadata?.picture;
+    const fullName = session.user.user_metadata?.full_name;
+    
+    if (avatarUrl) {
+      // Update profile picture in navbar if exists
+      const navbarAvatar = document.querySelector('.user-dropdown img, .nav-items-logo .fa-user');
+      if (navbarAvatar && navbarAvatar.tagName === 'I') {
+        // Replace icon with image
+        const img = document.createElement('img');
+        img.src = avatarUrl;
+        img.alt = 'Profile';
+        img.style.cssText = 'width: 24px; height: 24px; border-radius: 50%; object-fit: cover;';
+        navbarAvatar.replaceWith(img);
+      }
+      
+      // Update profile picture on account page if profile image container exists
+      const profileImg = document.querySelector('.profile-picture, .account-avatar');
+      if (profileImg) {
+        if (profileImg.tagName === 'IMG') {
+          profileImg.src = avatarUrl;
+        } else {
+          profileImg.style.backgroundImage = `url(${avatarUrl})`;
+        }
+      }
+    }
+  }
 
   // FETCH FROM custom `user` TABLE
   try {

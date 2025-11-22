@@ -1,4 +1,8 @@
 import { apiClient } from "../utils/apiClient.js";
+import { requireAuth } from "../utils/authGuard.js";
+
+// Check authentication before loading wishlist
+await requireAuth();
 
 // ---------------- Toast ----------------
 function showToast(message, type = "success") {

@@ -1,4 +1,8 @@
 import { apiClient } from "../utils/apiClient.js";
+import { requireAuth } from "../utils/authGuard.js";
+
+// Check authentication before loading checkout
+await requireAuth();
 
 /* -------------------------------------
    GLOBAL TOAST

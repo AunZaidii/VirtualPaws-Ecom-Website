@@ -23,6 +23,7 @@ class ApiClient {
   // Set auth session in localStorage
   setAuthSession(session) {
     if (session) {
+      // Store full session object for compatibility with Supabase
       localStorage.setItem("supabase.auth.session", JSON.stringify(session));
     } else {
       localStorage.removeItem("supabase.auth.session");
@@ -35,7 +36,21 @@ class ApiClient {
     if (session) {
       try {
         const parsed = JSON.parse(session);
-        return parsed.user;
+        // Handle both direct session object and nested session structure
+        return parsed.user || (parsed.session && parsed.session.user) || null;
+      } catch (e) {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  // Get full session object
+  getSession() {
+    const session = localStorage.getItem("supabase.auth.session");
+    if (session) {
+      try {
+        return JSON.parse(session);
       } catch (e) {
         return null;
       }
