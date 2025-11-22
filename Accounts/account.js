@@ -377,8 +377,13 @@ async function loadAdoptionHistory() {
 // LOAD APPOINTMENT HISTORY
 // ===============================
 async function loadAppointmentHistory() {
+  console.log("Loading appointment history...");
+  console.log("Auth token:", apiClient.getAuthToken() ? "Present" : "Missing");
+  
   try {
+    console.log("Calling getUserAppointments API...");
     const appointments = await apiClient.get("getUserAppointments");
+    console.log("Appointments received:", appointments);
     const appointmentList = document.getElementById('appointment-list');
 
     if (!appointments || appointments.length === 0) {

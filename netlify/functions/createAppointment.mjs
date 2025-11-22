@@ -31,6 +31,17 @@ export const handler = async (event) => {
   try {
     const { vet_id, name, phone, date, time, notes } = JSON.parse(event.body);
 
+    // Get user from authorization header (if logged in)
+    let userId = null;
+    const authHeader = event.headers.authorization;
+    if (authHeader) {
+      const token = authHeader.replace("Bearer ", "");
+      const { data: { user }, error: userError } = await supabase.auth.getUser(token);
+      if (!userError && user) {
+        userId = user.id;
+      }
+    }
+
     // Clean phone number: remove all non-numeric characters
     const cleanPhone = phone ? phone.toString().replace(/\D/g, "") : null;
     const phoneNumber = cleanPhone ? parseInt(cleanPhone, 10) : null;
@@ -38,7 +49,7 @@ export const handler = async (event) => {
     const { data, error } = await supabase.from("appointment").insert([
       {
         vet_id,
-        user_id: null,
+        user_id: userId,
         name,
         phone: phoneNumber,
         date,

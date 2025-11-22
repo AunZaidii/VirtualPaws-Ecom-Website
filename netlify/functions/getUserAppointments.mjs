@@ -51,11 +51,12 @@ export const handler = async (event) => {
     const userPhone = userData.phone_no ? userData.phone_no.toString().replace(/\D/g, "") : null;
     const userPhoneNumber = userPhone ? parseInt(userPhone, 10) : null;
 
+    console.log("User ID:", user.id);
     console.log("User phone from profile:", userData.phone_no);
     console.log("Cleaned user phone:", userPhoneNumber);
 
     // Fetch appointments for this user with vet details
-    // Match by phone number or email since appointments don't store user_id
+    // First try to match by user_id, then fall back to phone number
     let query = supabase
       .from("appointment")
       .select(`
@@ -63,9 +64,11 @@ export const handler = async (event) => {
         vet:vet_id (*)
       `);
 
-    // Try to match by phone if available, otherwise try email
+    // Match by user_id OR phone number
     if (userPhoneNumber) {
-      query = query.eq("phone", userPhoneNumber);
+      query = query.or(`user_id.eq.${user.id},phone.eq.${userPhoneNumber}`);
+    } else {
+      query = query.eq("user_id", user.id);
     }
 
     const { data: appointments, error } = await query.order("date", { ascending: false });

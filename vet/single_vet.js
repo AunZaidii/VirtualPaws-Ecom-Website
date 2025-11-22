@@ -96,7 +96,7 @@ function setupForm() {
     const notes = document.querySelector("#custNotes").value;
 
     try {
-      await apiClient.post("createAppointment", {
+      const result = await apiClient.post("createAppointment", {
         vet_id: vetId,
         name,
         phone,
@@ -105,6 +105,7 @@ function setupForm() {
         notes,
       });
 
+    console.log("Vet booking request submitted:", result);
     successMsg.style.display = "block";
     form.reset();
     } catch (error) {
