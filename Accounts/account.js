@@ -27,20 +27,29 @@ import { getSupabase, getCurrentSession, getCurrentUser } from "../utils/supabas
     // Check if user exists in custom user table, if not create one
     try {
       const profile = await apiClient.get("getUserProfile");
-      if (!profile) {
-        // Create user profile for Google users
-        const user = session.user;
-        const nameParts = (user.user_metadata?.full_name || user.email).split(' ');
-        await apiClient.post("authSignUp", {
-          email: user.email,
-          password: null, // Google auth users don't need password
-          first_name: nameParts[0] || 'User',
-          last_name: nameParts.slice(1).join(' ') || '',
-          phone_no: user.user_metadata?.phone || ''
-        });
-      }
+      console.log('User profile found:', profile);
     } catch (err) {
-      console.log('Profile check/creation:', err.message);
+      // If profile doesn't exist (404), create it for OAuth users
+      if (err.message?.includes("not found") || err.message?.includes("404")) {
+        try {
+          const user = session.user;
+          const nameParts = (user.user_metadata?.full_name || user.user_metadata?.name || user.email || 'User').split(' ');
+          const firstName = nameParts[0] || 'User';
+          const lastName = nameParts.slice(1).join(' ') || '';
+          
+          console.log('Creating user profile for OAuth user:', user.email);
+          await apiClient.post("createUserProfile", {
+            first_name: firstName,
+            last_name: lastName,
+            phone_no: user.user_metadata?.phone || null
+          });
+          console.log('User profile created successfully');
+        } catch (createErr) {
+          console.error('Failed to create user profile:', createErr);
+        }
+      } else {
+        console.error('Error checking user profile:', err);
+      }
     }
 
     // Clean up URL hash
