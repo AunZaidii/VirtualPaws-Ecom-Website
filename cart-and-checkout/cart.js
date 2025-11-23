@@ -73,11 +73,10 @@ function renderCart(items) {
                     </button>
                 </div>
 
-                <button class="delete-btn" onclick="deleteItem('${item.cart_id}')">
-                    <svg class="icon-trash" viewBox="0 0 24 24">
-                        <path d="M19 7l-1 12H6L5 7m5 4v6m4-6v6M9 7V4h6v3M4 7h16"/>
-                    </svg>
-                </button>
+              <button class="delete-btn" onclick="deleteItem('${item.cart_id}')">
+    <i class="fa-solid fa-trash delete-icon"></i>
+</button>
+
             </div>
 
             <div class="total-price">

@@ -86,6 +86,11 @@
 .product-row:last-of-type {
     border-bottom: none;
 }
+.delete-icon {
+    font-size: 16px;
+    color: white;
+}
+
 
 .product-info {
     display: flex;
