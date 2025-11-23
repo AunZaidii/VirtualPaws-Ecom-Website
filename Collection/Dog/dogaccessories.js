@@ -66,11 +66,11 @@ function renderProducts(products) {
     container.insertAdjacentHTML("beforeend", card);
   });
 
-  // ⭐ Click → open product details
+  // ⭐ Click: Go to Product Details
   document.querySelectorAll(".product-div").forEach((card) => {
     card.addEventListener("click", () => {
       const id = card.dataset.id;
-      window.location.href = `../Products.html?id=${id}`;
+      window.location.href = `../Products.html?id=${id}&ref=dogaccessories`;
     });
   });
 }

@@ -69,7 +69,7 @@ function renderProducts(products) {
   document.querySelectorAll(".product-div").forEach((card) => {
     card.addEventListener("click", () => {
       const id = card.dataset.id;
-      window.location.href = `../Products.html?id=${id}`;
+      window.location.href = `../Products.html?id=${id}&ref=catfood`;
     });
   });
 }

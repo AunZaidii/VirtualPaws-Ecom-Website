@@ -38,6 +38,32 @@ function getProductId() {
   return url.searchParams.get("id");
 }
 
+// ---------------- Handle Back Button ----------------
+function setupBackButton() {
+  const url = new URL(window.location.href);
+  const ref = url.searchParams.get("ref");
+  const backButton = document.getElementById("backButton");
+  
+  if (backButton && ref) {
+    const referrerMap = {
+      'catfood': { url: 'Cat/catfood.html', text: 'Back to Cat Food' },
+      'cataccessories': { url: 'Cat/cataccessories.html', text: 'Back to Cat Accessories' },
+      'dogfood': { url: 'Dog/dogfood.html', text: 'Back to Dog Food' },
+      'dogaccessories': { url: 'Dog/dogaccessories.html', text: 'Back to Dog Accessories' }
+    };
+    
+    const referrer = referrerMap[ref];
+    if (referrer) {
+      backButton.querySelector('span').textContent = referrer.text;
+      backButton.href = referrer.url;
+    } else {
+      backButton.style.display = 'none';
+    }
+  } else if (backButton) {
+    backButton.style.display = 'none';
+  }
+}
+
 
 // ---------------- Load Product ----------------
 let currentProduct = null;
@@ -70,7 +96,6 @@ async function loadProduct() {
 // ---------------- Populate Product ----------------
 function populateProduct(p) {
   document.querySelector(".product-title").textContent = p.name;
-  document.querySelector(".breadcrumb span").textContent = p.name;
   document.querySelector(".product-price").textContent = "$" + p.price;
   document.querySelector(".product-description").textContent = p.description;
 let stockText = "";
@@ -444,6 +469,10 @@ function setupAddToCart(product) {
 
 
 // ---------------- Run Page ----------------
+document.addEventListener('DOMContentLoaded', () => {
+  setupBackButton();
+});
+
 setupCollapsibles();
 setupReviewModal();
 setupStarRating();

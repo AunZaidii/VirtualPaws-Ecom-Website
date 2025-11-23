@@ -71,7 +71,7 @@ function renderProducts(products) {
     card.addEventListener("click", () => {
       const id = card.dataset.id;
       if (id) {
-        window.location.href = `../Products.html?id=${id}`;
+        window.location.href = `../Products.html?id=${id}&ref=dogfood`;
       }
     });
   });
