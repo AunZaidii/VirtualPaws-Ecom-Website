@@ -439,7 +439,7 @@ function renderCentralDetails() {
       <h3>Adoption Details</h3>
       <div class="adoption-fee">
         <label>Fee</label>
-        <div class="price">PKR ${Number(currentPet.fee || 0).toLocaleString()}</div>
+        <div class="price">$${Number(currentPet.fee || 0).toLocaleString()}</div>
       </div>
       <label style="display:block; color:#666; margin-top:0.75rem;">Requirements</label>
       <ul class="requirements-list">
