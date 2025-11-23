@@ -33,6 +33,7 @@ let orderStats = {
   completed: 0,
   cancelled: 0,
 };
+let riders = []; // Delivery riders
 
 // ---------- Upload helper ----------
 // For file uploads, we'll use direct URLs for now
@@ -75,6 +76,7 @@ function showSection(sectionName, evt) {
   if (sectionName === "view-orders") renderOrders(); // NEW
   if (sectionName === "dashboard") updateDashboard();
   if (sectionName === "view-appointments") renderAppointments();
+  if (sectionName === "view-riders") renderRiders(); // NEW
 
 }
 
@@ -681,6 +683,158 @@ function updateDashboard() {
   document.getElementById("cancelled-orders").textContent = orderStats.cancelled;
 }
 
+// ---------- Rider Management ----------
+
+// Fetch all riders
+async function loadRiders() {
+  try {
+    const response = await fetch('/.netlify/functions/getRiders');
+    const data = await response.json();
+    
+    if (data.success) {
+      riders = data.riders || [];
+      console.log("Loaded riders:", riders.length);
+    } else {
+      console.error("Failed to load riders:", data.error);
+    }
+  } catch (error) {
+    console.error("Error loading riders:", error);
+  }
+}
+
+// Render riders list
+function renderRiders() {
+  const container = document.getElementById("riders-list");
+  document.getElementById("riders-count").textContent = riders.length;
+
+  if (riders.length === 0) {
+    container.innerHTML = `<p>No riders found.</p>`;
+    return;
+  }
+
+  container.innerHTML =
+    '<div class="items-grid">' +
+    riders
+      .map(
+        (r) =>
+          `
+      <div class="item-card">
+        ${r.rider_image ? `<img src="${r.rider_image}" class="item-image" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 12px;">` : ""}
+        <div class="item-header">
+          <div class="item-title">${r.rider_name}</div>
+          <button class="btn-danger" onclick="deleteRider('${r.rider_id}')">✕</button>
+        </div>
+        <div class="item-details">
+          <div><strong>Phone:</strong> ${r.rider_phone}</div>
+          <div><strong>Number Plate:</strong> ${r.numberplate}</div>
+        </div>
+      </div>
+    `
+      )
+      .join("") +
+    "</div>";
+}
+
+// Add rider form submission
+document.getElementById("rider-form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  const originalBtnText = submitBtn.innerHTML;
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<svg class="animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" stroke-width="4" stroke="currentColor" opacity="0.25"/><path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor"/></svg> Adding...';
+
+  try {
+    const formData = new FormData(e.target);
+    const riderData = {
+      rider_name: formData.get("rider_name"),
+      rider_phone: formData.get("rider_phone"),
+      numberplate: formData.get("numberplate"),
+      rider_image: null,
+    };
+
+    // Handle image upload if provided
+    const imageFile = document.getElementById("rider-image").files[0];
+    if (imageFile) {
+      console.log("Uploading rider image...");
+      
+      // Convert to base64
+      const reader = new FileReader();
+      const base64Promise = new Promise((resolve, reject) => {
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(imageFile);
+      });
+      
+      const base64Image = await base64Promise;
+      const filename = `${Date.now()}-${imageFile.name}`;
+      
+      // Upload to storage
+      const uploadResponse = await fetch('/.netlify/functions/uploadRiderImage', {
+        method: 'POST',
+        body: JSON.stringify({ image: base64Image, filename }),
+      });
+      
+      const uploadData = await uploadResponse.json();
+      if (uploadData.success) {
+        riderData.rider_image = uploadData.imageUrl;
+        console.log("Image uploaded successfully:", uploadData.imageUrl);
+      } else {
+        console.error("Image upload failed:", uploadData.error);
+        alert("Failed to upload image. Rider will be added without image.");
+      }
+    }
+
+    // Add rider to database
+    const response = await fetch('/.netlify/functions/addRider', {
+      method: 'POST',
+      body: JSON.stringify(riderData),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      alert("Rider added successfully!");
+      e.target.reset();
+      await loadRiders();
+      showSection('view-riders', null);
+    } else {
+      alert(`Failed to add rider: ${data.error}`);
+    }
+  } catch (error) {
+    console.error("Error adding rider:", error);
+    alert("An error occurred while adding the rider.");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = originalBtnText;
+  }
+});
+
+// Delete rider
+window.deleteRider = async function (riderId) {
+  if (!confirm("Are you sure you want to delete this rider?")) return;
+
+  try {
+    const response = await fetch('/.netlify/functions/deleteRider', {
+      method: 'DELETE',
+      body: JSON.stringify({ rider_id: riderId }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      alert("Rider deleted successfully!");
+      await loadRiders();
+      renderRiders();
+    } else {
+      alert(`Failed to delete rider: ${data.error}`);
+    }
+  } catch (error) {
+    console.error("Error deleting rider:", error);
+    alert("An error occurred while deleting the rider.");
+  }
+};
+
 // ---------- Init ----------
 (async function init() {
   await loadData();
@@ -691,5 +845,7 @@ function updateDashboard() {
   } catch (error) {
     console.error("Error loading orders:", error);
   }
+  // Load riders
+  await loadRiders();
   updateDashboard();
 })();

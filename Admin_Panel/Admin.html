@@ -55,6 +55,13 @@
           </svg>
           Add Shelter
         </button>
+
+        <button class="nav-btn" onclick="showSection('add-rider', event)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+          Add Rider
+        </button>
         </div>
 
         <div class="nav-section">   <!-- THIS LINE IS MISSING -->
@@ -81,6 +88,14 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
             </svg>
             View Pets
+          </button>
+
+          <button class="nav-btn" onclick="showSection('view-riders', event)">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            View Riders
           </button>
 
            <!-- closes View All section -->
@@ -622,6 +637,53 @@
       <div id="view-orders-section" class="section hidden">
         <h2 class="page-title">Order Requests (<span id="orders-count">0</span>)</h2>
         <div id="orders-list"></div>
+      </div>
+
+      <!-- Add Rider Section -->
+      <div id="add-rider-section" class="section hidden">
+        <h2 class="page-title">Add New Rider</h2>
+        <div class="form-container">
+          <form id="rider-form">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Rider Name *</label>
+                <input type="text" name="rider_name" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Rider Phone *</label>
+                <input type="tel" name="rider_phone" class="form-input" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Number Plate *</label>
+              <input type="text" name="numberplate" class="form-input" placeholder="e.g. ABC-123" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Upload Rider Image</label>
+              <div class="file-input-wrapper">
+                <input type="file" id="rider-image" class="form-input" accept="image/*">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                </svg>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Add Rider
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- View Riders Section -->
+      <div id="view-riders-section" class="section hidden">
+        <h2 class="page-title">All Riders (<span id="riders-count">0</span>)</h2>
+        <div id="riders-list"></div>
       </div>
 
 
