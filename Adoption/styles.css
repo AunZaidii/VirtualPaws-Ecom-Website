@@ -226,6 +226,23 @@
   cursor: pointer;
 }
 .filter-select:focus{ border-color: #ff6b35; }
+input[type="radio"]:focus-visible,
+input[type="checkbox"]:focus-visible {
+    outline: none;
+}
+/* Remove custom glow from radio + checkbox */
+input[type="radio"]:focus,
+input[type="checkbox"]:focus {
+    box-shadow: none !important;
+    outline: none !important;
+    border-color: transparent !important;
+}
+input:focus,
+textarea:focus {
+  border-color: #87da48;
+  box-shadow: 0 0 0 3px rgba(135,218,72,.2);
+}
+
 
 /* ==========
 /// Pets grid + card
@@ -306,6 +323,10 @@
   flex-wrap: wrap;
   max-width: calc(100% - 1.5rem);
 }
+.pet-tags {
+  display: none !important;
+}
+
 .badge-pill{
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(10px);

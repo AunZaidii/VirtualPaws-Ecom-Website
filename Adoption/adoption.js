@@ -7,7 +7,6 @@ let currentFilters = {
   age: "",
   gender: "",
   location: "",
-  vaccinated: false,
   category: "all",
   search: "",
 };
@@ -37,7 +36,6 @@ const categoryChips = document.querySelectorAll(".chip");
 const ageFilter = document.getElementById("ageFilter");
 const genderRadios = document.querySelectorAll('input[name="gender"]');
 const locationFilter = document.getElementById("locationFilter");
-const vaccinatedFilter = document.getElementById("vaccinatedFilter");
 
 // ---------- Init ----------
 document.addEventListener("DOMContentLoaded", async () => {
@@ -70,7 +68,6 @@ async function loadPetsFromSupabase() {
         breed: row.breed || "",
         age: Number(row.age) || 0,
         location: row.location || "",
-        vaccinations: row.vaccinations || "",
         tags: row.tags || "",
         image:
           row.image1 ||
@@ -129,7 +126,7 @@ function attachEventListeners() {
     chip.addEventListener("click", () => {
       categoryChips.forEach((c) => c.classList.remove("active"));
       chip.classList.add("active");
-      currentFilters.category = chip.dataset.category; // all | dog | cat
+      currentFilters.category = chip.dataset.category;
       renderPets();
     });
   });
@@ -158,14 +155,6 @@ function attachEventListeners() {
     });
   }
 
-  // Vaccinated
-  if (vaccinatedFilter) {
-    vaccinatedFilter.addEventListener("change", (e) => {
-      currentFilters.vaccinated = e.target.checked;
-      renderPets();
-    });
-  }
-
   // Reset filters
   if (resetFilters) {
     resetFilters.addEventListener("click", () => {
@@ -173,7 +162,6 @@ function attachEventListeners() {
         age: "",
         gender: "",
         location: "",
-        vaccinated: false,
         category: currentFilters.category,
         search: currentFilters.search,
       };
@@ -182,8 +170,8 @@ function attachEventListeners() {
       genderRadios.forEach((radio) => {
         radio.checked = radio.value === "";
       });
+
       if (locationFilter) locationFilter.value = "";
-      if (vaccinatedFilter) vaccinatedFilter.checked = false;
 
       renderPets();
     });
@@ -230,12 +218,6 @@ function filterPets() {
       return false;
     }
 
-    // Vaccinated
-    if (currentFilters.vaccinated) {
-      const vaccStr = (pet.vaccinations || "").toLowerCase();
-      if (!vaccStr.includes("vaccinated")) return false;
-    }
-
     return true;
   });
 }
@@ -275,34 +257,11 @@ function createPetCard(pet) {
     window.location.href = `pet-detail.html?id=${pet.id}`;
   };
 
-  const vaccStr = (pet.vaccinations || "").toLowerCase();
-  const isVaccinated = vaccStr.includes("vaccinated");
-
-  const badges = [];
-  if (isVaccinated) {
-    badges.push(`
-      <div class="badge-pill">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-          <polyline points="22 4 12 14.01 9 11.01"></polyline>
-        </svg>
-        Vaccinated
-      </div>
-    `);
-  }
-
-  const tagHtml = (pet.tags || "")
-    .split(",")
-    .map((t) => t.trim())
-    .filter(Boolean)
-    .map((t) => `<span class="tag">${t}</span>`)
-    .join("");
-
   card.innerHTML = `
     <div class="pet-image-container">
       <img src="${pet.image}" alt="${pet.name}">
-      <div class="pet-badges">${badges.join("")}</div>
     </div>
+
     <div class="pet-info">
       <div class="pet-header">
         <div>
@@ -313,18 +272,19 @@ function createPetCard(pet) {
     pet.age === 1 ? "year" : "years"
   }</div>
       </div>
+
       <div class="pet-meta">
         <span style="text-transform: capitalize;">${pet.gender}</span>
         <span>•</span>
         <div style="display: flex; align-items: center; gap: 0.25rem;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width=“16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
             <circle cx="12" cy="10" r="3"></circle>
           </svg>
           <span>${pet.location}</span>
         </div>
       </div>
-      <div class="pet-tags">${tagHtml}</div>
+
       <button class="btn btn-primary">View Details</button>
     </div>
   `;
