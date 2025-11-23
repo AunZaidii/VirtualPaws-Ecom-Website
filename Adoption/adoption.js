@@ -4,7 +4,6 @@ import { apiClient } from "../utils/apiClient.js";
 
 // ---------- State ----------
 let currentFilters = {
-  species: [],
   age: "",
   gender: "",
   location: "",
@@ -19,9 +18,11 @@ let allPets = []; // filled from Supabase
 const petsGrid = document.getElementById("petsGrid");
 const resultsCount = document.getElementById("resultsCount");
 
-// these exist in your layout; guard just in case
+// Search inputs
 const searchInput = document.getElementById("searchInput");
 const mobileSearchInput = document.getElementById("mobileSearchInput");
+
+// Mobile menu/filter
 const mobileMenuBtn = document.getElementById("mobileMenuBtn");
 const mobileMenu = document.getElementById("mobileMenu");
 const mobileFilterBtn = document.getElementById("mobileFilterBtn");
@@ -33,7 +34,6 @@ const resetFilters = document.getElementById("resetFilters");
 const categoryChips = document.querySelectorAll(".chip");
 
 // Filter inputs
-const speciesCheckboxes = document.querySelectorAll('input[name="species"]');
 const ageFilter = document.getElementById("ageFilter");
 const genderRadios = document.querySelectorAll('input[name="gender"]');
 const locationFilter = document.getElementById("locationFilter");
@@ -41,7 +41,7 @@ const vaccinatedFilter = document.getElementById("vaccinatedFilter");
 
 // ---------- Init ----------
 document.addEventListener("DOMContentLoaded", async () => {
-  await loadPetsFromSupabase(); // fill allPets
+  await loadPetsFromSupabase();
   renderPets();
   attachEventListeners();
 });
@@ -58,7 +58,6 @@ async function loadPetsFromSupabase() {
       return;
     }
 
-    // Map DB rows → objects used by filters + cards
     allPets = (data || []).map((row) => {
       const species =
         (row.species || "").toString().trim().toLowerCase() || "dog";
@@ -66,7 +65,7 @@ async function loadPetsFromSupabase() {
       return {
         id: row.pet_id,
         name: row.name || "Unnamed",
-        species, // "dog" | "cat"
+        species,
         gender: (row.gender || "").toString().trim().toLowerCase(),
         breed: row.breed || "",
         age: Number(row.age) || 0,
@@ -75,7 +74,7 @@ async function loadPetsFromSupabase() {
         tags: row.tags || "",
         image:
           row.image1 ||
-          "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg", // fallback
+          "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg",
       };
     });
   } catch (err) {
@@ -112,35 +111,25 @@ function attachEventListeners() {
     });
   }
 
-  // Mobile filters open/close
-  if (mobileFilterBtn && sidebar) {
+  // Mobile filters
+  if (mobileFilterBtn) {
     mobileFilterBtn.addEventListener("click", () => {
       sidebar.classList.add("mobile-active");
     });
   }
 
-  if (closeFilters && sidebar) {
+  if (closeFilters) {
     closeFilters.addEventListener("click", () => {
       sidebar.classList.remove("mobile-active");
     });
   }
 
-  // Category chips (All, Dogs, Cats)
+  // Category chips
   categoryChips.forEach((chip) => {
     chip.addEventListener("click", () => {
       categoryChips.forEach((c) => c.classList.remove("active"));
       chip.classList.add("active");
       currentFilters.category = chip.dataset.category; // all | dog | cat
-      renderPets();
-    });
-  });
-
-  // Species checkboxes
-  speciesCheckboxes.forEach((checkbox) => {
-    checkbox.addEventListener("change", () => {
-      currentFilters.species = Array.from(speciesCheckboxes)
-        .filter((cb) => cb.checked)
-        .map((cb) => cb.value.toLowerCase());
       renderPets();
     });
   });
@@ -156,12 +145,12 @@ function attachEventListeners() {
   // Gender filter
   genderRadios.forEach((radio) => {
     radio.addEventListener("change", (e) => {
-      currentFilters.gender = e.target.value; // "male" | "female" | ""
+      currentFilters.gender = e.target.value;
       renderPets();
     });
   });
 
-  // Location filter
+  // Location
   if (locationFilter) {
     locationFilter.addEventListener("change", (e) => {
       currentFilters.location = e.target.value;
@@ -169,7 +158,7 @@ function attachEventListeners() {
     });
   }
 
-  // Vaccinated only
+  // Vaccinated
   if (vaccinatedFilter) {
     vaccinatedFilter.addEventListener("change", (e) => {
       currentFilters.vaccinated = e.target.checked;
@@ -181,17 +170,14 @@ function attachEventListeners() {
   if (resetFilters) {
     resetFilters.addEventListener("click", () => {
       currentFilters = {
-        species: [],
         age: "",
         gender: "",
         location: "",
         vaccinated: false,
-        category: currentFilters.category, // keep selected chip
-        search: currentFilters.search, // keep search text
+        category: currentFilters.category,
+        search: currentFilters.search,
       };
 
-      // Reset form inputs
-      speciesCheckboxes.forEach((cb) => (cb.checked = false));
       if (ageFilter) ageFilter.value = "";
       genderRadios.forEach((radio) => {
         radio.checked = radio.value === "";
@@ -207,7 +193,7 @@ function attachEventListeners() {
 // ---------- Filtering ----------
 function filterPets() {
   return allPets.filter((pet) => {
-    // Search (name, breed, species)
+    // Search
     if (currentFilters.search) {
       const searchLower = currentFilters.search;
       const matchesSearch =
@@ -217,18 +203,10 @@ function filterPets() {
       if (!matchesSearch) return false;
     }
 
-    // Category chip (dog/cat/all)
+    // Category (dog/cat/all)
     if (
       currentFilters.category !== "all" &&
       pet.species !== currentFilters.category
-    ) {
-      return false;
-    }
-
-    // Species checkboxes
-    if (
-      currentFilters.species.length > 0 &&
-      !currentFilters.species.includes(pet.species)
     ) {
       return false;
     }
@@ -266,15 +244,12 @@ function filterPets() {
 function renderPets() {
   const filteredPets = filterPets();
 
-  // Update count
   resultsCount.textContent = `${filteredPets.length} ${
     filteredPets.length === 1 ? "pet" : "pets"
   } available`;
 
-  // Clear grid
   petsGrid.innerHTML = "";
 
-  // Empty state
   if (filteredPets.length === 0) {
     petsGrid.innerHTML = `
       <div class="empty-state" style="grid-column: 1 / -1;">
@@ -286,24 +261,20 @@ function renderPets() {
     return;
   }
 
-  // Render each pet card
   filteredPets.forEach((pet) => {
     const card = createPetCard(pet);
     petsGrid.appendChild(card);
   });
 }
 
-// Create a single pet card (list view)
+// ---------- Pet Card ----------
 function createPetCard(pet) {
   const card = document.createElement("div");
   card.className = "pet-card";
   card.onclick = () => {
-  window.location.href = `pet-detail.html?id=${pet.id}`;
-
-
+    window.location.href = `pet-detail.html?id=${pet.id}`;
   };
 
-  // Vaccinated badge
   const vaccStr = (pet.vaccinations || "").toLowerCase();
   const isVaccinated = vaccStr.includes("vaccinated");
 
@@ -320,7 +291,6 @@ function createPetCard(pet) {
     `);
   }
 
-  // Tags from comma-separated string
   const tagHtml = (pet.tags || "")
     .split(",")
     .map((t) => t.trim())
@@ -331,9 +301,7 @@ function createPetCard(pet) {
   card.innerHTML = `
     <div class="pet-image-container">
       <img src="${pet.image}" alt="${pet.name}">
-      <div class="pet-badges">
-        ${badges.join("")}
-      </div>
+      <div class="pet-badges">${badges.join("")}</div>
     </div>
     <div class="pet-info">
       <div class="pet-header">
@@ -341,7 +309,9 @@ function createPetCard(pet) {
           <div class="pet-name">${pet.name}</div>
           <div class="pet-breed">${pet.breed}</div>
         </div>
-        <div class="age-badge">${pet.age} ${pet.age === 1 ? "year" : "years"}</div>
+        <div class="age-badge">${pet.age} ${
+    pet.age === 1 ? "year" : "years"
+  }</div>
       </div>
       <div class="pet-meta">
         <span style="text-transform: capitalize;">${pet.gender}</span>
@@ -354,9 +324,7 @@ function createPetCard(pet) {
           <span>${pet.location}</span>
         </div>
       </div>
-      <div class="pet-tags">
-        ${tagHtml}
-      </div>
+      <div class="pet-tags">${tagHtml}</div>
       <button class="btn btn-primary">View Details</button>
     </div>
   `;
