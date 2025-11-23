@@ -111,39 +111,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // RESET PASSWORD
-  const forgotLink = document.getElementById("forgotPasswordLink");
-  const resetSection = document.getElementById("resetSection");
-  const sendResetEmail = document.getElementById("sendResetEmail");
-  const resetEmail = document.getElementById("resetEmail");
-  const resetMessage = document.getElementById("resetMessage");
-
-  forgotLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    resetSection.style.display = "block";
-  });
-
-  sendResetEmail.addEventListener("click", async () => {
-    const email = resetEmail.value.trim();
-    if (!email) {
-      resetMessage.textContent = "Enter your email!";
-      resetMessage.style.color = "red";
-      return;
-    }
-
-    const redirectURL = `${window.location.origin}/Authentication/reset-password.html`;
-
-    try {
-      await apiClient.post("authResetPassword", {
-        email,
-        redirectTo: redirectURL,
-      });
-
-      resetMessage.textContent = "Reset email sent!";
-      resetMessage.style.color = "green";
-    } catch (err) {
-      resetMessage.textContent = err.message || "Error sending reset email";
-      resetMessage.style.color = "red";
-    }
-  });
 });
