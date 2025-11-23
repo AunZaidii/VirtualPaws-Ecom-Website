@@ -627,6 +627,18 @@ a {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
+    align-items: start;
+}
+
+.grid-2 .input-field {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    min-width: 0 !important;
+    height: 42px !important;
+    padding: 0.625rem 0.75rem !important;
+    line-height: 1.25rem !important;
+    vertical-align: top !important;
 }
 
 /* Card logos container */
