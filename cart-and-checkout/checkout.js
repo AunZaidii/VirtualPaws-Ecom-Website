@@ -252,10 +252,14 @@ async function placeOrder() {
 /* -------------------------------------
    STRIPE CONFIGURATION
 ------------------------------------- */
-import { config } from '../utils/config.js';
-const stripe = Stripe(config.stripe.publishableKey);
-const elements = stripe.elements();
+import { getConfig } from '../utils/config.js';
+let stripe, elements;
 let cardNumberElement, cardExpiryElement, cardCvcElement;
+
+// Initialize Stripe after config is loaded
+const config = await getConfig();
+stripe = Stripe(config.stripe.publishableKey);
+elements = stripe.elements();
 
 /* -------------------------------------
    INITIALIZE STRIPE ELEMENTS
