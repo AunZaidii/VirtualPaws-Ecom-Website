@@ -74,6 +74,28 @@ export async function trackOrder(event) {
             `;
         });
 
+        // --------- RIDER INFO ----------
+        const riderInfoCard = document.getElementById("riderInfoCard");
+        const currentStatus = order.tracking_status;
+        
+        // Show rider info if order is confirmed or out for delivery and rider is assigned
+        if ((currentStatus === "Order Confirmed" || currentStatus === "Out for Delivery") && order.rider_name) {
+            document.getElementById("riderName").textContent = order.rider_name;
+            document.getElementById("riderPhone").textContent = order.rider_phone || "N/A";
+            
+            const riderImageEl = document.getElementById("riderImage");
+            if (order.rider_image) {
+                riderImageEl.src = order.rider_image;
+                riderImageEl.style.display = "block";
+            } else {
+                riderImageEl.style.display = "none";
+            }
+            
+            riderInfoCard.style.display = "block";
+        } else {
+            riderInfoCard.style.display = "none";
+        }
+
         // --------- TIMELINE ----------
         const timelineContainer = document.getElementById("timeline");
         timelineContainer.innerHTML = "";

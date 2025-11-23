@@ -309,4 +309,68 @@
     .help-buttons {
         flex-direction: column;
     }
+
+    .rider-info-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .rider-details-section {
+        width: 100%;
+    }
+}
+
+/* Rider Information Styles */
+.rider-info-container {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.rider-image-section {
+    flex-shrink: 0;
+}
+
+.rider-profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 3px solid #87da48;
+}
+
+.rider-details-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.rider-info-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 8px;
+}
+
+.rider-info-label {
+    font-weight: 600;
+    color: #1f2937;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.rider-info-label i {
+    color: #87da48;
+    font-size: 16px;
+}
+
+.rider-info-value {
+    font-size: 16px;
+    color: #4b5563;
+    font-weight: 500;
 }
