@@ -1,5 +1,4 @@
 // pet-detail.js  (use with: <script type="module" src="pet-detail.js"></script>)
-
 import { apiClient } from "../utils/apiClient.js";
 
 // ---------- ID from localStorage ----------
@@ -192,17 +191,6 @@ function renderPetDetail() {
       <div class="pet-detail-title">
         <h1>${currentPet.name}</h1>
         <h3>${currentPet.breed}</h3>
-      </div>
-      <div class="action-btns">
-        <button class="action-btn" aria-label="Share">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="18" cy="5" r="3"></circle>
-            <circle cx="6" cy="12" r="3"></circle>
-            <circle cx="18" cy="19" r="3"></circle>
-            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-          </svg>
-        </button>
       </div>
     </div>
 
@@ -489,7 +477,7 @@ function renderCentralDetails() {
   const encourageHTML = `
     <div class="encouragement-card">
       <div>
-        <p style="font-weight:700; margin:0;">Give ${currentPet.name} a loving home ❤️</p>
+        <p style="font-weight:700; margin:0;">Give ${currentPet.name} a loving home <i class="fa-solid fa-heart" style="color:red;"></i></p>
         <p class="note" style="margin:6px 0 0;">Every adoption saves a life and makes room for another animal in need.</p>
       </div>
     </div>`;
