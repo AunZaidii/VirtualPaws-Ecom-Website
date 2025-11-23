@@ -17,14 +17,17 @@ cd VirtualPaws-Ecom-Website
 
 Install dependencies:
 
-npm install -g netlify-cli
-npm i
-npm install stripe
+1. npm install -g netlify-cli
+
+2. npm i
+
+3. npm install stripe
+
 
 
 Run the project locally:
 
-netlify dev
+4. netlify dev
 
 
 The app will open at:
