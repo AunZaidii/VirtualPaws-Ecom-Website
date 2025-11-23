@@ -305,14 +305,14 @@ async function submitReview(productId) {
         review_text: text
       });
 
-      alert("Review submitted!");
+      showToast("Review submitted!");
       document.getElementById("reviewModal").classList.remove("active");
 
       form.reset();
       loadReviews(productId);
     } catch (error) {
       console.error("Review submit error:", error);
-      alert(error.message || "Error submitting review.");
+      showToast(error.message || "Error submitting review.");
     }
   });
 }
