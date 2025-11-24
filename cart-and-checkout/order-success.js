@@ -108,4 +108,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     } catch (error) {
         console.error('Error fetching order details from Supabase:', error);
     }
+
+    // Update Track Order button with order number and email
+    const trackOrderBtn = document.getElementById('track-order-btn');
+    if (trackOrderBtn && orderNumber && userEmail) {
+        trackOrderBtn.href = `../track-order/track-order.html?order_number=${encodeURIComponent(orderNumber)}&email=${encodeURIComponent(userEmail)}`;
+        console.log('Track Order button updated with parameters');
+    }
 });
