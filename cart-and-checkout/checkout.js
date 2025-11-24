@@ -73,7 +73,7 @@ async function loadUserInfo() {
         document.getElementById("firstName").value = profile.first_name || "";
         document.getElementById("lastName").value = profile.last_name || "";
         
-        // Auto-fill address if available
+        // Auto-fill address in the address field only
         if (profile.address) {
             document.getElementById("address").value = profile.address;
         }
@@ -165,6 +165,22 @@ async function placeOrder() {
         if (!address || !city || !state || !zip) {
             showToast("Fill all required fields ❌", "error");
             return;
+        }
+
+        // Update user address in database if it's not already saved or has changed
+        if (!profile.address || profile.address !== address) {
+            try {
+                await apiClient.put("updateUserProfile", {
+                    first_name: profile.first_name,
+                    last_name: profile.last_name,
+                    phone_no: profile.phone_no,
+                    address: address
+                });
+                console.log("Address saved to user profile");
+            } catch (updateError) {
+                console.error("Failed to update address:", updateError);
+                // Continue with order even if address update fails
+            }
         }
 
         // Generate unique order number
