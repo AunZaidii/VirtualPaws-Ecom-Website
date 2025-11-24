@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/Homepage/homepage.css">
+  <link rel="stylesheet" href="Admin.css">
+  <title>Feedback Details - Admin Dashboard</title>
+  <style>
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: #7CC042;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      margin-bottom: 1.5rem;
+    }
+
+    .back-button:hover {
+      background: #6ba837;
+    }
+
+    .back-button svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .detail-container {
+      background: white;
+      border-radius: 0.75rem;
+      padding: 2rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .detail-header {
+      border-bottom: 2px solid #f3f4f6;
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .detail-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 0.5rem;
+    }
+
+    .detail-timestamp {
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+
+    .detail-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .detail-field {
+      border-bottom: 1px solid #f3f4f6;
+      padding-bottom: 1rem;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+
+    .detail-value {
+      color: #111827;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .comment-section {
+      background: #f9fafb;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .comment-section .detail-label {
+      color: #7CC042;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: #6b7280;
+    }
+
+    .error {
+      background: #fee2e2;
+      border: 1px solid #fecaca;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      color: #dc2626;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <main class="main-content">
+      <a href="Admin.html" class="back-button">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to Dashboard
+      </a>
+
+      <div id="feedback-detail-content" class="loading">
+        <p>Loading feedback details...</p>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="admin-feedback-detail.js"></script>
+</body>
+</html>

@@ -34,6 +34,7 @@ let orderStats = {
   cancelled: 0,
 };
 let riders = []; // Delivery riders
+let feedback = []; // Customer feedback from contact form
 
 // ---------- Upload helper ----------
 // For file uploads, we'll use direct URLs for now
@@ -77,6 +78,7 @@ function showSection(sectionName, evt) {
   if (sectionName === "dashboard") updateDashboard();
   if (sectionName === "view-appointments") renderAppointments();
   if (sectionName === "view-riders") renderRiders(); // NEW
+  if (sectionName === "view-feedback") renderFeedback(); // NEW - Feedback section
 
 }
 
@@ -683,6 +685,99 @@ function updateDashboard() {
   document.getElementById("cancelled-orders").textContent = orderStats.cancelled;
 }
 
+// ---------- Feedback Management ----------
+
+// Load all feedback
+async function loadFeedback() {
+  try {
+    const response = await apiClient.get("adminGetAllFeedback");
+    if (response.success) {
+      feedback = response.feedback || [];
+      console.log("Loaded feedback:", feedback.length);
+    } else {
+      console.error("Failed to load feedback:", response.error);
+    }
+  } catch (error) {
+    console.error("Error loading feedback:", error);
+  }
+}
+
+// Render feedback list
+function renderFeedback() {
+  const container = document.getElementById("feedback-list");
+  document.getElementById("feedback-count").textContent = feedback.length;
+
+  if (feedback.length === 0) {
+    container.innerHTML = `<p style="padding: 20px; text-align: center; color: #6b7280;">No feedback submissions found.</p>`;
+    return;
+  }
+
+  container.innerHTML =
+    '<div style="display: flex; flex-direction: column; gap: 15px;">' +
+    feedback
+      .map(
+        (fb) => {
+          const date = new Date(fb.created_at);
+          const formattedDate = date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+
+          // Truncate comment for preview
+          const commentPreview = fb.comment 
+            ? (fb.comment.length > 100 ? fb.comment.substring(0, 100) + '...' : fb.comment)
+            : 'No comment provided';
+
+          return `
+        <div onclick="viewFeedbackDetail('${fb.contact_id}')" 
+             style="cursor: pointer; display: flex; gap: 15px; padding: 15px; background: white; border: 1px solid #e5e7eb; border-radius: 8px; transition: all 0.3s; align-items: start;">
+          
+          <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <div style="font-weight: 600; color: #1f2937;">Feedback #${fb.contact_id}</div>
+              <span style="font-size: 12px; color: #6b7280;">${formattedDate}</span>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px;">
+              <div style="font-size: 14px; color: #374151;">
+                <strong>Name:</strong> ${fb.name || 'Not provided'}
+              </div>
+              <div style="font-size: 14px; color: #374151;">
+                <strong>Email:</strong> ${fb.email || 'Not provided'}
+              </div>
+              <div style="font-size: 14px; color: #374151;">
+                <strong>Phone:</strong> ${fb.phone || 'Not provided'}
+              </div>
+            </div>
+            
+            <div style="font-size: 14px; color: #6b7280; background: #f9fafb; padding: 10px; border-radius: 6px;">
+              <strong style="color: #7CC042;">Comment:</strong> ${commentPreview}
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: center; min-width: 40px;">
+            <svg fill="none" stroke="#7CC042" viewBox="0 0 24 24" width="24" height="24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      `;
+        }
+      )
+      .join("") +
+    "</div>";
+}
+
+// View feedback detail
+function viewFeedbackDetail(feedbackId) {
+  window.location.href = `admin-feedback-detail.html?id=${feedbackId}`;
+}
+
+window.viewFeedbackDetail = viewFeedbackDetail;
+
 // ---------- Rider Management ----------
 
 // Fetch all riders
@@ -847,5 +942,7 @@ window.deleteRider = async function (riderId) {
   }
   // Load riders
   await loadRiders();
+  // Load feedback
+  await loadFeedback();
   updateDashboard();
 })();
