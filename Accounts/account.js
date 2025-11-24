@@ -366,7 +366,7 @@ async function loadOrderHistory() {
                 <p style="font-weight: 500;">${itemCount} items</p>
               </div>
               <div style="text-align: right;">
-                <button class="btn btn-secondary" onclick="window.location.href='../track-order/track-order.html?order_id=${order.order_id}'">
+                <button class="btn btn-secondary" onclick="window.location.href='../track-order/track-order.html?order_number=${order.order_number || order.order_id.substring(0, 8)}&email=${encodeURIComponent(order.email)}'">
                   Track Order
                 </button>
               </div>

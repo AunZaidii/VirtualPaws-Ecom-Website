@@ -4,6 +4,32 @@ import { requireAuth } from "../utils/authGuard.js";
 // Check authentication before tracking order
 await requireAuth();
 
+// Auto-fill form if order_number and email are in URL
+window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderNumber = urlParams.get('order_number');
+    const email = urlParams.get('email');
+
+    if (orderNumber) {
+        document.getElementById('orderNumber').value = orderNumber;
+    }
+
+    if (email) {
+        document.getElementById('email').value = decodeURIComponent(email);
+    }
+
+    // Auto-submit if both parameters are present
+    if (orderNumber && email) {
+        // Small delay to ensure form is ready
+        setTimeout(() => {
+            const form = document.querySelector('#trackOrderForm form');
+            if (form) {
+                form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+            }
+        }, 500);
+    }
+});
+
 function formatDate(dateStr) {
     if (!dateStr) return "Not Available";
     const d = new Date(dateStr);
