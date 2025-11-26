@@ -148,18 +148,47 @@ document.getElementById("product-form").addEventListener("submit", async (e) => 
 document.getElementById("vet-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  const originalBtnText = submitBtn.innerHTML;
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<svg class="animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" stroke-width="4" stroke="currentColor" opacity="0.25"/><path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor"/></svg> Uploading...';
+
   const formData = new FormData(e.target);
-  
-  // Check if there's a URL input field, otherwise use file upload
-  let imageUrl = formData.get("imageUrl") || formData.get("image_url");
-  
-  if (!imageUrl) {
-    const imageInput = document.getElementById("vet-images");
-    const imageUrls = await uploadImages(imageInput.files, "vet-images");
-    imageUrl = imageUrls[0] || null;
-  }
+  let imageUrl = null;
 
   try {
+    // Handle image upload
+    const imageFile = document.getElementById("vet-image").files[0];
+    if (imageFile) {
+      console.log("Uploading vet image...");
+      
+      // Convert to base64
+      const reader = new FileReader();
+      const base64Promise = new Promise((resolve, reject) => {
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(imageFile);
+      });
+      
+      const base64Image = await base64Promise;
+      const filename = `${Date.now()}-${imageFile.name}`;
+      
+      // Upload to storage
+      const uploadResponse = await fetch('/.netlify/functions/uploadVetImage', {
+        method: 'POST',
+        body: JSON.stringify({ image: base64Image, filename }),
+      });
+      
+      const uploadData = await uploadResponse.json();
+      if (uploadData.success) {
+        imageUrl = uploadData.imageUrl;
+        console.log("Vet image uploaded successfully:", imageUrl);
+      } else {
+        throw new Error(uploadData.error || "Failed to upload image");
+      }
+    }
+
+    // Add vet to database
     const data = await apiClient.post("adminAddVet", {
       name: formData.get("name"),
       category: formData.get("expertise"),
@@ -176,12 +205,14 @@ document.getElementById("vet-form").addEventListener("submit", async (e) => {
 
     vets.push(data);
     e.target.reset();
-    imageInput.value = "";
     alert("Vet added successfully!");
     updateDashboard();
   } catch (error) {
     console.error("Vet insert error:", error);
     alert(error.message || "Error adding vet.");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = originalBtnText;
   }
 });
 
